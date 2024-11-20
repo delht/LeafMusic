@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/Green2"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <FrameLayout
@@ -24,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- Sử dụng LinearLayout với orientation="vertical" -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +42,8 @@
                     android:textStyle="bold"
 
                     android:paddingBottom="8dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp"
+                    android:drawablePadding="10dp"/>
 
                 <TextView
                     android:id="@+id/tvLibrary"
@@ -54,8 +54,10 @@
                     android:text="Thư Viện"
                     android:textSize="18sp"
                     android:textStyle="bold"
+
                     android:paddingBottom="8dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp"
+                    android:drawablePadding="10dp"/>
 
                 <TextView
                     android:id="@+id/tvAlbum"
@@ -66,18 +68,23 @@
                     android:text="Album Nhạc"
                     android:textSize="18sp"
                     android:textStyle="bold"
+
                     android:paddingBottom="8dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp"
+                    android:drawablePadding="10dp"/>
 
                 <TextView
                     android:id="@+id/tvListCare"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:drawableStart="@drawable/ic_playlist"
                     android:text="Danh sách Quan tâm"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:paddingBottom="8dp" />
+
+                    android:paddingBottom="8dp"
+                    android:drawablePadding="10dp"/>
             </LinearLayout>
         </FrameLayout>
 
