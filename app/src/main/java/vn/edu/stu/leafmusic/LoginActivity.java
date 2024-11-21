@@ -57,8 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         tvForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(LoginActivity.this, "Quên mật khẩu", Toast.LENGTH_SHORT).show();
-            }
+                Intent intent=new Intent(LoginActivity.this, ForgotPass.class);
+                startActivity(intent);            }
         });
 
         btnCreate.setOnClickListener(new View.OnClickListener() {

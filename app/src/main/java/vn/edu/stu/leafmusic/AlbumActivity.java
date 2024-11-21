@@ -16,8 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class UserActivity extends AppCompatActivity {
-
+public class AlbumActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
@@ -30,10 +29,11 @@ public class UserActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        setContentView(R.layout.activity_album);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -48,38 +48,21 @@ public class UserActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        findViewById(R.id.tvListLike).setOnClickListener(v -> {
-            Intent intent = new Intent(UserActivity.this, FavoriteActivity.class);
-            startActivity(intent);
-        });
-        findViewById(R.id.tvLibrary).setOnClickListener(v -> {
-            Intent intent = new Intent(UserActivity.this, LibraryActivity.class);
-            startActivity(intent);
-        });
-        findViewById(R.id.tvAlbum).setOnClickListener(v -> {
-            Intent intent = new Intent(UserActivity.this, AlbumActivity.class);
-            startActivity(intent);
-        });
-        findViewById(R.id.tvListCare).setOnClickListener(v -> {
-            Intent intent = new Intent(UserActivity.this, CareActivity.class);
-            startActivity(intent);
-        });
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
                 if (id == R.id.account) {
-                    Intent intent = new Intent(UserActivity.this, UserActivity.class);
+                    Intent intent = new Intent(AlbumActivity.this, UserActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.home) {
-                    Intent intent = new Intent(UserActivity.this, MainActivity.class);
+                    Intent intent = new Intent(AlbumActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.notification) {
-                    Toast.makeText(UserActivity.this, "Notification selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AlbumActivity.this, "Notification selected", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.help) {
-                    Toast.makeText(UserActivity.this, "help selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AlbumActivity.this, "help selected", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.logout) {
                     showLogoutDialog();
                 }
@@ -89,7 +72,6 @@ public class UserActivity extends AppCompatActivity {
             }
         });
     }
-
     private void showLogoutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Đăng Xuất")
@@ -97,9 +79,9 @@ public class UserActivity extends AppCompatActivity {
                 .setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(UserActivity.this, "Đã Đăng Xuất", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AlbumActivity.this, "Đã Đăng Xuất", Toast.LENGTH_SHORT).show();
 
-                        Intent intent=new Intent(UserActivity.this, LoginActivity.class);
+                        Intent intent=new Intent(AlbumActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                     }

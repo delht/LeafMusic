@@ -66,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.home) {
                     Intent intent = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.playlist) {
-                    Toast.makeText(MainActivity.this, "Playlist selected", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.album) {
-                    Toast.makeText(MainActivity.this, "Album selected", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.notification) {
+                    Toast.makeText(MainActivity.this, "Notification selected", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.help) {
+                    Toast.makeText(MainActivity.this, "help selected", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.logout) {
                     showLogoutDialog();
                 }
