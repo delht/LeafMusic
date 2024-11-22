@@ -14,12 +14,6 @@
         <item android:id="@+id/home"
             android:icon="@drawable/ic_home"
             android:title="Trang Chủ"/>
-        <item android:id="@+id/notification"
-            android:icon="@drawable/ic_notifications"
-            android:title="Thông Báo"/>
-        <item android:id="@+id/help"
-            android:icon="@drawable/ic_help"
-            android:title="Trợ Giúp"/>
         <item android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
             android:title="Đăng Xuất"/>

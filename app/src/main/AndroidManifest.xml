@@ -13,10 +13,10 @@
         android:theme="@style/Theme.LeafMusic"
         tools:targetApi="31">
         <activity
-            android:name=".CareActivity"
+            android:name=".SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".ListCareActivity"
+            android:name=".CareActivity"
             android:exported="false" />
         <activity
             android:name=".AlbumActivity"

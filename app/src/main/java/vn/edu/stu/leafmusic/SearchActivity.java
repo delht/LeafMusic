@@ -8,16 +8,20 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class AlbumActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
@@ -32,11 +36,11 @@ public class AlbumActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_search);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -46,7 +50,6 @@ public class AlbumActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -59,10 +62,9 @@ public class AlbumActivity extends AppCompatActivity {
         }
 
         edtSearch.setOnClickListener(view -> {
-            Intent intent=new Intent(AlbumActivity.this, SearchActivity.class);
+            Intent intent=new Intent(SearchActivity.this, SearchActivity.class);
             startActivity(intent);
         });
-
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -70,10 +72,10 @@ public class AlbumActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.account) {
-                    Intent intent = new Intent(AlbumActivity.this, UserActivity.class);
+                    Intent intent = new Intent(SearchActivity.this, UserActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.home) {
-                    Intent intent = new Intent(AlbumActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SearchActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.logout) {
                     showLogoutDialog();
@@ -91,9 +93,9 @@ public class AlbumActivity extends AppCompatActivity {
                 .setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(AlbumActivity.this, "Đã Đăng Xuất", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SearchActivity.this, "Đã Đăng Xuất", Toast.LENGTH_SHORT).show();
 
-                        Intent intent=new Intent(AlbumActivity.this, LoginActivity.class);
+                        Intent intent=new Intent(SearchActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                     }

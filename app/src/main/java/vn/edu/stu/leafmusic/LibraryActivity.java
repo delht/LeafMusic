@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,8 @@ public class LibraryActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
+    private EditText edtSearch;
+    private Toolbar toolbar;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -37,7 +40,12 @@ public class LibraryActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        edtSearch=findViewById(R.id.edtSearch);
+
+
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -45,7 +53,14 @@ public class LibraryActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+
         }
+
+        edtSearch.setOnClickListener(view -> {
+            Intent intent=new Intent(LibraryActivity.this, SearchActivity.class);
+            startActivity(intent);
+        });
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -58,10 +73,6 @@ public class LibraryActivity extends AppCompatActivity {
                 } else if (id == R.id.home) {
                     Intent intent = new Intent(LibraryActivity.this, MainActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.notification) {
-                    Toast.makeText(LibraryActivity.this, "Notification selected", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.help) {
-                    Toast.makeText(LibraryActivity.this, "help selected", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.logout) {
                     showLogoutDialog();
                 }
