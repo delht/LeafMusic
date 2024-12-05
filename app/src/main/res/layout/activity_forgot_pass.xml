@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ForgotPass">
+    <TextView
+        android:id="@+id/tvForgot"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Quên Mật Khẩu"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/edtPass1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Đặt lại mật khẩu"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:drawableStart="@drawable/ic_lock"
+        android:drawablePadding="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvForgot"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <EditText
+        android:id="@+id/edtPass2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nhập lại mật khẩu vừa đặt"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:drawableStart="@drawable/ic_lock"
+        android:drawablePadding="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/edtPass1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btnResetPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Đặt Lại Mật Khẩu"
+        android:backgroundTint="@color/Green2"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/edtPass2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

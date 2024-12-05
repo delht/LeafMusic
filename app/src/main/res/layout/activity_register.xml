@@ -25,7 +25,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:text="ĐĂNG NHẬP"
+        android:text="ĐĂNG KÝ"
         android:gravity="center_horizontal"
         android:textColor="@color/Green2"
         android:layout_marginStart="16dp"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
-        android:id="@+id/edtUser"
+        android:id="@+id/edtUsername"
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -59,8 +59,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewTop"/>
 
+
     <EditText
-        android:id="@+id/edtPass"
+        android:id="@+id/edtEmail"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="32dp"
+
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="16dp"
+        android:hint="Email"
+        android:inputType="textPersonName"
+        android:padding="16dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtUsername"/>
+
+    <EditText
+        android:id="@+id/edtLock"
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -79,26 +101,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtUser"/>
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail"/>
 
-
-    <TextView
-        android:id="@+id/tvForgotPass"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-
-        android:text="Quên Mật Khẩu?"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/Green3"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtPass"/>
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnRegister"
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -108,30 +115,30 @@
         android:layout_marginEnd="32dp"
 
         android:backgroundTint="@color/Green2"
-        android:text="Đăng Nhập"
+        android:text="Đăng Ký"
         android:textSize="18sp"
         android:textStyle="bold"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvForgotPass"/>
+        app:layout_constraintTop_toBottomOf="@+id/edtLock"/>
 
     <Button
-        android:id="@+id/btnCreate"
+        android:id="@+id/btnLogin"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
 
-        android:text="Đăng Ký"
+        android:text="Đăng Nhập"
         android:textSize="18sp"
         android:textColor="@color/white"
-        android:textStyle="bold"
         android:backgroundTint="@color/Green3"
+        android:textStyle="bold"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin"/>
+        app:layout_constraintTop_toBottomOf="@+id/btnRegister"/>
 
 
 

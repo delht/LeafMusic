@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">LeafMusic</string>
+    <string name="app_name">LEAFMUSIC</string>
+    <string name="open">OPEN LEAFMUSCI</string>
+    <string name="close">CLOSE LEAFMUSIC</string>
 </resources>
