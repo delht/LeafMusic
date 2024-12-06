@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:app/src/main/java/vn/edu/stu/leafmusic/activity/ForgotPass.java
-package vn.edu.stu.leafmusic.activity;
-========
 package vn.edu.stu.leafmusic.activity.login;
->>>>>>>> BE_develop:app/src/main/java/vn/edu/stu/leafmusic/activity/login/ForgotPass.java
 
 import android.os.Bundle;
 
