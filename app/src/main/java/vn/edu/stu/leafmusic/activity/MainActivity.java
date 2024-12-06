@@ -56,21 +56,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+    }
+
+    private void addEvents() {
+
         drawerLayout = findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+                MainActivity.this, drawerLayout, toolbar, R.string.nav_open, R.string.nav_close);
+
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        repalceFragment(new HomeFragment());
+        replaceFragment(new HomeFragment());
         navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-    }
 
-    private void addEvents() {
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
-                MainActivity.this, drawerLayout, toolbar, R.string.nav_open, R.string.nav_close);
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+
 
 
 
@@ -84,25 +90,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(id == R.id.nav_home){
             if(CurrentFragment != FRAGMENT_HOME){
-                repalceFragment(new HomeFragment());
+                replaceFragment(new HomeFragment());
                 CurrentFragment = FRAGMENT_HOME;
                 Log.d("Fragment", "Home Fragment Selected");
             }
         } else if (id == R.id.nav_setting) {
             if(CurrentFragment != FRAGMENT_SETTING){
-                repalceFragment(new SettingFragment());
+                replaceFragment(new SettingFragment());
                 CurrentFragment = FRAGMENT_SETTING;
                 Log.d("Fragment", "SETTING Fragment Selected");
             }
         }else if (id == R.id.nav_lovelist) {
             if(CurrentFragment != FRAGMENT_LOVELIST){
-                repalceFragment(new LoveListFragment());
+                replaceFragment(new LoveListFragment());
                 CurrentFragment = FRAGMENT_LOVELIST;
                 Log.d("Fragment", "LOVELIST Fragment Selected");
             }
         }else if (id == R.id.nav_account) {
             if(CurrentFragment != FRAGMENT_ACCOUNT){
-                repalceFragment(new AccountFragment());
+                replaceFragment(new AccountFragment());
                 CurrentFragment = FRAGMENT_ACCOUNT;
                 Log.d("Fragment", "ACCOUNT Fragment Selected");
             }
@@ -123,12 +129,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void repalceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.commit();
     }
-
 
 
 }
