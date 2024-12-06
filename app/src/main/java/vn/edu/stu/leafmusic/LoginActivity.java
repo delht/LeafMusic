@@ -1,17 +1,15 @@
-
 package vn.edu.stu.leafmusic;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
-
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,10 +22,10 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin, btnCreate;
     TextView tvForgot;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("LoginActivity", "onCreate called");
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -38,7 +36,11 @@ public class LoginActivity extends AppCompatActivity {
         AddControls();
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("LoginActivity", "onDestroy called");
+    }
 
     private void AddControls() {
         edtUser=findViewById(R.id.edtUser);
@@ -72,34 +74,44 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void Login() {
-        String username=edtUser.getText().toString().trim();
-        String pass=edtPass.getText().toString().trim();
+        try {
+            String username = edtUser.getText().toString().trim();
+            String pass = edtPass.getText().toString().trim();
 
-        if (TextUtils.isEmpty(username)){
-            edtUser.setError("Vui lòng nhập tên đăng nhập!");
-            edtUser.requestFocus();
-            return;
+            if (TextUtils.isEmpty(username)) {
+                edtUser.setError("Vui lòng nhập tên đăng nhập!");
+                edtUser.requestFocus();
+                return;
+            }
+
+            if (TextUtils.isEmpty(pass)) {
+                edtPass.setError("Vui lòng nhập mật khẩu!");
+                edtPass.requestFocus();
+                return;
+            }
+
+            if (username.equals("tue") && pass.equals("123")) {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP 
+                            | Intent.FLAG_ACTIVITY_NEW_TASK 
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                
+                Toast.makeText(getApplicationContext(), 
+                    "Đăng nhập thành công", 
+                    Toast.LENGTH_SHORT).show();
+                
+                startActivity(intent);
+                finishAffinity();
+            } else {
+                Toast.makeText(getApplicationContext(), 
+                    "Tên đăng nhập hoặc mật khẩu không đúng!!", 
+                    Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Log.e("LoginActivity", "Error during login: " + e.getMessage());
+            Toast.makeText(getApplicationContext(), 
+                "Có lỗi xảy ra khi đăng nhập", 
+                Toast.LENGTH_SHORT).show();
         }
-
-        if (TextUtils.isEmpty(pass)){
-            edtPass.setError("Vui lòng nhập mật khẩu!");
-            edtPass.requestFocus();
-            return;
-        }
-
-        if(username.equals("tue")&&pass.equals("123")){
-            Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(this, "Tên đăng nhập hoặc mật khẩu không đúng!!", Toast.LENGTH_SHORT).show();
-        }
-
-
     }
-
-
-
 }

@@ -71,13 +71,13 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if (id == R.id.account) {
-                    Intent intent = new Intent(SearchActivity.this, UserActivity.class);
+                if (id == R.id.nav_profile) {
+                    Intent intent = new Intent(SearchActivity.this, ProfileActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.home) {
+                } else if (id == R.id.nav_home) {
                     Intent intent = new Intent(SearchActivity.this, MainActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.logout) {
+                } else if (id == R.id.nav_logout) {
                     showLogoutDialog();
                 }
 
