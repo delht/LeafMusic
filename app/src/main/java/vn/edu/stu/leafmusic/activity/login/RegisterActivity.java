@@ -1,4 +1,4 @@
-package vn.edu.stu.leafmusic.activity;
+package vn.edu.stu.leafmusic.activity.login;
 
 import android.content.Intent;
 import android.os.Bundle;
