@@ -1,4 +1,4 @@
-package vn.edu.stu.leafmusic;
+package vn.edu.stu.leafmusic.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,20 +8,19 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class SearchActivity extends AppCompatActivity {
+import vn.edu.stu.leafmusic.R;
+
+public class UserActivity extends AppCompatActivity {
+
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
@@ -39,8 +38,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_user);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -50,6 +48,7 @@ public class SearchActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
+
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -62,7 +61,24 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         edtSearch.setOnClickListener(view -> {
-            Intent intent=new Intent(SearchActivity.this, SearchActivity.class);
+            Intent intent=new Intent(UserActivity.this, SearchActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.tvListLike).setOnClickListener(v -> {
+            Intent intent = new Intent(UserActivity.this, FavoriteActivity.class);
+            startActivity(intent);
+        });
+        findViewById(R.id.tvLibrary).setOnClickListener(v -> {
+            Intent intent = new Intent(UserActivity.this, LibraryActivity.class);
+            startActivity(intent);
+        });
+        findViewById(R.id.tvAlbum).setOnClickListener(v -> {
+            Intent intent = new Intent(UserActivity.this, AlbumActivity.class);
+            startActivity(intent);
+        });
+        findViewById(R.id.tvListCare).setOnClickListener(v -> {
+            Intent intent = new Intent(UserActivity.this, CareActivity.class);
             startActivity(intent);
         });
 
@@ -72,10 +88,10 @@ public class SearchActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.account) {
-                    Intent intent = new Intent(SearchActivity.this, UserActivity.class);
+                    Intent intent = new Intent(UserActivity.this, UserActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.home) {
-                    Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+                    Intent intent = new Intent(UserActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.logout) {
                     showLogoutDialog();
@@ -86,6 +102,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
+
     private void showLogoutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Đăng Xuất")
@@ -93,9 +110,9 @@ public class SearchActivity extends AppCompatActivity {
                 .setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(SearchActivity.this, "Đã Đăng Xuất", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserActivity.this, "Đã Đăng Xuất", Toast.LENGTH_SHORT).show();
 
-                        Intent intent=new Intent(SearchActivity.this, LoginActivity.class);
+                        Intent intent=new Intent(UserActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
