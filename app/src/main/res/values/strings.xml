@@ -10,5 +10,10 @@
     <string name="nav_LoveList">Danh sách yêu thích</string>
     <string name="nav_Account">Tài khoản</string>
 
+    <string name="nav_open">Mở Nav</string>
+    <string name="nav_close">Đóng Nav</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>
