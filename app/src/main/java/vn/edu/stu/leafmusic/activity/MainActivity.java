@@ -1,13 +1,14 @@
-package vn.edu.stu.leafmusic;
+package vn.edu.stu.leafmusic.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import vn.edu.stu.leafmusic.R;
+
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -28,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtSearch;
     private Toolbar toolbar;
 
-
-//    toolbar
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
@@ -45,9 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        edtSearch=findViewById(R.id.edtSearch);
+        toolbar = findViewById(R.id.toolbar);
+        edtSearch = findViewById(R.id.edtSearch);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
@@ -61,55 +61,55 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
+        // Cập nhật tên người dùng vào header của NavigationView
+        updateUserInfo();
+
         edtSearch.setOnClickListener(view -> {
-            Intent intent=new Intent(MainActivity.this, SearchActivity.class);
+            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent);
         });
 
+        // Menu navigation
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
 
-
-//        menu
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-
-                if (id == R.id.account) {
-                    Intent intent = new Intent(MainActivity.this, UserActivity.class);
-                    startActivity(intent);
-                } else if (id == R.id.home) {
-                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else if (id == R.id.logout) {
-                    showLogoutDialog();
-                }
-
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+            if (id == R.id.account) {
+                Intent intent = new Intent(MainActivity.this, UserActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.home) {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.logout) {
+                showLogoutDialog();
             }
+
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
     }
 
-
-//    Đăng xuất
+    // Đăng xuất
     private void showLogoutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Đăng Xuất")
                 .setMessage("Bạn chắc chắn muốn đăng xuất?")
-                .setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MainActivity.this, "Đã Đăng Xuất", Toast.LENGTH_SHORT).show();
+                .setPositiveButton("Có", (dialogInterface, i) -> {
+                    // Xóa dữ liệu đăng nhập khỏi SharedPreferences
+                    getSharedPreferences("user_prefs", MODE_PRIVATE)
+                            .edit()
+                            .clear() // Xóa tất cả dữ liệu
+                            .apply();
 
-                        Intent intent=new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                    Toast.makeText(MainActivity.this, "Đã Đăng Xuất", Toast.LENGTH_SHORT).show();
+
+                    // Chuyển về LoginActivity
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish(); // Đóng MainActivity
                 })
                 .setNegativeButton("Hủy", null)
                 .show();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -118,5 +118,19 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    // Cập nhật tên người dùng trong NavigationView
+    private void updateUserInfo() {
+        // Lấy thông tin người dùng từ SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "Chưa có tên người dùng");
+
+        // Lấy header của NavigationView và tìm TextView
+        View headerView = navigationView.getHeaderView(0);
+        TextView tvMenuUsername = headerView.findViewById(R.id.tvMenuUsername);
+
+        // Cập nhật tên người dùng vào TextView
+        tvMenuUsername.setText(username);
     }
 }

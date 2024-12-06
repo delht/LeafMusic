@@ -1,4 +1,4 @@
-package vn.edu.stu.leafmusic;
+package vn.edu.stu.leafmusic.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,7 +17,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class LibraryActivity extends AppCompatActivity {
+import vn.edu.stu.leafmusic.R;
+
+public class CareActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
@@ -34,14 +36,13 @@ public class LibraryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_library);
+        setContentView(R.layout.activity_care);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         edtSearch=findViewById(R.id.edtSearch);
-
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
@@ -58,7 +59,7 @@ public class LibraryActivity extends AppCompatActivity {
         }
 
         edtSearch.setOnClickListener(view -> {
-            Intent intent=new Intent(LibraryActivity.this, SearchActivity.class);
+            Intent intent=new Intent(CareActivity.this, SearchActivity.class);
             startActivity(intent);
         });
 
@@ -68,10 +69,10 @@ public class LibraryActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.account) {
-                    Intent intent = new Intent(LibraryActivity.this, UserActivity.class);
+                    Intent intent = new Intent(CareActivity.this, UserActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.home) {
-                    Intent intent = new Intent(LibraryActivity.this, MainActivity.class);
+                    Intent intent = new Intent(CareActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.logout) {
                     showLogoutDialog();
@@ -82,7 +83,6 @@ public class LibraryActivity extends AppCompatActivity {
             }
         });
     }
-
     private void showLogoutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Đăng Xuất")
@@ -90,9 +90,9 @@ public class LibraryActivity extends AppCompatActivity {
                 .setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(LibraryActivity.this, "Đã Đăng Xuất", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CareActivity.this, "Đã Đăng Xuất", Toast.LENGTH_SHORT).show();
 
-                        Intent intent=new Intent(LibraryActivity.this, LoginActivity.class);
+                        Intent intent=new Intent(CareActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
