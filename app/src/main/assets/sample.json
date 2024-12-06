@@ -1,0 +1,31 @@
+[
+    {
+      "idCaSi": 2,
+      "tenCaSi": "Ed Sheeran",
+      "urlHinh": "https://picsum.photos/id/870/200/300?grayscale&blur=2",
+      "baiHats": [
+        {
+          "idBaiHat": 2,
+          "tenBaiHat": "Shape of You",
+          "caSi": "Ed Sheeran",
+          "theLoai": "Pop",
+          "album": "Divide",
+          "khuVucNhac": "UK",
+          "urlHinh": "https://picsum.photos/200/300/?blur",
+          "urlFile": "https://samplelib.com/lib/preview/mp3/sample-6s.mp3",
+          "ngayPhatHanh": "2021-05-01T07:00:00"
+        },
+        {
+          "idBaiHat": 30,
+          "tenBaiHat": "rertert",
+          "caSi": "Ed Sheeran",
+          "theLoai": "Jazz",
+          "album": "Fearless",
+          "khuVucNhac": "Canada",
+          "urlHinh": "https://picsum.photos/200/300/?blur",
+          "urlFile": "https://samplelib.com/lib/preview/mp3/sample-6s.mp3",
+          "ngayPhatHanh": "2021-05-01T07:00:00"
+        }
+      ]
+    }
+  ]
