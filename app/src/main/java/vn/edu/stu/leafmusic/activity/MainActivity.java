@@ -1,8 +1,11 @@
 package vn.edu.stu.leafmusic.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -24,6 +27,8 @@ import vn.edu.stu.leafmusic.activity.fragment.AccountFragment;
 import vn.edu.stu.leafmusic.activity.fragment.HomeFragment;
 import vn.edu.stu.leafmusic.activity.fragment.LoveListFragment;
 import vn.edu.stu.leafmusic.activity.fragment.SettingFragment;
+import vn.edu.stu.leafmusic.activity.login.LoginActivity;
+import vn.edu.stu.leafmusic.util.SharedPrefsHelper;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,8 +39,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_SETTING = 1;
     private static final int FRAGMENT_LOVELIST = 2;
     private static final int FRAGMENT_ACCOUNT = 3;
+//    private static final int FRAGMENT_LOGOUT = 4;
 
     private int CurrentFragment = FRAGMENT_HOME;
+
+    SharedPrefsHelper sharedPrefsHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +56,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return insets;
         });
 
+        sharedPrefsHelper = new SharedPrefsHelper(this);
         addControls();
         addEvents();
+
+        setUsernameInHeader();
     }
 
     private void addControls() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
     }
 
     private void addEvents() {
@@ -75,10 +84,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         replaceFragment(new HomeFragment());
         navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-
-
-
-
 
 
     }
@@ -112,6 +117,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 CurrentFragment = FRAGMENT_ACCOUNT;
                 Log.d("Fragment", "ACCOUNT Fragment Selected");
             }
+        } else if (id == R.id.nav_Logout) {
+            sharedPrefsHelper.clearLoginState();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -133,6 +144,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.commit();
+    }
+
+    //hien thi ten user
+    private void setUsernameInHeader() {
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView tvUsername = headerView.findViewById(R.id.tvUsername);
+
+        if (sharedPrefsHelper != null) {
+            String username = sharedPrefsHelper.getUsername();
+
+            if (username != null) {
+                tvUsername.setText(username);
+            } else {
+                tvUsername.setText("Khác");
+            }
+        }
     }
 
 
