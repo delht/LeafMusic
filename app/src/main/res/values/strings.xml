@@ -2,4 +2,13 @@
     <string name="app_name">LEAFMUSIC</string>
     <string name="open">OPEN LEAFMUSCI</string>
     <string name="close">CLOSE LEAFMUSIC</string>
+
+
+    <string name="nav_Home">Trang chủ</string>
+    <string name="nav_Setting">Cài đặt</string>
+
+    <string name="nav_LoveList">Danh sách yêu thích</string>
+    <string name="nav_Account">Tài khoản</string>
+
+
 </resources>
