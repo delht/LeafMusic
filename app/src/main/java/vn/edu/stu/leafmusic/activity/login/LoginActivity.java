@@ -1,7 +1,6 @@
 package vn.edu.stu.leafmusic.activity.login;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -21,6 +20,7 @@ import vn.edu.stu.leafmusic.activity.UI.Home;
 import vn.edu.stu.leafmusic.api.dto.ApiService;
 import vn.edu.stu.leafmusic.api.dto.reponse.LoginResponse;
 import vn.edu.stu.leafmusic.api.dto.request.LoginRequest;
+import vn.edu.stu.leafmusic.util.SharedPrefsHelper;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -30,26 +30,35 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin, btnCreate;
     TextView tvForgot;
 
+    private SharedPrefsHelper sharedPrefsHelper;
+
+//    ================================================================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Controls();
+        // Kiem tra xem co dang nhap ko
+        if (sharedPrefsHelper.isLoggedIn()) {
+            Intent intent = new Intent(LoginActivity.this, Home.class);
+            startActivity(intent);
+            finish();
+        }
+        Events();
+    }
+
+    private void Controls() {
+        sharedPrefsHelper = new SharedPrefsHelper(this);
 
         edtUser = findViewById(R.id.edtUser);
         edtPass = findViewById(R.id.edtPass);
         btnCreate = findViewById(R.id.btnCreate);
         tvForgot = findViewById(R.id.tvForgotPass);
         btnLogin = findViewById(R.id.btnLogin);
+    }
 
-        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        boolean isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false);
-
-        if (isLoggedIn) {
-            Intent intent = new Intent(LoginActivity.this, Home.class);
-            startActivity(intent);
-            finish();
-        }
-
+    private void Events(){
         btnLogin.setOnClickListener(v -> login());
         tvForgot.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, ForgotPass.class);
@@ -78,7 +87,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -87,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         ApiService apiService = retrofit.create(ApiService.class);
         LoginRequest loginRequest = new LoginRequest(username, pass);
 
-        // Gửi yêu cầu đăng nhập
+        // gui yeu cau dang nhap len api
         apiService.login(loginRequest).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -95,20 +103,20 @@ public class LoginActivity extends AppCompatActivity {
                     LoginResponse loginResponse = response.body();
                     if (loginResponse != null) {
 
-                        getSharedPreferences("user_prefs", MODE_PRIVATE)
-                                .edit()
-                                .putString("user_id", loginResponse.getId_taikhoan())
-                                .putString("username", loginResponse.getUsername())
-                                .putBoolean("is_logged_in", true) // Đánh dấu đã đăng nhập
-                                .apply();
+                        //luu trang thai dang nhap
+                        sharedPrefsHelper.saveLoginState(
+                                loginResponse.getId_taikhoan(),
+                                loginResponse.getUsername(),
+                                true
+                        );
 
                         Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(LoginActivity.this, Home.class);
+                        Intent intent = new Intent(LoginActivity.this, Home.class);
                         startActivity(intent);
                         finish();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Tên đăng nhập hoặc mật khẩu không đúng!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Tên đăng nhập hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
                 }
             }
 

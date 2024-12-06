@@ -61,7 +61,7 @@
 
 
     <EditText
-        android:id="@+id/edtEmail"
+        android:id="@+id/edtPassWord"
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -70,10 +70,10 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
 
-        android:drawableStart="@drawable/ic_email"
+        android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="16dp"
-        android:hint="Email"
-        android:inputType="textPersonName"
+        android:hint="Mật khẩu"
+        android:inputType="text"
         android:padding="16dp"
 
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +82,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edtUsername"/>
 
     <EditText
-        android:id="@+id/edtLock"
+        android:id="@+id/edtRePassWord"
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -94,14 +94,14 @@
         android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="16dp"
         android:ems="10"
-        android:hint="Mật Khẩu"
+        android:hint="Nhập lại mật Khẩu"
         android:inputType="textPassword"
         android:padding="16dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail"/>
+        app:layout_constraintTop_toBottomOf="@+id/edtPassWord"/>
 
 
     <Button
@@ -121,7 +121,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtLock"/>
+        app:layout_constraintTop_toBottomOf="@+id/edtRePassWord"/>
 
     <Button
         android:id="@+id/btnLogin"
