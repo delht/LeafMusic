@@ -16,8 +16,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Album Name"
+        android:layout_marginTop="4dp"
         android:gravity="center"
-        android:textSize="20dp"
-        android:layout_marginTop="4dp" />
+        android:paddingStart="20dp"
+        android:text="Album Name"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
+
+
+
+
+
 </LinearLayout>

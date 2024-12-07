@@ -4,21 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/Green4">
+    android:background="#4B4B4B">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="0dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="Home"
-            android:textSize="10pt"
-            android:layout_gravity="end" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,10 +21,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="Đề xuất"
-                android:padding="8dp"
-                />
+                android:textSize="30dp"
+                android:text="Gợi ý hôm nay"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_random_songs"
                 android:layout_width="match_parent"
@@ -43,10 +37,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="Album"
-                android:padding="8dp"
-                />
+                android:textSize="30dp"
+                android:text="Album nổi bật"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_albums"
                 android:layout_width="match_parent"
@@ -57,10 +53,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="Ca sĩ"
-                android:padding="8dp"
-                />
+                android:textSize="30dp"
+                android:text="Ca sĩ hàng đầu"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_artists"
                 android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package vn.edu.stu.leafmusic.activity.adapter;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import java.util.List;
 
 import vn.edu.stu.leafmusic.R;
+import vn.edu.stu.leafmusic.activity.detail.AlbumDetailActivity;
 import vn.edu.stu.leafmusic.model.Album;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,9 +51,13 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
         String uri = album.getUrlHinh();
         Log.e("test", uri);
 
-        // Xử lý sự kiện click
         holder.itemView.setOnClickListener(v -> {
-            listener.onItemClick(Integer.parseInt(album.getIdAlbum()));
+            Intent intent = new Intent(holder.itemView.getContext(), AlbumDetailActivity.class);
+            intent.putExtra("albumId", album.getIdAlbum());
+            intent.putExtra("albumName", album.getTenAlbum());
+            intent.putExtra("artistName", album.getTenAlbum());
+            intent.putExtra("albumImage", album.getUrlHinh());
+            holder.itemView.getContext().startActivity(intent);
         });
     }
 

@@ -44,7 +44,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
                 .transform(new RoundedCorners(30)) //bo goc
                 .into(holder.songImage);
 
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(Integer.parseInt(song.getIdBaiHat())));
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(Integer.parseInt(String.valueOf(song.getIdBaiHat()))));
     }
 
     @Override

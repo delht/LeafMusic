@@ -1,15 +1,23 @@
 package vn.edu.stu.leafmusic.model;
 
-public class Song {
-    private String idBaiHat;
-    private String tenBaiHat;
-    private String urlHinh;
+import java.util.List;
 
-    public String getIdBaiHat() {
+public class Song {
+
+    private int idBaiHat;  // idBaiHat là kiểu int
+    private String tenBaiHat;
+    private String theLoai;
+    private String khuVucNhac;
+    private String urlHinh;
+    private String urlFile;
+    private List<Integer> ngayPhatHanh;  // Ngày phát hành là List<Integer>
+
+    // Getter & Setter
+    public int getIdBaiHat() {
         return idBaiHat;
     }
 
-    public void setIdBaiHat(String idBaiHat) {
+    public void setIdBaiHat(int idBaiHat) {
         this.idBaiHat = idBaiHat;
     }
 
@@ -21,6 +29,22 @@ public class Song {
         this.tenBaiHat = tenBaiHat;
     }
 
+    public String getTheLoai() {
+        return theLoai;
+    }
+
+    public void setTheLoai(String theLoai) {
+        this.theLoai = theLoai;
+    }
+
+    public String getKhuVucNhac() {
+        return khuVucNhac;
+    }
+
+    public void setKhuVucNhac(String khuVucNhac) {
+        this.khuVucNhac = khuVucNhac;
+    }
+
     public String getUrlHinh() {
         return urlHinh;
     }
@@ -29,12 +53,19 @@ public class Song {
         this.urlHinh = urlHinh;
     }
 
-    public Song(String idBaiHat, String tenBaiHat, String urlHinh) {
-        this.idBaiHat = idBaiHat;
-        this.tenBaiHat = tenBaiHat;
-        this.urlHinh = urlHinh;
+    public String getUrlFile() {
+        return urlFile;
     }
 
-    public Song() {
+    public void setUrlFile(String urlFile) {
+        this.urlFile = urlFile;
+    }
+
+    public List<Integer> getNgayPhatHanh() {
+        return ngayPhatHanh;
+    }
+
+    public void setNgayPhatHanh(List<Integer> ngayPhatHanh) {
+        this.ngayPhatHanh = ngayPhatHanh;
     }
 }

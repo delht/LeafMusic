@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import vn.edu.stu.leafmusic.api.dto.reponse.LoginResponse;
 import vn.edu.stu.leafmusic.api.dto.request.LoginRequest;
 import vn.edu.stu.leafmusic.api.dto.request.RegisterRequest;
@@ -32,4 +33,11 @@ public interface ApiService {
 
     @GET("api/baihat/randombaihat5")
     Call<List<Song>> getRandom5Songs();
+
+
+    @GET("/api/album/get/id={id}")
+    Call<Album> getSongsByAlbum(@Path("id") String albumId);
+
+
+
 }
