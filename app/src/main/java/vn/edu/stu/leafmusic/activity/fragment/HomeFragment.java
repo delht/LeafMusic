@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,6 +27,8 @@ import vn.edu.stu.leafmusic.activity.adapter.SongsAdapter;
 import vn.edu.stu.leafmusic.api.dto.ApiClient;
 import vn.edu.stu.leafmusic.api.dto.ApiService;
 import vn.edu.stu.leafmusic.model.Album;
+import vn.edu.stu.leafmusic.model.Artist;
+import vn.edu.stu.leafmusic.model.Song;
 
 public class HomeFragment extends Fragment {
 
@@ -37,30 +40,60 @@ public class HomeFragment extends Fragment {
         Log.d("HomeFragment", "onCreateView called");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Khởi tạo RecyclerView
         recyclerRandomSongs = view.findViewById(R.id.recycler_random_songs);
         recyclerAlbums = view.findViewById(R.id.recycler_albums);
         recyclerArtists = view.findViewById(R.id.recycler_artists);
 
-        // Thiết lập các RecyclerView
-        setupRandomSongsRecyclerView();
-        setupArtistsRecyclerView();
-        loadAlbums();  // Gọi loadAlbums để lấy dữ liệu album
+
+        loadSongs();
+        loadAlbums();
+        loadArtists();
 
         return view;
     }
 
-    private void setupRandomSongsRecyclerView() {
-        // Dummy data
-        List<String> randomSongs = Arrays.asList("Song 1", "Song 2", "Song 3", "Song 4", "Song 5");
 
-        // Adapter
-        SongsAdapter adapter = new SongsAdapter(randomSongs);
 
-        // Layout Manager
-        recyclerRandomSongs.setLayoutManager(new LinearLayoutManager(getContext()));
+
+    //    ===================================================================================================
+
+
+    private void loadSongs() {
+        ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);
+
+        apiService.getRandom5Songs().enqueue(new Callback<List<Song>>() {
+            @Override
+            public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Song> songs = response.body();
+                    setupSongsRecyclerView(songs);
+                } else {
+                    Toast.makeText(getContext(), "Không thể lấy dữ liệu bài hát", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Song>> call, Throwable t) {
+                Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("HomeFragment", "Error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void setupSongsRecyclerView(List<Song> songs) {
+        SongsAdapter adapter = new SongsAdapter(songs, new SongsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int idSong) {
+                Toast.makeText(getContext(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        recyclerRandomSongs.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerRandomSongs.setAdapter(adapter);
     }
+
+
+    //    ===================================================================================================
 
     private void loadAlbums() {
         // Khởi tạo Retrofit API
@@ -102,15 +135,41 @@ public class HomeFragment extends Fragment {
         recyclerAlbums.setAdapter(adapter);
     }
 
+//    ===================================================================================================
 
-    private void setupArtistsRecyclerView() {
-        // Dummy data
-        List<String> artists = Arrays.asList("Artist 1", "Artist 2", "Artist 3");
+    private void loadArtists() {
 
-        // Adapter
-        ArtistsAdapter adapter = new ArtistsAdapter(artists);
+        ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);
 
-        // Layout Manager
+
+        apiService.getAllArtists().enqueue(new Callback<List<Artist>>() {
+            @Override
+            public void onResponse(Call<List<Artist>> call, Response<List<Artist>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Artist> artists = response.body();
+
+                    setupArtistsRecyclerView(artists);
+                } else {
+                    Toast.makeText(getContext(), "Không thể lấy dữ liệu", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Artist>> call, Throwable t) {
+                Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("HomeFragment", "Error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void setupArtistsRecyclerView(List<Artist> artists) {
+        ArtistsAdapter adapter = new ArtistsAdapter(artists, new ArtistsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int idArtist) {
+                Toast.makeText(getContext(), "Clicked artist with ID: " + idArtist, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         recyclerArtists.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerArtists.setAdapter(adapter);
     }

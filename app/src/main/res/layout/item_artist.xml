@@ -5,18 +5,18 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/img_album"
+        android:id="@+id/img_artist"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/ic_launcher_foreground"
         android:scaleType="centerCrop" />
 
     <TextView
-        android:id="@+id/tv_album_name"
+        android:id="@+id/tv_artist_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Album Name"
+        android:text="Artist Name"
         android:gravity="center"
         android:textSize="20dp"
         android:layout_marginTop="4dp" />

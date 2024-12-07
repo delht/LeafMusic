@@ -10,6 +10,8 @@ import vn.edu.stu.leafmusic.api.dto.reponse.LoginResponse;
 import vn.edu.stu.leafmusic.api.dto.request.LoginRequest;
 import vn.edu.stu.leafmusic.api.dto.request.RegisterRequest;
 import vn.edu.stu.leafmusic.model.Album;
+import vn.edu.stu.leafmusic.model.Artist;
+import vn.edu.stu.leafmusic.model.Song;
 
 public interface ApiService {
 
@@ -21,4 +23,13 @@ public interface ApiService {
 
     @GET("api/album/all")
     Call<List<Album>> getAllAlbums();
+
+    @GET("api/casi/all")
+    Call<List<Artist>> getAllArtists();
+
+//    @GET("api/baihat/all")
+//    Call<List<Song>> getAllSongs();
+
+    @GET("api/baihat/randombaihat5")
+    Call<List<Song>> getRandom5Songs();
 }

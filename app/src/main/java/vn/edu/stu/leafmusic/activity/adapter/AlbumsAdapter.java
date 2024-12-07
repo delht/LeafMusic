@@ -4,12 +4,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 
 import java.util.List;
 
@@ -42,7 +42,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
 
         // Tải ảnh album sử dụng Glide
         Glide.with(holder.itemView.getContext())
-                .load(album.getUrlHinh()) // URL ảnh album
+                .load(album.getUrlHinh()) //url hinh
+                .transform(new RoundedCorners(30)) //bo goc
                 .into(holder.albumImage);
 
         String uri = album.getUrlHinh();
@@ -71,8 +72,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
         }
     }
 
-    // Interface listener
+
     public interface OnItemClickListener {
-        void onItemClick(int idAlbum); // Truyền idAlbum khi click
+        void onItemClick(int idAlbum);
     }
 }
