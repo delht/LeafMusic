@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,7 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import java.util.List;
 
 import vn.edu.stu.leafmusic.R;
-import vn.edu.stu.leafmusic.activity.detail.AlbumDetailActivity;
+import vn.edu.stu.leafmusic.activity.detail.AlbumDetailFragment;
 import vn.edu.stu.leafmusic.model.Album;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,13 +54,21 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
         Log.e("test", uri);
 
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), AlbumDetailActivity.class);
-            intent.putExtra("albumId", album.getIdAlbum());
-            intent.putExtra("albumName", album.getTenAlbum());
-            intent.putExtra("artistName", album.getTenAlbum());
-            intent.putExtra("albumImage", album.getUrlHinh());
-            holder.itemView.getContext().startActivity(intent);
+            // Tạo một instance mới của AlbumDetailFragment
+            AlbumDetailFragment albumDetailFragment = AlbumDetailFragment.newInstance(
+                    album.getIdAlbum(),
+                    album.getTenAlbum(),
+                    album.getTenCaSi(),
+                    album.getUrlHinh()
+            );
+
+            // Thay thế Fragment trong MainActivity
+            FragmentTransaction transaction = ((AppCompatActivity) holder.itemView.getContext()).getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, albumDetailFragment);
+            transaction.addToBackStack(null); // Thêm vào back stack để quay lại
+            transaction.commit();
         });
+
     }
 
     @Override
