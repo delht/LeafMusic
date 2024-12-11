@@ -114,4 +114,6 @@ public class AlbumDetailFragment extends Fragment {
         recyclerViewSongs.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerViewSongs.setAdapter(songsAdapter);
     }
+
+
 }

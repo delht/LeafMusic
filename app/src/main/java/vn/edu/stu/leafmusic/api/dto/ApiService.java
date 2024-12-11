@@ -38,6 +38,15 @@ public interface ApiService {
     @GET("/api/album/get/id={id}")
     Call<Album> getSongsByAlbum(@Path("id") String albumId);
 
+//    =====================================================
 
+//    @GET("api/casi/album/id={artistId}")
+//    Call<Album> getAlbumById(@Path("albumId") String albumId);
+
+    @GET("api/casi/get/id=baihat{id}")
+    Call<Song> getSongByArtistId(@Path("id") String songId);
+
+    @GET("api/casi/album/id={artistId}")
+    Call<List<Album>> getAlbumsByArtistId(@Path("artistId") String artistId);
 
 }
