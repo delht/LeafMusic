@@ -12,6 +12,7 @@ import vn.edu.stu.leafmusic.api.dto.request.LoginRequest;
 import vn.edu.stu.leafmusic.api.dto.request.RegisterRequest;
 import vn.edu.stu.leafmusic.model.Album;
 import vn.edu.stu.leafmusic.model.Artist;
+import vn.edu.stu.leafmusic.model.LoveLIst;
 import vn.edu.stu.leafmusic.model.Song;
 
 public interface ApiService {
@@ -49,4 +50,8 @@ public interface ApiService {
     @GET("api/casi/album/id={artistId}")
     Call<List<Album>> getAlbumsByArtistId(@Path("artistId") String artistId);
 
+//    ============================================
+
+    @GET("api/dsyeuthich/custom/id={id}") // Đường dẫn API
+    Call<List<LoveLIst>> getLoveList(@Path("id") String id);
 }
