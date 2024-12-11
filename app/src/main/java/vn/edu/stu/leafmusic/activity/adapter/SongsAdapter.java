@@ -3,8 +3,10 @@ package vn.edu.stu.leafmusic.activity.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +23,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
     private List<Song> songs;
     private OnItemClickListener listener;
+
 
     public SongsAdapter(List<Song> songs, OnItemClickListener listener) {
         this.songs = songs;
@@ -55,11 +58,20 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     public static class SongViewHolder extends RecyclerView.ViewHolder {
         TextView songName;
         ImageView songImage;
+        Button moreOptionsButton;
 
         public SongViewHolder(View itemView) {
             super(itemView);
             songName = itemView.findViewById(R.id.tv_song_name);
             songImage = itemView.findViewById(R.id.img_song);
+            moreOptionsButton = itemView.findViewById(R.id.btnBHXemThem);
+
+
+            moreOptionsButton.setOnClickListener(v -> {
+                // Hiển thị Toast khi bấm vào
+                Toast.makeText(itemView.getContext(), "Bạn vừa bấm vào nút Xem Thêm!", Toast.LENGTH_SHORT).show();
+            });
+
         }
     }
 

@@ -38,7 +38,7 @@ public class ArtistDetailFragment extends Fragment {
     private List<Song> songsList;
 
     private RecyclerView recyclerViewAlbums;
-    private AlbumsAdapter albumsAdapter;  // Đổi thành AlbumsAdapter
+    private AlbumsAdapter albumsAdapter;
     private List<Album> albumsList;
 
     public static ArtistDetailFragment newInstance(String artistId, String artistName, String artistImageUrl) {
@@ -73,7 +73,7 @@ public class ArtistDetailFragment extends Fragment {
 
             if (artistId != null) {
                 loadAlbumsForArtist(artistId);
-                loadSongs(artistId);  // Gọi loadSongs ở đây để tải bài hát
+                loadSongs(artistId);
             } else {
                 Log.e("ArtistDetailFragment", "Artist ID is null");
                 Toast.makeText(getActivity(), "Lỗi: Không có artistId", Toast.LENGTH_SHORT).show();
@@ -93,7 +93,7 @@ public class ArtistDetailFragment extends Fragment {
             public void onResponse(Call<List<Album>> call, Response<List<Album>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Album> albums = response.body();
-                    // Thiết lập adapter cho RecyclerView
+
                     setupAlbumsRecyclerView(albums);
                 } else {
                     Toast.makeText(getContext(), "Không thể lấy dữ liệu album", Toast.LENGTH_SHORT).show();
