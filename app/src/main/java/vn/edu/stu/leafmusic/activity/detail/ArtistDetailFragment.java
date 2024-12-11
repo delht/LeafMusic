@@ -73,7 +73,7 @@ public class ArtistDetailFragment extends Fragment {
 
             if (artistId != null) {
                 loadAlbumsForArtist(artistId);
-                loadSongs(); // Gọi loadSongs ở đây để tải bài hát
+                loadSongs(artistId);  // Gọi loadSongs ở đây để tải bài hát
             } else {
                 Log.e("ArtistDetailFragment", "Artist ID is null");
                 Toast.makeText(getActivity(), "Lỗi: Không có artistId", Toast.LENGTH_SHORT).show();
@@ -125,10 +125,10 @@ public class ArtistDetailFragment extends Fragment {
 
 //    =============================================================================
 
-    private void loadSongs() {
+    private void loadSongs(String artistId) {
         ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);
 
-        apiService.getRandom5Songs().enqueue(new Callback<List<Song>>() {
+        apiService.getSongByArtistId(artistId).enqueue(new Callback<List<Song>>() {
             @Override
             public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -154,25 +154,25 @@ public class ArtistDetailFragment extends Fragment {
                 Toast.makeText(getContext(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
 
                 // Gọi API để lấy thông tin chi tiết bài hát khi người dùng nhấn vào bài hát
-                ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);
-                apiService.getSongByArtistId(String.valueOf(idSong)).enqueue(new Callback<Song>() {
-                    @Override
-                    public void onResponse(Call<Song> call, Response<Song> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            Song songDetails = response.body();
-                            // Xử lý songDetails (ví dụ, hiển thị chi tiết bài hát)
-                            Toast.makeText(getContext(), "Song details: " + songDetails.getTenBaiHat(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getContext(), "Không thể lấy thông tin bài hát", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Song> call, Throwable t) {
-                        Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("SongDetails", "Error: " + t.getMessage());
-                    }
-                });
+//                ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);
+//                apiService.getSongByArtistId(String.valueOf(idSong)).enqueue(new Callback<Song>() {
+//                    @Override
+//                    public void onResponse(Call<Song> call, Response<Song> response) {
+//                        if (response.isSuccessful() && response.body() != null) {
+//                            Song songDetails = response.body();
+//                            // Xử lý songDetails (ví dụ, hiển thị chi tiết bài hát)
+//                            Toast.makeText(getContext(), "Song details: " + songDetails.getTenBaiHat(), Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Toast.makeText(getContext(), "Không thể lấy thông tin bài hát", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Song> call, Throwable t) {
+//                        Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                        Log.e("SongDetails", "Error: " + t.getMessage());
+//                    }
+//                });
             }
         });
 
@@ -181,7 +181,7 @@ public class ArtistDetailFragment extends Fragment {
     }
 
 
-
+//    =============================================================================
 
 
 
