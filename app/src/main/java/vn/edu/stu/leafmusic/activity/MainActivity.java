@@ -94,11 +94,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if(id == R.id.nav_home){
-            if(CurrentFragment != FRAGMENT_HOME){
+//            if(CurrentFragment != FRAGMENT_HOME){
                 replaceFragment(new HomeFragment());
                 CurrentFragment = FRAGMENT_HOME;
                 Log.d("Fragment", "Home Fragment Selected");
-            }
+//            }
         } else if (id == R.id.nav_setting) {
             if(CurrentFragment != FRAGMENT_SETTING){
                 replaceFragment(new SettingFragment());

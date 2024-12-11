@@ -25,6 +25,9 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     private OnItemClickListener listener;
 
 
+//    ==========================================================
+
+
     public SongsAdapter(List<Song> songs, OnItemClickListener listener) {
         this.songs = songs;
         this.listener = listener;
@@ -48,6 +51,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
                 .into(holder.songImage);
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(Integer.parseInt(String.valueOf(song.getIdBaiHat()))));
+
     }
 
     @Override

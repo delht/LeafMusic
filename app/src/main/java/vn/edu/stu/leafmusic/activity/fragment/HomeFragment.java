@@ -53,8 +53,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-
-
     //    ===================================================================================================
 
 
@@ -173,4 +171,9 @@ public class HomeFragment extends Fragment {
         recyclerArtists.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerArtists.setAdapter(adapter);
     }
+
+
+//    ===================================================================================
+
+
 }
