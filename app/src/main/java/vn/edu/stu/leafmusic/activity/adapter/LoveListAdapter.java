@@ -56,6 +56,11 @@ public class LoveListAdapter extends RecyclerView.Adapter<LoveListAdapter.LoveLi
             holder.tvName.setTextColor(context.getResources().getColor(R.color.black));
         }
 
+
+        holder.itemView.setOnClickListener(v -> {
+            Toast.makeText(context, "ID danh sách yêu thích: " + item.getIdDs(), Toast.LENGTH_SHORT).show();
+        });
+
         // Show options menu when click "Xem thêm"
         holder.btnMoreOptions.setOnClickListener(v -> showOptionsMenu(v, item));
     }
