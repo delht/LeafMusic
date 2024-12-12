@@ -1,6 +1,7 @@
 package vn.edu.stu.leafmusic.activity.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.app.AlertDialog;
 
+import java.io.IOException;
 import java.util.List;
 
 import vn.edu.stu.leafmusic.R;
@@ -159,9 +161,17 @@ public class LoveListAdapter extends RecyclerView.Adapter<LoveListAdapter.LoveLi
                     }
                     notifyDataSetChanged();
                 } else {
-                    Toast.makeText(context, "Lỗi khi đổi tên danh sách", Toast.LENGTH_SHORT).show();
+                    // In ra thông tin lỗi từ server
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        Toast.makeText(context, "Lỗi khi đổi tên danh sách: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        Log.e("BUG", errorMessage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {

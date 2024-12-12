@@ -65,7 +65,7 @@ public interface ApiService {
     @DELETE("api/dsyeuthich/delete/id={id}")
     Call<Void> deleteLoveList(@Path("id") int id);
 
-    @PUT("api/dsyeuthich/update/id={id}")
+    @PUT("api/dsyeuthich/update2/id={id}")
     Call<Void> renameLoveList(@Path("id") int id, @Body String newName);
 
 
