@@ -10,6 +10,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import vn.edu.stu.leafmusic.api.dto.reponse.LoginResponse;
+import vn.edu.stu.leafmusic.api.dto.request.DsYeuThich_Request;
 import vn.edu.stu.leafmusic.api.dto.request.LoginRequest;
 import vn.edu.stu.leafmusic.api.dto.request.RegisterRequest;
 import vn.edu.stu.leafmusic.model.Album;
@@ -67,6 +68,10 @@ public interface ApiService {
 
     @PUT("api/dsyeuthich/update2/id={id}")
     Call<Void> renameLoveList(@Path("id") int id, @Body String newName);
+
+    @POST("/api/dsyeuthich/create")
+    Call<LoveLIst> createLoveList(@Body DsYeuThich_Request loveList);
+
 
 
 }

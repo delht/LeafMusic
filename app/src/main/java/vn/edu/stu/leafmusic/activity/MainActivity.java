@@ -106,11 +106,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("Fragment", "SETTING Fragment Selected");
             }
         }else if (id == R.id.nav_lovelist) {
-            if(CurrentFragment != FRAGMENT_LOVELIST){
+//            if(CurrentFragment != FRAGMENT_LOVELIST){
                 replaceFragment(new LoveListFragment());
                 CurrentFragment = FRAGMENT_LOVELIST;
                 Log.d("Fragment", "LOVELIST Fragment Selected");
-            }
+//            }
         }else if (id == R.id.nav_account) {
             if(CurrentFragment != FRAGMENT_ACCOUNT){
                 replaceFragment(new AccountFragment());
