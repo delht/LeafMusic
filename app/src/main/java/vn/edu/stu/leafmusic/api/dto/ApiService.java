@@ -52,6 +52,9 @@ public interface ApiService {
 
 //    ============================================
 
-    @GET("api/dsyeuthich/custom/id={id}") // Đường dẫn API
+    @GET("api/dsyeuthich/custom/id={id}")
     Call<List<LoveLIst>> getLoveList(@Path("id") String id);
+
+    @GET("api/dsyeuthich/macdinh/id={id}")
+    Call<List<LoveLIst>> getDefaultLoveList(@Path("id") String id);
 }

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -27,7 +28,7 @@ import vn.edu.stu.leafmusic.util.SharedPrefsHelper;
 public class LoveListFragment extends Fragment {
 
     private RecyclerView rvLoveList;
-    private SharedPrefsHelper sharedPrefsHelper; // Biến thành viên
+    private SharedPrefsHelper sharedPrefsHelper;
     private String id;
 
     @Nullable
@@ -35,42 +36,52 @@ public class LoveListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lovelist, container, false);
 
-        // Khởi tạo SharedPrefsHelper
         sharedPrefsHelper = new SharedPrefsHelper(requireContext());
-        id = sharedPrefsHelper.getUserId(); // Lấy ID sau khi khởi tạo
+        id = sharedPrefsHelper.getUserId();
 
         rvLoveList = view.findViewById(R.id.rvLoveList);
-
-        // Thiết lập RecyclerView
         rvLoveList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Gọi API để lấy danh sách yêu thích
-        fetchLoveList();
-
+        fetchLoveLists();
         return view;
     }
 
-    private void fetchLoveList() {
+    private void fetchLoveLists() {
         ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);
 
-        apiService.getLoveList(id).enqueue(new Callback<List<LoveLIst>>() {
+        List<LoveLIst> combinedList = new ArrayList<>();
+
+        // Fetch Default Love List
+        apiService.getDefaultLoveList(id).enqueue(new Callback<List<LoveLIst>>() {
             @Override
             public void onResponse(@NonNull Call<List<LoveLIst>> call, @NonNull Response<List<LoveLIst>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<LoveLIst> loveLists = response.body();
-                    for (LoveLIst item : loveLists) {
-                        Log.d("API Response", "ID: " + item.getIdDs() + ", Loại: " + item.getLoaiDs() + ", Tên: " + item.getTenDs());
-                    }
-                    LoveListAdapter adapter = new LoveListAdapter(getContext(), loveLists);
-                    rvLoveList.setAdapter(adapter);
-                } else {
-                    Log.e("API Error", "Response body is null or not successful");
+                    combinedList.addAll(response.body());
                 }
+
+                // Fetch Custom Love List
+                apiService.getLoveList(id).enqueue(new Callback<List<LoveLIst>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<LoveLIst>> call, @NonNull Response<List<LoveLIst>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            combinedList.addAll(response.body());
+                        }
+
+                        // Update RecyclerView
+                        LoveListAdapter adapter = new LoveListAdapter(getContext(), combinedList);
+                        rvLoveList.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<List<LoveLIst>> call, @NonNull Throwable t) {
+                        Log.e("API Error", "Failed to fetch custom love list", t);
+                    }
+                });
             }
 
             @Override
             public void onFailure(@NonNull Call<List<LoveLIst>> call, @NonNull Throwable t) {
-                t.printStackTrace();
+                Log.e("API Error", "Failed to fetch default love list", t);
             }
         });
     }

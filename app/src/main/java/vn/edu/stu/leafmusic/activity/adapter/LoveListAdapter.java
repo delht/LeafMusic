@@ -1,12 +1,12 @@
 package vn.edu.stu.leafmusic.activity.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,10 +24,6 @@ public class LoveListAdapter extends RecyclerView.Adapter<LoveListAdapter.LoveLi
     public LoveListAdapter(Context context, List<LoveLIst> loveList) {
         this.context = context;
         this.loveList = loveList;
-
-        for (LoveLIst item : loveList) {
-            Log.d("Adapter Init", "Item: " + item.getTenDs());
-        }
     }
 
     @NonNull
@@ -40,14 +36,25 @@ public class LoveListAdapter extends RecyclerView.Adapter<LoveListAdapter.LoveLi
     @Override
     public void onBindViewHolder(@NonNull LoveListViewHolder holder, int position) {
         LoveLIst item = loveList.get(position);
-        Log.d("LoveListAdapter", "Item Name: " + item.getTenDs());
 
         holder.tvName.setText(item.getTenDs());
 
-        // Nếu cần thêm xử lý sự kiện
+        // Highlight default list
+        if (item.isDefaultList()) {
+            holder.tvName.setTextColor(context.getResources().getColor(R.color.Green4));
+        } else {
+            holder.tvName.setTextColor(context.getResources().getColor(R.color.black));
+        }
+
+
         holder.itemView.setOnClickListener(v -> {
-            // Xử lý khi nhấn vào item
+            // Show Toast with the id_ds of the clicked item
+            Toast.makeText(context, "ID DS: " + item.getIdDs(), Toast.LENGTH_SHORT).show();
         });
+
+
+
+
     }
 
     @Override

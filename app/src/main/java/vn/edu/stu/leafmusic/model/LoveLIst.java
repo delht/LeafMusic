@@ -42,4 +42,9 @@ public class LoveLIst {
 
     public LoveLIst() {
     }
+
+    public boolean isDefaultList() {
+        return "macdinh".equalsIgnoreCase(loaiDs);
+    }
+
 }
