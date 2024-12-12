@@ -4,8 +4,10 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import vn.edu.stu.leafmusic.api.dto.reponse.LoginResponse;
 import vn.edu.stu.leafmusic.api.dto.request.LoginRequest;
@@ -57,4 +59,14 @@ public interface ApiService {
 
     @GET("api/dsyeuthich/macdinh/id={id}")
     Call<List<LoveLIst>> getDefaultLoveList(@Path("id") String id);
+
+//    ================================================
+
+    @DELETE("api/dsyeuthich/delete/id={id}")
+    Call<Void> deleteLoveList(@Path("id") int id);
+
+    @PUT("api/dsyeuthich/update/id={id}")
+    Call<Void> renameLoveList(@Path("id") int id, @Body String newName);
+
+
 }

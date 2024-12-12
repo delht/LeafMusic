@@ -22,4 +22,15 @@
         android:text="Album Name"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnBHXemThem"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawableTop="@drawable/ic_xemthem_whilte"
+        android:contentDescription="More Options"
+        android:onClick="showOptionsMenu"/>
+
 </LinearLayout>
