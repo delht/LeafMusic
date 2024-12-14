@@ -16,68 +16,66 @@ import java.util.List;
 import vn.edu.stu.leafmusic.R;
 import vn.edu.stu.leafmusic.model.Song;
 
-public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
+public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder> {
 
-    private List<Song> songList;
-    private OnSongClickListener listener;
+    private List<Song> songs;
+    private OnSongClickListener onSongClickListener;
 
     public interface OnSongClickListener {
         void onSongClick(Song song, int position);
     }
 
-    public SongAdapter(List<Song> songs, OnSongClickListener listener) {
-        this.songList = songs;
-        this.listener = listener;
+    public SongAdapter(List<Song> songs, OnSongClickListener onSongClickListener) {
+        this.songs = songs;
+        this.onSongClickListener = onSongClickListener;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SongViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_song, parent, false);
-        return new ViewHolder(view);
+        return new SongViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Song song = songList.get(position);
-
-        // Load hình ảnh
-        Glide.with(holder.itemView.getContext())
-                .load(song.getUrlHinh())
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_foreground)
-                .into(holder.imgSong);
-
-        // Set text
+    public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
+        Song song = songs.get(position);
         holder.tvSongName.setText(song.getTenBaiHat());
         holder.tvArtist.setText(song.getCaSi());
+        holder.tvReleaseDate.setText(formatReleaseDate(song.getNgayPhatHanh()));
 
-        // Xử lý sự kiện click
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onSongClick(song, position);
-            }
-        });
+        // Tải hình ảnh bài hát bằng Glide
+        Glide.with(holder.itemView.getContext())
+                .load(song.getUrlHinh())
+                .into(holder.imgSong);
+
+        holder.itemView.setOnClickListener(v -> onSongClickListener.onSongClick(song, position));
     }
 
     @Override
     public int getItemCount() {
-        return songList != null ? songList.size() : 0;
+        return songs.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgSong;
+    public static class SongViewHolder extends RecyclerView.ViewHolder {
         TextView tvSongName;
         TextView tvArtist;
         TextView tvReleaseDate;
+        ImageView imgSong;
 
-        public ViewHolder(@NonNull View itemView) {
+        public SongViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgSong = itemView.findViewById(R.id.imgSong);
             tvSongName = itemView.findViewById(R.id.tvSongName);
             tvArtist = itemView.findViewById(R.id.tvArtist);
             tvReleaseDate = itemView.findViewById(R.id.tvReleaseDate);
+            imgSong = itemView.findViewById(R.id.imgSong);
         }
+    }
+    private String formatReleaseDate(int[] ngayPhatHanh) {
+        if (ngayPhatHanh != null && ngayPhatHanh.length >= 3) {
+            return ngayPhatHanh[0] + "-" + ngayPhatHanh[1] + "-" + ngayPhatHanh[2];
+        }
+        return "Không có thông tin";
     }
 }

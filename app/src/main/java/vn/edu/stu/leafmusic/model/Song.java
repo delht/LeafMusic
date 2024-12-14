@@ -3,28 +3,32 @@ package vn.edu.stu.leafmusic.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Arrays;
+
 public class Song implements Parcelable {
     private int idBaiHat;
     private String tenBaiHat;
     private String caSi;
-    private String ngayPhatHanh;
+    private String theLoai;
+    private String album;
+    private String khuVucNhac;
     private String urlHinh;
     private String urlFile;
-    private String album;
-    private String genre;
+    private int[] ngayPhatHanh;
 
     public Song() {
     }
 
-    public Song(int idBaiHat, String tenBaiHat, String caSi, String ngayPhatHanh, String urlHinh, String urlFile, String album, String genre) {
+    public Song(int idBaiHat, String tenBaiHat, String caSi, String theLoai, String album, String khuVucNhac, String urlHinh, String urlFile, int[] ngayPhatHanh) {
         this.idBaiHat = idBaiHat;
         this.tenBaiHat = tenBaiHat;
         this.caSi = caSi;
-        this.ngayPhatHanh = ngayPhatHanh;
+        this.theLoai = theLoai;
+        this.album = album;
+        this.khuVucNhac = khuVucNhac;
         this.urlHinh = urlHinh;
         this.urlFile = urlFile;
-        this.album = album;
-        this.genre = genre;
+        this.ngayPhatHanh = ngayPhatHanh;
     }
 
     // Constructor cho Parcelable
@@ -32,11 +36,12 @@ public class Song implements Parcelable {
         idBaiHat = in.readInt();
         tenBaiHat = in.readString();
         caSi = in.readString();
-        ngayPhatHanh = in.readString();
+        theLoai = in.readString();
+        album = in.readString();
+        khuVucNhac = in.readString();
         urlHinh = in.readString();
         urlFile = in.readString();
-        album = in.readString();
-        genre = in.readString();
+        ngayPhatHanh = in.createIntArray();
     }
 
     // Implement Parcelable
@@ -62,11 +67,12 @@ public class Song implements Parcelable {
         dest.writeInt(idBaiHat);
         dest.writeString(tenBaiHat);
         dest.writeString(caSi);
-        dest.writeString(ngayPhatHanh);
+        dest.writeString(theLoai);
+        dest.writeString(album);
+        dest.writeString(khuVucNhac);
         dest.writeString(urlHinh);
         dest.writeString(urlFile);
-        dest.writeString(album);
-        dest.writeString(genre);
+        dest.writeIntArray(ngayPhatHanh);
     }
 
     // Getters và Setters
@@ -94,12 +100,28 @@ public class Song implements Parcelable {
         this.caSi = caSi;
     }
 
-    public String getNgayPhatHanh() {
-        return ngayPhatHanh;
+    public String getTheLoai() {
+        return theLoai;
     }
 
-    public void setNgayPhatHanh(String ngayPhatHanh) {
-        this.ngayPhatHanh = ngayPhatHanh;
+    public void setTheLoai(String theLoai) {
+        this.theLoai = theLoai;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+    public String getKhuVucNhac() {
+        return khuVucNhac;
+    }
+
+    public void setKhuVucNhac(String khuVucNhac) {
+        this.khuVucNhac = khuVucNhac;
     }
 
     public String getUrlHinh() {
@@ -118,20 +140,20 @@ public class Song implements Parcelable {
         this.urlFile = urlFile;
     }
 
-    public String getAlbum() {
-        return album;
+    public int[] getNgayPhatHanh() {
+        return ngayPhatHanh;
     }
 
-    public void setAlbum(String album) {
-        this.album = album;
+    public void setNgayPhatHanh(int[] ngayPhatHanh) {
+        this.ngayPhatHanh = ngayPhatHanh;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
+    // Thêm phương thức để chuyển đổi ngày phát hành thành chuỗi
+    public String getFormattedReleaseDate() {
+        if (ngayPhatHanh != null && ngayPhatHanh.length >= 3) {
+            return ngayPhatHanh[0] + "-" + ngayPhatHanh[1] + "-" + ngayPhatHanh[2]; // Định dạng: YYYY-MM-DD
+        }
+        return "Không có thông tin"; // Trả về thông báo nếu không có dữ liệu
     }
 
     @Override
@@ -140,11 +162,12 @@ public class Song implements Parcelable {
                 "idBaiHat=" + idBaiHat +
                 ", tenBaiHat='" + tenBaiHat + '\'' +
                 ", caSi='" + caSi + '\'' +
-                ", ngayPhatHanh='" + ngayPhatHanh + '\'' +
+                ", theLoai='" + theLoai + '\'' +
+                ", album='" + album + '\'' +
+                ", khuVucNhac='" + khuVucNhac + '\'' +
                 ", urlHinh='" + urlHinh + '\'' +
                 ", urlFile='" + urlFile + '\'' +
-                ", album='" + album + '\'' +
-                ", genre='" + genre + '\'' +
+                ", ngayPhatHanh=" + Arrays.toString(ngayPhatHanh) +
                 '}';
     }
 } 

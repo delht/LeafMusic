@@ -8,13 +8,11 @@
     android:background="@color/black"
     tools:context=".MainActivity">
 
-    <!-- Container chính -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -48,7 +46,6 @@
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 
-        <!-- Tiêu đề "Danh sách bài hát" -->
         <TextView
             android:id="@+id/tvMusicList"
             android:layout_width="match_parent"
@@ -60,7 +57,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <!-- RecyclerView danh sách bài hát -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -70,7 +66,6 @@
 
     </LinearLayout>
 
-    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

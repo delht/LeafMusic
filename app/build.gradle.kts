@@ -54,6 +54,7 @@ dependencies {
     implementation ("androidx.navigation:navigation-fragment:2.7.5")
     implementation ("androidx.navigation:navigation-ui:2.7.5")
     implementation ("androidx.drawerlayout:drawerlayout:1.2.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
 
 
 

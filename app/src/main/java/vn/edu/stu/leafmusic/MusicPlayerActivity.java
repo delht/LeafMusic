@@ -16,14 +16,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -37,7 +35,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private TextView tvSongName, tvArtist, tvCurrentTime, tvTotalTime;
     private SeekBar seekBar;
     private ImageButton btnPrev, btnPlayPause, btnNext, btnShuffle, btnRepeat;
-    
+
     private MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
     private boolean isPlaying = false;
@@ -48,24 +46,20 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private int currentSongIndex = 0;
     private RotateAnimationHelper rotateAnimationHelper;
     private DrawerLayout drawerLayout;
-    private TextView tvDetailSongName, tvDetailArtist, tvDetailAlbum, 
-                     tvDetailGenre, tvDetailReleaseDate;
+    private TextView tvDetailSongName, tvDetailArtist, tvDetailAlbum,
+            tvDetailGenre, tvDetailReleaseDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_player);
 
-        // Khởi tạo animation helper
         rotateAnimationHelper = new RotateAnimationHelper();
-        
-        // Ánh xạ view
+
         initViews();
-        
-        // Xử lý sự kiện nút back
+
         btnBack.setOnClickListener(v -> finish());
 
-        // Nhận dữ liệu từ intent
         if (getIntent().hasExtra("song_url")) {
             songUrl = getIntent().getStringExtra("song_url");
             String songName = getIntent().getStringExtra("song_name");
@@ -81,35 +75,27 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 Picasso.get().load(imageUrl).into(imgSong);
             }
 
-            // Khởi tạo MediaPlayer
             setupMediaPlayer();
         }
 
-        // Xử lý các sự kiện
         setupListeners();
 
-        // Khởi tạo các view mới
         initDetailViews();
-        
-        // Cập nhật thông tin chi tiết
+
         updateSongDetails();
 
-        // Khởi tạo DrawerLayout
         drawerLayout = findViewById(R.id.drawerLayout);
-        
+
         // Cho phép vuốt từ cạnh phải
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
-        // Enable edge touch
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             drawerLayout.setSystemGestureExclusionRects(Collections.emptyList());
         }
 
-        // Thêm listener cho drawer
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-                // Tạo hiệu ứng di chuyển cho main content
                 View contentView = findViewById(R.id.rootLayout);
                 float slideX = drawerView.getWidth() * slideOffset;
                 contentView.setTranslationX(-slideX);
@@ -146,52 +132,44 @@ public class MusicPlayerActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         NavigationView navigationView = findViewById(R.id.nav_view_detail);
         View headerView = navigationView.getHeaderView(0);
-        
+
         tvDetailSongName = findViewById(R.id.tvDetailSongName);
         tvDetailArtist = findViewById(R.id.tvDetailArtist);
         tvDetailAlbum = findViewById(R.id.tvDetailAlbum);
         tvDetailGenre = findViewById(R.id.tvDetailGenre);
         tvDetailReleaseDate = findViewById(R.id.tvDetailReleaseDate);
 
-        // Thiết lập animation cho drawer
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                // Tạo hiệu ứng di chuyển liền mạch
                 View contentView = findViewById(R.id.rootLayout);
                 float slideX = drawerView.getWidth() * slideOffset;
                 contentView.setTranslationX(-slideX);
                 contentView.setScaleX(1 - (slideOffset * 0.1f));
                 contentView.setScaleY(1 - (slideOffset * 0.1f));
-                
-                // Thêm hiệu ứng cho drawer
+
                 drawerView.setTranslationX(drawerView.getWidth() * (1 - slideOffset));
             }
         });
     }
 
     private void updateSongDetails() {
-        if (playlist != null && currentSongIndex >= 0 
-            && currentSongIndex < playlist.size()) {
+        if (playlist != null && currentSongIndex >= 0 && currentSongIndex < playlist.size()) {
             Song currentSong = playlist.get(currentSongIndex);
-            
+
             tvDetailSongName.setText(currentSong.getTenBaiHat());
             tvDetailArtist.setText(currentSong.getCaSi());
-            tvDetailReleaseDate.setText(currentSong.getNgayPhatHanh());
-           
+            tvDetailReleaseDate.setText(currentSong.getFormattedReleaseDate());
         }
     }
 
     private void setupMediaPlayer() {
-        // Hiển thị loading progress
         ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        
-        // Thực hiện việc tải và chuẩn bị MediaPlayer trong background thread
+
         new Thread(() -> {
             try {
-                // Giải phóng MediaPlayer cũ nếu có
                 if (mediaPlayer != null) {
                     try {
                         if (mediaPlayer.isPlaying()) {
@@ -205,16 +183,13 @@ public class MusicPlayerActivity extends AppCompatActivity {
                     mediaPlayer = null;
                 }
 
-                // Khởi tạo MediaPlayer mới
                 mediaPlayer = new MediaPlayer();
-                
-                // Thiết lập các listener trước khi setDataSource
+
                 mediaPlayer.setOnPreparedListener(mp -> {
                     runOnUiThread(() -> {
                         progressBar.setVisibility(View.GONE);
                         tvTotalTime.setText(formatTime(mediaPlayer.getDuration()));
                         seekBar.setMax(mediaPlayer.getDuration());
-                        // Bắt đầu phát nhạc và animation
                         playMusic();
                     });
                 });
@@ -230,13 +205,12 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 mediaPlayer.setOnErrorListener((mp, what, extra) -> {
                     runOnUiThread(() -> {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(MusicPlayerActivity.this, 
-                            "Lỗi phát nhạc: " + what, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MusicPlayerActivity.this,
+                                "Lỗi phát nhạc: " + what, Toast.LENGTH_SHORT).show();
                     });
                     return true;
                 });
 
-                // Thiết lập nguồn và chuẩn bị phát
                 mediaPlayer.setDataSource(songUrl);
                 mediaPlayer.prepareAsync();
 
@@ -244,9 +218,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 e.printStackTrace();
                 runOnUiThread(() -> {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(MusicPlayerActivity.this, 
-                        "Không thể phát bài hát này: " + e.getMessage(), 
-                        Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MusicPlayerActivity.this,
+                            "Không thể phát bài hát này: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 });
             }
         }).start();
@@ -307,7 +281,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 mediaPlayer.pause();
                 btnPlayPause.setImageResource(R.drawable.ic_play_circle);
                 isPlaying = false;
-                // Tạm dừng animation
                 if (imgSong != null) {
                     rotateAnimationHelper.pauseAnimation(imgSong);
                 }
@@ -363,15 +336,15 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     private void toggleShuffle() {
         isShuffleOn = !isShuffleOn;
-        btnShuffle.setImageResource(isShuffleOn ? 
-            R.drawable.ic_shuffle_on : R.drawable.ic_shuffle);
+        btnShuffle.setImageResource(isShuffleOn ?
+                R.drawable.ic_shuffle_on : R.drawable.ic_shuffle);
     }
 
     private void toggleRepeat() {
         isRepeatOn = !isRepeatOn;
-        btnRepeat.setImageResource(isRepeatOn ? 
-            R.drawable.ic_repeat_one : R.drawable.ic_repeat);
-        
+        btnRepeat.setImageResource(isRepeatOn ?
+                R.drawable.ic_repeat_one : R.drawable.ic_repeat);
+
         if (mediaPlayer != null) {
             mediaPlayer.setLooping(isRepeatOn);
         }
@@ -379,23 +352,22 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     private void playSong(int position) {
         if (position < 0 || position >= playlist.size()) return;
-        
+
         try {
             Song song = playlist.get(position);
             songUrl = song.getUrlFile();
             tvSongName.setText(song.getTenBaiHat());
             tvArtist.setText(song.getCaSi());
-            
+
             if (song.getUrlHinh() != null && !song.getUrlHinh().isEmpty()) {
                 Picasso.get().load(song.getUrlHinh()).into(imgSong);
                 imgSong.setClipToOutline(true);
             }
-            
-            // Reset trạng thái phát
+
             isPlaying = false;
             btnPlayPause.setImageResource(R.drawable.ic_play_circle);
             imgSong.clearAnimation();
-            
+
             setupMediaPlayer();
             updateSongDetails();
         } catch (Exception e) {
@@ -427,7 +399,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        // Dừng animation
         if (imgSong != null) {
             rotateAnimationHelper.stopAnimation(imgSong);
         }
@@ -459,10 +430,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
         }
     }
 
-    // Thêm phương thức để mở drawer từ code nếu cần
     public void openDrawer() {
         if (drawerLayout != null) {
             drawerLayout.openDrawer(GravityCompat.END);
         }
     }
-} 
+}

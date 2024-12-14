@@ -6,7 +6,7 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
+    android:layoutDirection="ltr"
     tools:openDrawer="end"
     android:background="@android:color/black">
 
@@ -19,7 +19,8 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Nút back -->
+
+
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="48dp"
@@ -29,7 +30,6 @@
             android:layout_marginTop="16dp"
             app:tint="@color/white" />
 
-        <!-- Text "Single" -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +39,6 @@
             android:textSize="18sp"
             android:layout_marginTop="8dp" />
 
-        <!-- Album Art -->
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgSong"
             android:layout_width="300dp"
@@ -48,7 +47,6 @@
             android:layout_marginTop="32dp"
             android:scaleType="centerCrop" />
 
-        <!-- Thêm vào sau ImageView của album art -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -56,7 +54,6 @@
             android:layout_gravity="center"
             android:visibility="gone"/>
 
-        <!-- Song Info -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -84,6 +81,15 @@
                     android:src="@drawable/ic_favorite"
                     android:background="@color/black"
                     app:tint="@color/white" />
+
+                <ImageButton
+                    android:id="@+id/btnAddToPlaylist"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_toLeftOf="@id/btnFavorite"
+                    android:src="@drawable/ic_library"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@android:color/white" />
             </RelativeLayout>
 
             <TextView
@@ -94,7 +100,6 @@
                 android:textSize="16sp"
                 android:layout_marginTop="4dp" />
 
-            <!-- Seek Bar -->
             <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="match_parent"
@@ -124,7 +129,6 @@
                     android:text="00:00" />
             </RelativeLayout>
 
-            <!-- Control Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,53 +139,58 @@
 
                 <ImageButton
                     android:id="@+id/btnShuffle"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/ic_shuffle"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:layout_weight="1"
-                    app:tint="@android:color/white" />
+                    android:scaleType="fitCenter"
+                    app:tint="@android:color/white"
+                    android:layout_weight="1"/>
 
                 <ImageButton
                     android:id="@+id/btnPrevious"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/ic_skip_previous"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:layout_weight="1"
-                    app:tint="@android:color/white" />
+                    android:scaleType="fitCenter"
+                    app:tint="@android:color/white"
+                    android:layout_weight="1"/>
 
                 <ImageButton
                     android:id="@+id/btnPlayPause"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:src="@drawable/ic_pause"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:layout_weight="1"
-                    app:tint="@android:color/white" />
+                    android:scaleType="fitCenter"
+                    app:tint="@color/white"
+                    android:layout_weight="1"/>
 
                 <ImageButton
                     android:id="@+id/btnNext"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/ic_skip_next"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:layout_weight="1"
-                    app:tint="@android:color/white" />
+                    android:scaleType="fitCenter"
+                    app:tint="@android:color/white"
+                    android:layout_weight="1"/>
 
                 <ImageButton
                     android:id="@+id/btnRepeat"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/ic_repeat"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:layout_weight="1"
-                    app:tint="@android:color/white" />
+                    android:scaleType="fitCenter"
+                    app:tint="@android:color/white"
+                    android:layout_weight="1"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Layout thông tin chi tiết (drawer bên phải) -->
+<!--    thông tin bài hát-->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view_detail"
         android:layout_width="300dp"
@@ -216,7 +225,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <!-- Tên bài hát -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -242,7 +250,6 @@
                             android:layout_marginTop="4dp"/>
                     </LinearLayout>
 
-                    <!-- Ca sĩ -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -268,7 +275,6 @@
                             android:layout_marginTop="4dp"/>
                     </LinearLayout>
 
-                    <!-- Album -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -294,7 +300,6 @@
                             android:layout_marginTop="4dp"/>
                     </LinearLayout>
 
-                    <!-- Thể loại -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -320,7 +325,6 @@
                             android:layout_marginTop="4dp"/>
                     </LinearLayout>
 
-                    <!-- Ngày phát hành -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -349,4 +353,5 @@
             </ScrollView>
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>
-</androidx.drawerlayout.widget.DrawerLayout> 
+
+</androidx.drawerlayout.widget.DrawerLayout>

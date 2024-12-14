@@ -27,12 +27,16 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import vn.edu.stu.leafmusic.adapter.SongAdapter;
 import vn.edu.stu.leafmusic.model.Artist;
 import vn.edu.stu.leafmusic.model.Song;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,15 +62,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         try {
-            // Khởi tạo các view
             drawerLayout = findViewById(R.id.drawer_layout);
             navigationView = findViewById(R.id.nav_view);
             edtSearch = findViewById(R.id.edtSearch);
             recyclerView = findViewById(R.id.recyclerView);
-            
-            // Khởi tạo toolbar riêng
+
             try {
                 toolbar = findViewById(R.id.toolbar);
                 if (toolbar != null) {
@@ -87,22 +89,19 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            // Thiết lập navigation drawer
             drawerToggle = new ActionBarDrawerToggle(
-                this, 
-                drawerLayout, 
+                this,
+                drawerLayout,
                 toolbar,
-                R.string.open, 
+                R.string.open,
                 R.string.close
             );
             drawerLayout.addDrawerListener(drawerToggle);
             drawerToggle.syncState();
 
-            // Thiết lập RecyclerView
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            loadSongsFromJson();
+            fetchSongsFromApi();
 
-            // Thiết lập các listener
             setupListeners();
 
         } catch (Exception e) {
@@ -127,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             if (id == R.id.nav_profile) {
                 startActivity(new Intent(MainActivity.this, ProfileActivity.class));
             } else if (id == R.id.nav_home) {
-                // Đã ở MainActivity, không cần làm gì
             } else if (id == R.id.nav_logout) {
                 showLogoutDialog();
             }
@@ -137,40 +135,48 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadSongsFromJson() {
-        try {
-            InputStream is = getAssets().open("sample.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            String jsonString = new String(buffer, StandardCharsets.UTF_8);
+//    API
+    private void fetchSongsFromApi() {
+        new Thread(() -> {
+            try {
+                String apiUrl = "https://67597e7d099e3090dbe1e2a6.mockapi.io/api/baihat/getBH/id/1";
+                String jsonString = fetchDataFromApi(apiUrl);
 
-            Gson gson = new Gson();
-            List<Artist> artists = gson.fromJson(jsonString, new TypeToken<List<Artist>>(){}.getType());
-            
-            allSongs = new ArrayList<>();
-            for (Artist artist : artists) {
-                allSongs.addAll(artist.getBaiHats());
+                Log.d("API Response", jsonString);
+
+                if (jsonString == null || jsonString.isEmpty()) {
+                    throw new IOException("Dữ liệu trả về từ API là null ");
+                }
+
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Song>>(){}.getType();
+                List<Song> songs = gson.fromJson(jsonString, listType);
+
+                if (songs == null || songs.isEmpty()) {
+                    throw new IOException("Danh sách bài hát rỗng");
+                }
+
+                allSongs = new ArrayList<>(songs);
+
+                runOnUiThread(() -> {
+                    adapter = new SongAdapter(allSongs, (song, position) -> {
+                        Intent intent = new Intent(MainActivity.this, MusicPlayerActivity.class);
+                        intent.putExtra("song_url", song.getUrlFile());
+                        intent.putExtra("song_name", song.getTenBaiHat());
+                        intent.putExtra("artist", song.getCaSi());
+                        intent.putExtra("image_url", song.getUrlHinh());
+                        intent.putParcelableArrayListExtra("playlist", new ArrayList<>(allSongs));
+                        intent.putExtra("position", position);
+                        startActivity(intent);
+                    });
+                    recyclerView.setAdapter(adapter);
+                });
+
+            } catch (Exception e) {
+                Log.e("MainActivity", "Error loading songs: " + e.getMessage());
+                runOnUiThread(() -> Toast.makeText(this, "Không thể tải danh sách bài hát: " + e.getMessage(), Toast.LENGTH_LONG).show());
             }
-
-            adapter = new SongAdapter(allSongs, (song, position) -> {
-                Intent intent = new Intent(MainActivity.this, MusicPlayerActivity.class);
-                intent.putExtra("song_url", song.getUrlFile());
-                intent.putExtra("song_name", song.getTenBaiHat());
-                intent.putExtra("artist", song.getCaSi());
-                intent.putExtra("image_url", song.getUrlHinh());
-                intent.putParcelableArrayListExtra("playlist", new ArrayList<>(allSongs));
-                intent.putExtra("position", position);
-                startActivity(intent);
-            });
-            
-            recyclerView.setAdapter(adapter);
-
-        } catch (Exception e) {
-            Log.e("MainActivity", "Error loading songs: " + e.getMessage());
-            Toast.makeText(this, "Không thể tải danh sách bài hát: " + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+        }).start();
     }
 
     //    Đăng xuất
@@ -199,6 +205,18 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private String fetchDataFromApi(String apiUrl) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(apiUrl).build();
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                Log.e("API Error", "Unexpected code " + response);
+                throw new IOException("Unexpected code " + response);
+            }
+            return response.body().string();
         }
     }
 }
