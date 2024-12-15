@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -85,7 +86,11 @@ public class HomeFragment extends Fragment {
         SongsAdapter adapter = new SongsAdapter(songs, new SongsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int idSong) {
-                loadSongDetails(idSong); // Gọi phương thức để lấy chi tiết bài hát
+                // Hiển thị thông báo về bài hát được chọn
+                Toast.makeText(getContext(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
+
+                // Gọi API để lấy chi tiết bài hát
+                getSongDetails(idSong);
             }
         });
 
@@ -93,34 +98,86 @@ public class HomeFragment extends Fragment {
         recyclerRandomSongs.setAdapter(adapter);
     }
 
+//    private void getSongDetails(int songId) {
+//        ApiClient.getApiService().getSongById(songId).enqueue(new Callback<Song2>() {
+//            @Override
+//            public void onResponse(Call<Song2> call, Response<Song2> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    // Lấy dữ liệu bài hát từ API
+//                    Song2 song = response.body();
+//
+//                    // Hiển thị thông tin bài hát trong log
+//                    Log.d("Song Details", "ID: " + song.getIdBaiHat());
+//                    Log.d("Song Details", "Tên bài hát: " + song.getTenBaiHat());
+//                    Log.d("Song Details", "Ca sĩ: " + song.getCaSi());
+//                    Log.d("Song Details", "Thể loại: " + song.getTheLoai());
+//                    Log.d("Song Details", "Album: " + song.getAlbum());
+//                    Log.d("Song Details", "Khu vực nhạc: " + song.getKhuVucNhac());
+//                    Log.d("Song Details", "URL hình: " + song.getUrlHinh());
+//                    Log.d("Song Details", "URL file: " + song.getUrlFile());
+//                    Log.d("Song Details", "Ngày phát hành: " + song.getFormattedReleaseDate());
+//                } else {
+//                    Log.e("Error", "Failed to get song details");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Song2> call, Throwable t) {
+//                Log.e("Error", "API call failed: " + t.getMessage());
+//            }
+//        });
+//    }
 
 
-    private void loadSongDetails(int idSong) {
-        ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);
-
-        apiService.getSongById(idSong).enqueue(new Callback<Song>() {
+    private void getSongDetails(int songId) {
+        ApiClient.getApiService().getSongById(songId).enqueue(new Callback<Song2>() {
             @Override
-            public void onResponse(Call<Song> call, Response<Song> response) {
+            public void onResponse(Call<Song2> call, Response<Song2> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Song song = response.body();
-                    // Chuyển dữ liệu vào Activity phát nhạc
+                    // Lấy dữ liệu bài hát từ API
+                    Song2 song = response.body();
+
+
+                    Log.d("Song Details", "ID: " + song.getIdBaiHat());
+                    Log.d("Song Details", "Tên bài hát: " + song.getTenBaiHat());
+                    Log.d("Song Details", "Ca sĩ: " + song.getCaSi());
+                    Log.d("Song Details", "Thể loại: " + song.getTheLoai());
+                    Log.d("Song Details", "Album: " + song.getAlbum());
+                    Log.d("Song Details", "Khu vực nhạc: " + song.getKhuVucNhac());
+                    Log.d("Song Details", "URL hình: " + song.getUrlHinh());
+                    Log.d("Song Details", "URL file: " + song.getUrlFile());
+                    Log.d("Song Details", "Ngày phát hành: " + song.getFormattedReleaseDate());
+
+
                     Intent intent = new Intent(getContext(), Music_Player.class);
-                    intent.putExtra("song", String.valueOf(song)); // Truyền đối tượng Song qua Intent
+                    intent.putExtra("song_name", song.getTenBaiHat());
+                    intent.putExtra("artist", song.getCaSi());
+                    intent.putExtra("song_url", song.getUrlFile());
+                    intent.putExtra("image_url", song.getUrlHinh());
+                    intent.putExtra("song_id", song.getIdBaiHat());
+                    intent.putExtra("album", song.getAlbum());
+                    intent.putExtra("genre", song.getTheLoai());
+                    intent.putExtra("region", song.getKhuVucNhac());
+                    intent.putExtra("release_date", song.getFormattedReleaseDate());
+
+
+                    ArrayList<Song2> playlist = new ArrayList<>();
+                    playlist.add(song);
+                    intent.putParcelableArrayListExtra("playlist", playlist);
+                    intent.putExtra("position", 0);
+
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getContext(), "Không thể lấy dữ liệu bài hát", Toast.LENGTH_SHORT).show();
+                    Log.e("Error", "Failed to get song details");
                 }
             }
 
             @Override
-            public void onFailure(Call<Song> call, Throwable t) {
-                Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("HomeFragment", "Error: " + t.getMessage());
+            public void onFailure(Call<Song2> call, Throwable t) {
+                Log.e("Error", "API call failed: " + t.getMessage());
             }
         });
     }
-
-
 
 
 

@@ -19,4 +19,9 @@ public class ApiClient {
         return retrofit;
     }
 
+    public static ApiService getApiService() {
+        return getRetrofit().create(ApiService.class); // Tạo đối tượng ApiService từ Retrofit
+
+    }
+
 }

@@ -76,8 +76,9 @@ public interface ApiService {
 
 //    ========================================================
 
-    @GET("api/baihat/getBH/id={id}")
-    Call<Song> getSongById(@Path("id") int id);
+    @GET("api/baihat/getBH/{id}")
+    Call<Song2> getSongById(@Path("id") int id);
+
 
 
 }

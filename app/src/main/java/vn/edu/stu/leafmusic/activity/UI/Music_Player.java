@@ -31,7 +31,6 @@ import java.util.Collections;
 import java.util.Random;
 
 import vn.edu.stu.leafmusic.R;
-import vn.edu.stu.leafmusic.model.Song;
 import vn.edu.stu.leafmusic.model.Song2;
 import vn.edu.stu.leafmusic.util.RotateAnimationHelper;
 
@@ -122,7 +121,7 @@ public class Music_Player extends AppCompatActivity {
     private void initViews() {
         btnBack = findViewById(R.id.btnBack);
         btnFavorite = findViewById(R.id.btnFavorite);
-//        imgSong = findViewById(R.id.imgSong);
+        imgSong = findViewById(R.id.imgSong);
         tvSongName = findViewById(R.id.tvSongName);
         tvArtist = findViewById(R.id.tvArtist);
         tvCurrentTime = findViewById(R.id.tvCurrentTime);
@@ -343,103 +342,19 @@ public class Music_Player extends AppCompatActivity {
 
     private void toggleShuffle() {
         isShuffleOn = !isShuffleOn;
-        btnShuffle.setImageResource(isShuffleOn ?
-                R.drawable.ic_shuffle_on : R.drawable.ic_shuffle);
+        btnShuffle.setImageResource(isShuffleOn ? R.drawable.ic_shuffle_on : R.drawable.ic_repeat);
     }
 
     private void toggleRepeat() {
         isRepeatOn = !isRepeatOn;
-        btnRepeat.setImageResource(isRepeatOn ?
-                R.drawable.ic_repeat_one : R.drawable.ic_repeat);
-
-        if (mediaPlayer != null) {
-            mediaPlayer.setLooping(isRepeatOn);
-        }
+        btnRepeat.setImageResource(isRepeatOn ? R.drawable.ic_repeat_one : R.drawable.ic_repeat);
     }
 
-    private void playSong(int position) {
-        if (position < 0 || position >= playlist.size()) return;
-
-        try {
-            Song2 song = playlist.get(position);
+    private void playSong(int index) {
+        if (playlist != null && index >= 0 && index < playlist.size()) {
+            Song2 song = playlist.get(index);
             songUrl = song.getUrlFile();
-            tvSongName.setText(song.getTenBaiHat());
-            tvArtist.setText(song.getCaSi());
-
-            if (song.getUrlHinh() != null && !song.getUrlHinh().isEmpty()) {
-                Picasso.get().load(song.getUrlHinh()).into(imgSong);
-                imgSong.setClipToOutline(true);
-            }
-
-            isPlaying = false;
-            btnPlayPause.setImageResource(R.drawable.ic_play_circle);
-            imgSong.clearAnimation();
-
             setupMediaPlayer();
-            updateSongDetails();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Lỗi khi chuyển bài", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mediaPlayer != null) {
-            try {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
-                }
-                mediaPlayer.release();
-                mediaPlayer = null;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (imgSong != null) {
-            rotateAnimationHelper.stopAnimation(imgSong);
-        }
-        handler.removeCallbacksAndMessages(null);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
-            drawerLayout.closeDrawer(GravityCompat.END);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (imgSong != null) {
-            rotateAnimationHelper.pauseAnimation(imgSong);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (isPlaying && imgSong != null) {
-            rotateAnimationHelper.resumeAnimation(imgSong);
-        }
-    }
-
-    public void openDrawer() {
-        if (drawerLayout != null) {
-            drawerLayout.openDrawer(GravityCompat.END);
         }
     }
 }
