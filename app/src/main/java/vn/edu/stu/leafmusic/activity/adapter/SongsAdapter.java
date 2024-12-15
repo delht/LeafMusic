@@ -70,6 +70,34 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         return songs.size();
     }
 
+
+    public static class SongViewHolder extends RecyclerView.ViewHolder {
+        TextView songName;
+        ImageView songImage;
+        Button moreOptionsButton;
+
+        public SongViewHolder(View itemView) {
+            super(itemView);
+            songName = itemView.findViewById(R.id.tv_song_name);
+            songImage = itemView.findViewById(R.id.img_song);
+            moreOptionsButton = itemView.findViewById(R.id.btnBHXemThem);
+
+            moreOptionsButton.setOnClickListener(v -> {
+                Toast.makeText(itemView.getContext(), "Bạn vừa bấm vào nút Xem Thêm!", Toast.LENGTH_SHORT).show();
+            });
+        }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int idSong);
+    }
+
+
+
+
+
+//    -=========================================================================
+
     private void getSongDetails(int songId) {
         ApiClient.getApiService().getSongById(songId).enqueue(new Callback<Song2>() {
             @Override
@@ -116,24 +144,6 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
         });
     }
 
-    public static class SongViewHolder extends RecyclerView.ViewHolder {
-        TextView songName;
-        ImageView songImage;
-        Button moreOptionsButton;
 
-        public SongViewHolder(View itemView) {
-            super(itemView);
-            songName = itemView.findViewById(R.id.tv_song_name);
-            songImage = itemView.findViewById(R.id.img_song);
-            moreOptionsButton = itemView.findViewById(R.id.btnBHXemThem);
 
-            moreOptionsButton.setOnClickListener(v -> {
-                Toast.makeText(itemView.getContext(), "Bạn vừa bấm vào nút Xem Thêm!", Toast.LENGTH_SHORT).show();
-            });
-        }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int idSong);
-    }
 }
