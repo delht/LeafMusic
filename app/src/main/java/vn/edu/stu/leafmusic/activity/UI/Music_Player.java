@@ -261,6 +261,9 @@ public class Music_Player extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+
+        btnBack.setOnClickListener(v -> onBackPressed());
+
     }
 
     private void playMusic() {
@@ -357,4 +360,17 @@ public class Music_Player extends AppCompatActivity {
             setupMediaPlayer();
         }
     }
+
+
+    @Override
+    public void onBackPressed() {
+        if (isPlaying) {
+            pauseMusic();  // Tạm dừng nhạc khi quay lại
+        }
+        super.onBackPressed();  // Quay lại màn hình trước đó
+    }
+
+
 }
+
+

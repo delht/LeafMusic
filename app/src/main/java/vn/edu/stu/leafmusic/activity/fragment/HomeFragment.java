@@ -90,13 +90,14 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
 
                 // Gọi API để lấy chi tiết bài hát
-                getSongDetails(idSong);
+//                getSongDetails(idSong);
             }
         });
 
         recyclerRandomSongs.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerRandomSongs.setAdapter(adapter);
     }
+
 
 //    private void getSongDetails(int songId) {
 //        ApiClient.getApiService().getSongById(songId).enqueue(new Callback<Song2>() {
@@ -106,7 +107,7 @@ public class HomeFragment extends Fragment {
 //                    // Lấy dữ liệu bài hát từ API
 //                    Song2 song = response.body();
 //
-//                    // Hiển thị thông tin bài hát trong log
+//
 //                    Log.d("Song Details", "ID: " + song.getIdBaiHat());
 //                    Log.d("Song Details", "Tên bài hát: " + song.getTenBaiHat());
 //                    Log.d("Song Details", "Ca sĩ: " + song.getCaSi());
@@ -116,6 +117,26 @@ public class HomeFragment extends Fragment {
 //                    Log.d("Song Details", "URL hình: " + song.getUrlHinh());
 //                    Log.d("Song Details", "URL file: " + song.getUrlFile());
 //                    Log.d("Song Details", "Ngày phát hành: " + song.getFormattedReleaseDate());
+//
+//
+//                    Intent intent = new Intent(getContext(), Music_Player.class);
+//                    intent.putExtra("song_name", song.getTenBaiHat());
+//                    intent.putExtra("artist", song.getCaSi());
+//                    intent.putExtra("song_url", song.getUrlFile());
+//                    intent.putExtra("image_url", song.getUrlHinh());
+//                    intent.putExtra("song_id", song.getIdBaiHat());
+//                    intent.putExtra("album", song.getAlbum());
+//                    intent.putExtra("genre", song.getTheLoai());
+//                    intent.putExtra("region", song.getKhuVucNhac());
+//                    intent.putExtra("release_date", song.getFormattedReleaseDate());
+//
+//
+//                    ArrayList<Song2> playlist = new ArrayList<>();
+//                    playlist.add(song);
+//                    intent.putParcelableArrayListExtra("playlist", playlist);
+//                    intent.putExtra("position", 0);
+//
+//                    startActivity(intent);
 //                } else {
 //                    Log.e("Error", "Failed to get song details");
 //                }
@@ -127,57 +148,6 @@ public class HomeFragment extends Fragment {
 //            }
 //        });
 //    }
-
-
-    private void getSongDetails(int songId) {
-        ApiClient.getApiService().getSongById(songId).enqueue(new Callback<Song2>() {
-            @Override
-            public void onResponse(Call<Song2> call, Response<Song2> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    // Lấy dữ liệu bài hát từ API
-                    Song2 song = response.body();
-
-
-                    Log.d("Song Details", "ID: " + song.getIdBaiHat());
-                    Log.d("Song Details", "Tên bài hát: " + song.getTenBaiHat());
-                    Log.d("Song Details", "Ca sĩ: " + song.getCaSi());
-                    Log.d("Song Details", "Thể loại: " + song.getTheLoai());
-                    Log.d("Song Details", "Album: " + song.getAlbum());
-                    Log.d("Song Details", "Khu vực nhạc: " + song.getKhuVucNhac());
-                    Log.d("Song Details", "URL hình: " + song.getUrlHinh());
-                    Log.d("Song Details", "URL file: " + song.getUrlFile());
-                    Log.d("Song Details", "Ngày phát hành: " + song.getFormattedReleaseDate());
-
-
-                    Intent intent = new Intent(getContext(), Music_Player.class);
-                    intent.putExtra("song_name", song.getTenBaiHat());
-                    intent.putExtra("artist", song.getCaSi());
-                    intent.putExtra("song_url", song.getUrlFile());
-                    intent.putExtra("image_url", song.getUrlHinh());
-                    intent.putExtra("song_id", song.getIdBaiHat());
-                    intent.putExtra("album", song.getAlbum());
-                    intent.putExtra("genre", song.getTheLoai());
-                    intent.putExtra("region", song.getKhuVucNhac());
-                    intent.putExtra("release_date", song.getFormattedReleaseDate());
-
-
-                    ArrayList<Song2> playlist = new ArrayList<>();
-                    playlist.add(song);
-                    intent.putParcelableArrayListExtra("playlist", playlist);
-                    intent.putExtra("position", 0);
-
-                    startActivity(intent);
-                } else {
-                    Log.e("Error", "Failed to get song details");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Song2> call, Throwable t) {
-                Log.e("Error", "API call failed: " + t.getMessage());
-            }
-        });
-    }
 
 
 
