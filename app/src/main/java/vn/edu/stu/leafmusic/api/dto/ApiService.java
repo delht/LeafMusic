@@ -17,6 +17,7 @@ import vn.edu.stu.leafmusic.model.Album;
 import vn.edu.stu.leafmusic.model.Artist;
 import vn.edu.stu.leafmusic.model.LoveLIst;
 import vn.edu.stu.leafmusic.model.Song;
+import vn.edu.stu.leafmusic.model.Song2;
 
 public interface ApiService {
 
@@ -72,6 +73,11 @@ public interface ApiService {
     @POST("/api/dsyeuthich/create")
     Call<LoveLIst> createLoveList(@Body DsYeuThich_Request loveList);
 
+
+//    ========================================================
+
+    @GET("api/baihat/getBH/id={id}")
+    Call<Song> getSongById(@Path("id") int id);
 
 
 }

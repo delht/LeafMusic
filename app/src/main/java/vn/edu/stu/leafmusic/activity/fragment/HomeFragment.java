@@ -1,5 +1,6 @@
 package vn.edu.stu.leafmusic.activity.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.edu.stu.leafmusic.R;
+import vn.edu.stu.leafmusic.activity.UI.Music_Player;
 import vn.edu.stu.leafmusic.activity.adapter.AlbumsAdapter;
 import vn.edu.stu.leafmusic.activity.adapter.ArtistsAdapter;
 import vn.edu.stu.leafmusic.activity.adapter.SongsAdapter;
@@ -29,6 +31,7 @@ import vn.edu.stu.leafmusic.api.dto.ApiService;
 import vn.edu.stu.leafmusic.model.Album;
 import vn.edu.stu.leafmusic.model.Artist;
 import vn.edu.stu.leafmusic.model.Song;
+import vn.edu.stu.leafmusic.model.Song2;
 
 public class HomeFragment extends Fragment {
 
@@ -82,13 +85,44 @@ public class HomeFragment extends Fragment {
         SongsAdapter adapter = new SongsAdapter(songs, new SongsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int idSong) {
-                Toast.makeText(getContext(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
+                loadSongDetails(idSong); // Gọi phương thức để lấy chi tiết bài hát
             }
         });
 
         recyclerRandomSongs.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerRandomSongs.setAdapter(adapter);
     }
+
+
+
+    private void loadSongDetails(int idSong) {
+        ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);
+
+        apiService.getSongById(idSong).enqueue(new Callback<Song>() {
+            @Override
+            public void onResponse(Call<Song> call, Response<Song> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Song song = response.body();
+                    // Chuyển dữ liệu vào Activity phát nhạc
+                    Intent intent = new Intent(getContext(), Music_Player.class);
+                    intent.putExtra("song", String.valueOf(song)); // Truyền đối tượng Song qua Intent
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), "Không thể lấy dữ liệu bài hát", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Song> call, Throwable t) {
+                Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("HomeFragment", "Error: " + t.getMessage());
+            }
+        });
+    }
+
+
+
+
 
 
     //    ===================================================================================================

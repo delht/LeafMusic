@@ -122,7 +122,7 @@ public class Music_Player extends AppCompatActivity {
     private void initViews() {
         btnBack = findViewById(R.id.btnBack);
         btnFavorite = findViewById(R.id.btnFavorite);
-        imgSong = findViewById(R.id.imgSong);
+//        imgSong = findViewById(R.id.imgSong);
         tvSongName = findViewById(R.id.tvSongName);
         tvArtist = findViewById(R.id.tvArtist);
         tvCurrentTime = findViewById(R.id.tvCurrentTime);
