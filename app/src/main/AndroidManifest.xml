@@ -23,7 +23,7 @@
             android:name=".AlbumActivity"
             android:exported="false" />
         <activity
-            android:name=".LibraryActivity"
+            android:name=".PlaylistActivity"
             android:exported="false" />
         <activity
             android:name=".FavoriteActivity"

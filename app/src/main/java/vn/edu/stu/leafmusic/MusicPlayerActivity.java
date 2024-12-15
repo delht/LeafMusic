@@ -38,6 +38,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private TextView tvSongName, tvArtist, tvCurrentTime, tvTotalTime;
     private SeekBar seekBar;
     private ImageButton btnPrev, btnPlayPause, btnNext, btnShuffle, btnRepeat;
+    private ImageButton btnAddPlaylist;
 
     private MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
@@ -77,7 +78,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
             playlist = getIntent().getParcelableArrayListExtra("playlist");
             currentSongIndex = getIntent().getIntExtra("position", 0);
 
-            // Khởi tạo currentSong
             if (playlist != null && currentSongIndex >= 0 && currentSongIndex < playlist.size()) {
                 currentSong = playlist.get(currentSongIndex); // Khởi tạo currentSong
             }
@@ -125,9 +125,24 @@ public class MusicPlayerActivity extends AppCompatActivity {
             public void onDrawerStateChanged(int newState) {}
         });
 
+        btnAddPlaylist = findViewById(R.id.btnAddToPlaylist);
+        btnAddPlaylist.setOnClickListener(v -> {
+            if (currentSong != null) {
+                if (isSongInPlaylist(currentSong)) {
+                    removeFromPlaylist(currentSong);
+                } else {
+                    addToPlaylist(currentSong);
+                    Intent intent = new Intent(MusicPlayerActivity.this, PlaylistActivity.class);
+                    startActivity(intent);
+                }
+                togglePlaylistButton();
+            } else {
+                Toast.makeText(this, "Không có bài hát để thêm vào danh sách phát", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
-
+//     chức năng giao diện nghe nhạc
     private void initViews() {
         btnBack = findViewById(R.id.btnBack);
         btnFavorite = findViewById(R.id.btnFavorite);
@@ -483,7 +498,6 @@ public class MusicPlayerActivity extends AppCompatActivity {
             DataManager.getInstance().addFavoriteSong(song);
             Toast.makeText(this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
             
-            // Thông báo cho MainActivity cập nhật danh sách yêu thích
             Intent intent = new Intent("UPDATE_FAVORITE_LIST");
             sendBroadcast(intent);
             
@@ -523,6 +537,36 @@ public class MusicPlayerActivity extends AppCompatActivity {
         // Thông báo cho MainActivity cập nhật danh sách yêu thích
         Intent intent = new Intent("UPDATE_FAVORITE_LIST");
         sendBroadcast(intent);
+    }
+
+    private void addToPlaylist(Song song) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            btnPlayPause.setImageResource(R.drawable.ic_play_circle);
+            isPlaying = false;
+        }
+        DataManager.getInstance().addSongToPlaylist(song);
+        Toast.makeText(this, "Đã thêm vào danh sách phát", Toast.LENGTH_SHORT).show();
+        
+        Intent intent = new Intent("UPDATE_PLAYLIST");
+        sendBroadcast(intent);
+    }
+
+    private boolean isSongInPlaylist(Song song) {
+        return DataManager.getInstance().getPlaylistSongs().contains(song);
+    }
+
+    private void removeFromPlaylist(Song song) {
+        DataManager.getInstance().removeSongFromPlaylist(song);
+        Toast.makeText(this, "Đã xóa khỏi danh sách phát", Toast.LENGTH_SHORT).show();
+    }
+
+    private void togglePlaylistButton() {
+        if (isSongInPlaylist(currentSong)) {
+            btnAddPlaylist.setImageResource(R.drawable.ic_playlist_check);
+        } else {
+            btnAddPlaylist.setImageResource(R.drawable.ic_playlist);
+        }
     }
 
 }

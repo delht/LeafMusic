@@ -87,7 +87,7 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_toLeftOf="@id/btnFavorite"
-                    android:src="@drawable/ic_library"
+                    android:src="@drawable/ic_playlist"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:tint="@android:color/white" />
             </RelativeLayout>

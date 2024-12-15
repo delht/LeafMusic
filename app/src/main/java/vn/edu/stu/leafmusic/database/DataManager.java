@@ -6,6 +6,7 @@ import vn.edu.stu.leafmusic.model.Song;
 public class DataManager {
     private static DataManager instance;
     private ArrayList<Song> favoriteSongs;
+    private ArrayList<Song> playlistSongs = new ArrayList<>();
 
     private DataManager() {
         favoriteSongs = new ArrayList<>();
@@ -32,6 +33,22 @@ public class DataManager {
     public void removeFavoriteSong(Song song) {
         if (favoriteSongs != null) {
             favoriteSongs.remove(song);
+        }
+    }
+
+    public void addSongToPlaylist(Song song) {
+        if (!playlistSongs.contains(song)) {
+            playlistSongs.add(song);
+        }
+    }
+
+    public ArrayList<Song> getPlaylistSongs() {
+        return playlistSongs;
+    }
+
+    public void removeSongFromPlaylist(Song song) {
+        if (playlistSongs != null) {
+            playlistSongs.remove(song);
         }
     }
 }

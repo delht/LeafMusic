@@ -36,6 +36,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import vn.edu.stu.leafmusic.adapter.SongAdapter;
+import vn.edu.stu.leafmusic.database.DataManager;
 import vn.edu.stu.leafmusic.model.Artist;
 import vn.edu.stu.leafmusic.model.Song;
 import okhttp3.OkHttpClient;
@@ -58,6 +59,14 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             // Cập nhật danh sách yêu thích
             fetchSongsFromApi(); // Hoặc gọi phương thức nào đó để cập nhật danh sách
+        }
+    };
+
+    private BroadcastReceiver playlistUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Cập nhật danh sách phát nếu cần
+            updatePlaylist();
         }
     };
 
@@ -117,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
             setupListeners();
 
             registerReceiver(favoriteUpdateReceiver, new IntentFilter("UPDATE_FAVORITE_LIST"));
+            registerReceiver(playlistUpdateReceiver, new IntentFilter("UPDATE_PLAYLIST"));
 
         } catch (Exception e) {
             Log.e("MainActivity", "Critical error in onCreate: " + e.getMessage());
@@ -130,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(favoriteUpdateReceiver);
+        unregisterReceiver(playlistUpdateReceiver);
     }
 
     private void setupListeners() {
@@ -241,5 +252,9 @@ public class MainActivity extends AppCompatActivity {
             }
             return response.body().string();
         }
+    }
+
+    private void updatePlaylist() {
+        ArrayList<Song> playlist = DataManager.getInstance().getPlaylistSongs();
     }
 }
