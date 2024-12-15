@@ -16,6 +16,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import vn.edu.stu.leafmusic.R;
+import vn.edu.stu.leafmusic.activity.MainActivity;
 import vn.edu.stu.leafmusic.activity.UI.Home;
 import vn.edu.stu.leafmusic.api.dto.ApiService;
 import vn.edu.stu.leafmusic.api.dto.reponse.LoginResponse;
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         Controls();
         // Kiem tra xem co dang nhap ko
         if (sharedPrefsHelper.isLoggedIn()) {
-            Intent intent = new Intent(LoginActivity.this, Home.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
@@ -111,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                         );
 
                         Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, Home.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     }

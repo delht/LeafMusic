@@ -6,4 +6,13 @@
     <color name="Green1">#073B3A</color>
     <color name="Green2">#0B6E4F</color>
     <color name="Green3">#08A045</color>
+
+    <color name="Green4">#D2FF72</color>
+    <color name="Green5">#73EC8B</color>
+    <color name="Green6">#54C392</color>
+    <color name="Green7">#15B392</color>
+
+    <color name="item_pressed">#E0E0E0</color>
+    <color name="item_focused">#D3D3D3</color>
+    <color name="item_default">#FFFFFF</color>
 </resources>
