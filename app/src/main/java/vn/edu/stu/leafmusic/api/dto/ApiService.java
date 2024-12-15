@@ -79,6 +79,10 @@ public interface ApiService {
     @GET("api/baihat/getBH/{id}")
     Call<Song2> getSongById(@Path("id") int id);
 
+    @GET("/api/dsyeuthich/baihat/id={id}")
+    Call<LoveLIst> getSongsByLoveList(@Path("id") String lovelistId);
 
+    @GET("/api/dsyeuthich/baihat/id={id}")
+    Call<List<Song>> getSongsByLoveList2(@Path("id") String lovelistId);
 
 }

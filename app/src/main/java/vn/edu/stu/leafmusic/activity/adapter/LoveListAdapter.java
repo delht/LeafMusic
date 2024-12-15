@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.app.AlertDialog;
 
@@ -19,6 +21,8 @@ import java.io.IOException;
 import java.util.List;
 
 import vn.edu.stu.leafmusic.R;
+import vn.edu.stu.leafmusic.activity.detail.AlbumDetailFragment;
+import vn.edu.stu.leafmusic.activity.detail.LoveListDetailFragment;
 import vn.edu.stu.leafmusic.model.LoveLIst;
 import vn.edu.stu.leafmusic.api.dto.ApiClient;
 import vn.edu.stu.leafmusic.api.dto.ApiService;
@@ -59,9 +63,22 @@ public class LoveListAdapter extends RecyclerView.Adapter<LoveListAdapter.LoveLi
 
         holder.itemView.setOnClickListener(v -> {
             Toast.makeText(context, "ID danh sách yêu thích: " + item.getIdDs(), Toast.LENGTH_SHORT).show();
+
+
+            LoveListDetailFragment loveListAdapter = LoveListDetailFragment.newInstance(
+                    String.valueOf(item.getIdDs()),
+                    item.getLoaiDs(),
+                    item.getTenDs()
+            );
+
+            FragmentTransaction transaction = ((AppCompatActivity) holder.itemView.getContext()).getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.content_frame, loveListAdapter);
+            transaction.addToBackStack(null);
+            transaction.commit();
+
         });
 
-        // Show options menu when click "Xem thêm"
+        // hien menu khi bam "Xem thêm"
         holder.btnMoreOptions.setOnClickListener(v -> showOptionsMenu(v, item));
     }
 
