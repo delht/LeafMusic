@@ -221,7 +221,50 @@ public class Music_Player extends AppCompatActivity {
                         playMusic();
                     });
                 });
+
+                // Thêm OnCompletionListener để chuyển sang bài tiếp theo khi bài hát kết thúc
+                mediaPlayer.setOnCompletionListener(mp -> {
+                    if (isShuffleOn) {
+                        playNextSongRandom(); // Chế độ Shuffle: phát bài hát ngẫu nhiên
+                    } else {
+                        playNextSong(); // Chế độ bình thường: phát bài hát tiếp theo
+                    }
+                });
+
+
+                mediaPlayer.setOnCompletionListener(mp -> {
+                    if (isShuffleOn) {
+                        playNextSongRandom(); // Chế độ Shuffle: phát bài hát ngẫu nhiên
+                    } else if (isRepeatOn) {
+                        // Chế độ lặp lại một bài hát: phát lại bài hát hiện tại
+                        playMusic();
+                    } else {
+                        // Chế độ bình thường: phát bài hát tiếp theo
+                        playNextSong();
+                    }
+                });
+
+                mediaPlayer.setOnCompletionListener(mp -> {
+                    if (isShuffleOn) {
+                        playNextSongRandom(); // Chế độ Shuffle: phát bài hát ngẫu nhiên
+                    } else if (isRepeatOn) {
+                        // Chế độ lặp lại một bài hát: phát lại bài hát hiện tại
+                        playMusic();
+                    } else {
+                        // Chế độ bình thường: phát bài hát tiếp theo
+                        playNextSong();
+                    }
+                });
+
+
+
+
                 mediaPlayer.prepareAsync();
+
+
+
+
+
             } catch (Exception e) {
                 e.printStackTrace();
                 runOnUiThread(() -> {
@@ -231,6 +274,7 @@ public class Music_Player extends AppCompatActivity {
             }
         }).start();
     }
+
 
 
     private void setupListeners() {
@@ -335,6 +379,8 @@ public class Music_Player extends AppCompatActivity {
             songUrl = nextSong.getUrlFile();  // Cập nhật URL bài hát mới
             setupMediaPlayer();  // Cài đặt lại MediaPlayer với bài hát mới
             playMusic();  // Bắt đầu phát bài hát
+
+            updateSongDetails();
         }
     }
 
@@ -352,19 +398,31 @@ public class Music_Player extends AppCompatActivity {
             songUrl = prevSong.getUrlFile();  // Cập nhật URL bài hát mới
             setupMediaPlayer();  // Cài đặt lại MediaPlayer với bài hát mới
             playMusic();  // Bắt đầu phát bài hát
+
+            updateSongDetails();
         }
     }
 
 
     private void toggleShuffle() {
         isShuffleOn = !isShuffleOn;
-        btnShuffle.setImageResource(isShuffleOn ? R.drawable.ic_shuffle_on : R.drawable.ic_repeat);
+        if (isShuffleOn) {
+            btnShuffle.setImageResource(R.drawable.ic_shuffle_on);  // Thay đổi hình ảnh của nút khi bật chế độ ngẫu nhiên
+        } else {
+            btnShuffle.setImageResource(R.drawable.ic_shuffle);  // Thay đổi hình ảnh của nút khi tắt chế độ ngẫu nhiên
+        }
     }
+
 
     private void toggleRepeat() {
         isRepeatOn = !isRepeatOn;
-        btnRepeat.setImageResource(isRepeatOn ? R.drawable.ic_repeat_one : R.drawable.ic_repeat);
+        if (isRepeatOn) {
+            btnRepeat.setImageResource(R.drawable.ic_repeat_one);  // Thay đổi hình ảnh của nút khi bật chế độ lặp lại một bài
+        } else {
+            btnRepeat.setImageResource(R.drawable.ic_repeat);  // Thay đổi hình ảnh của nút khi tắt chế độ lặp lại
+        }
     }
+
 
     private void playSong(int index) {
         if (playlist != null && index >= 0 && index < playlist.size()) {
@@ -374,7 +432,6 @@ public class Music_Player extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onBackPressed() {
         if (isPlaying) {
@@ -383,8 +440,26 @@ public class Music_Player extends AppCompatActivity {
         super.onBackPressed();  // Quay lại màn hình trước đó
     }
 
+    private void playNextSongRandom() {
+        if (playlist != null && !playlist.isEmpty()) {
+            Random random = new Random();
+            int nextSongIndex = random.nextInt(playlist.size());
+            Song2 nextSong = playlist.get(nextSongIndex);
 
-    
+            // Cập nhật thông tin bài hát
+            tvSongName.setText(nextSong.getTenBaiHat());
+            tvArtist.setText(nextSong.getCaSi());
+            Picasso.get().load(nextSong.getUrlHinh()).into(imgSong);
+
+            songUrl = nextSong.getUrlFile();  // Cập nhật URL bài hát mới
+            setupMediaPlayer();  // Cài đặt lại MediaPlayer với bài hát mới
+            playMusic();  // Bắt đầu phát bài hát
+
+            updateSongDetails();
+        }
+    }
+
+
 
 }
 
