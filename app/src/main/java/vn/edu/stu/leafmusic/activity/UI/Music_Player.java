@@ -66,6 +66,27 @@ public class Music_Player extends AppCompatActivity {
 
         btnBack.setOnClickListener(v -> finish());
 
+//============================
+
+        playlist = getIntent().getParcelableArrayListExtra("playlist");
+        currentSongIndex = getIntent().getIntExtra("position", 0);
+
+        if (playlist != null && !playlist.isEmpty()) {
+            Song2 currentSong = playlist.get(currentSongIndex);
+
+            // Hiển thị thông tin bài hát
+            tvSongName.setText(currentSong.getTenBaiHat());
+            tvArtist.setText(currentSong.getCaSi());
+            Picasso.get().load(currentSong.getUrlHinh()).into(imgSong);
+
+            songUrl = currentSong.getUrlFile(); // Lấy URL bài hát
+            setupMediaPlayer();
+        }
+
+//============================
+
+
+
         if (getIntent().hasExtra("song_url")) {
             songUrl = getIntent().getStringExtra("song_url");
             String songName = getIntent().getStringExtra("song_name");
@@ -170,6 +191,7 @@ public class Music_Player extends AppCompatActivity {
         }
     }
 
+
     private void setupMediaPlayer() {
         ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -190,7 +212,7 @@ public class Music_Player extends AppCompatActivity {
                 }
 
                 mediaPlayer = new MediaPlayer();
-
+                mediaPlayer.setDataSource(songUrl);
                 mediaPlayer.setOnPreparedListener(mp -> {
                     runOnUiThread(() -> {
                         progressBar.setVisibility(View.GONE);
@@ -199,38 +221,17 @@ public class Music_Player extends AppCompatActivity {
                         playMusic();
                     });
                 });
-
-                mediaPlayer.setOnCompletionListener(mp -> {
-                    if (isRepeatOn) {
-                        playMusic();
-                    } else {
-                        playNextSong();
-                    }
-                });
-
-                mediaPlayer.setOnErrorListener((mp, what, extra) -> {
-                    runOnUiThread(() -> {
-                        progressBar.setVisibility(View.GONE);
-                        Toast.makeText(Music_Player.this,
-                                "Lỗi phát nhạc: " + what, Toast.LENGTH_SHORT).show();
-                    });
-                    return true;
-                });
-
-                mediaPlayer.setDataSource(songUrl);
                 mediaPlayer.prepareAsync();
-
             } catch (Exception e) {
                 e.printStackTrace();
                 runOnUiThread(() -> {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(Music_Player.this,
-                            "Không thể phát bài hát này: " + e.getMessage(),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Music_Player.this, "Không thể phát bài hát này", Toast.LENGTH_SHORT).show();
                 });
             }
         }).start();
     }
+
 
     private void setupListeners() {
         btnPlayPause.setOnClickListener(v -> {
@@ -322,26 +323,38 @@ public class Music_Player extends AppCompatActivity {
     }
 
     private void playNextSong() {
-        if (playlist != null && !playlist.isEmpty()) {
-            if (isShuffleOn) {
-                currentSongIndex = new Random().nextInt(playlist.size());
-            } else {
-                currentSongIndex = (currentSongIndex + 1) % playlist.size();
-            }
-            playSong(currentSongIndex);
+        if (playlist != null && currentSongIndex < playlist.size() - 1) {
+            currentSongIndex++;
+            Song2 nextSong = playlist.get(currentSongIndex);
+
+            // Cập nhật thông tin bài hát
+            tvSongName.setText(nextSong.getTenBaiHat());
+            tvArtist.setText(nextSong.getCaSi());
+            Picasso.get().load(nextSong.getUrlHinh()).into(imgSong);
+
+            songUrl = nextSong.getUrlFile();  // Cập nhật URL bài hát mới
+            setupMediaPlayer();  // Cài đặt lại MediaPlayer với bài hát mới
+            playMusic();  // Bắt đầu phát bài hát
         }
     }
 
+
     private void playPreviousSong() {
-        if (playlist != null && !playlist.isEmpty()) {
-            if (isShuffleOn) {
-                currentSongIndex = new Random().nextInt(playlist.size());
-            } else {
-                currentSongIndex = (currentSongIndex - 1 + playlist.size()) % playlist.size();
-            }
-            playSong(currentSongIndex);
+        if (playlist != null && currentSongIndex > 0) {
+            currentSongIndex--;
+            Song2 prevSong = playlist.get(currentSongIndex);
+
+            // Cập nhật thông tin bài hát
+            tvSongName.setText(prevSong.getTenBaiHat());
+            tvArtist.setText(prevSong.getCaSi());
+            Picasso.get().load(prevSong.getUrlHinh()).into(imgSong);
+
+            songUrl = prevSong.getUrlFile();  // Cập nhật URL bài hát mới
+            setupMediaPlayer();  // Cài đặt lại MediaPlayer với bài hát mới
+            playMusic();  // Bắt đầu phát bài hát
         }
     }
+
 
     private void toggleShuffle() {
         isShuffleOn = !isShuffleOn;

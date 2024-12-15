@@ -1,11 +1,13 @@
 package vn.edu.stu.leafmusic.activity.detail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.LocaleList;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,24 +18,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.edu.stu.leafmusic.R;
+import vn.edu.stu.leafmusic.activity.UI.Music_Player;
 import vn.edu.stu.leafmusic.activity.adapter.SongsAdapter;
 import vn.edu.stu.leafmusic.api.dto.ApiClient;
 import vn.edu.stu.leafmusic.api.dto.ApiService;
 import vn.edu.stu.leafmusic.model.Album;
 import vn.edu.stu.leafmusic.model.LoveLIst;
 import vn.edu.stu.leafmusic.model.Song;
+import vn.edu.stu.leafmusic.model.Song2;
 
 public class LoveListDetailFragment extends Fragment {
 
     TextView nameLoveList;
     private RecyclerView recyclerViewSongs;
     private SongsAdapter songsAdapter;
+
+    Button btnPlayAll;
+
 
     public static LoveListDetailFragment newInstance(String idDs, String loaiDs, String tenDs) {
         LoveListDetailFragment fragment = new LoveListDetailFragment();
@@ -51,6 +59,7 @@ public class LoveListDetailFragment extends Fragment {
 
         nameLoveList = rootView.findViewById(R.id.name_lovelist);
         recyclerViewSongs = rootView.findViewById(R.id.recycler_songs);
+        btnPlayAll = rootView.findViewById(R.id.btnPlayAll);
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -66,6 +75,20 @@ public class LoveListDetailFragment extends Fragment {
                 Toast.makeText(getActivity(), "Lỗi: Không có loveListId", Toast.LENGTH_SHORT).show();
             }
         }
+
+        btnPlayAll.setOnClickListener(v -> {
+            // Lấy idDs từ arguments (dữ liệu playlist)
+            if (getArguments() != null) {
+                String lovelistId = getArguments().getString("idDs");
+                if (lovelistId != null) {
+                    // Gọi API để lấy danh sách bài hát và gửi tới Music_Player
+                    loadSongsForLoveList2(lovelistId);
+                } else {
+                    Toast.makeText(getActivity(), "Lỗi: Không có loveListId", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         return rootView;
     }
@@ -105,6 +128,37 @@ public class LoveListDetailFragment extends Fragment {
         recyclerViewSongs.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerViewSongs.setAdapter(songsAdapter);
     }
+
+
+
+    private void loadSongsForLoveList2(String lovelistId) {
+        ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);
+
+        apiService.getSongsByLoveList3(lovelistId).enqueue(new Callback<List<Song2>>() {
+            @Override
+            public void onResponse(Call<List<Song2>> call, Response<List<Song2>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Song2> songList = response.body();
+
+                    // Truyền dữ liệu bài hát tới Music_Player
+                    Intent intent = new Intent(getActivity(), Music_Player.class);
+
+                    // Chuyển songList từ List<Song2> thành ArrayList để gửi qua Intent
+                    intent.putParcelableArrayListExtra("playlist", new ArrayList<>(songList));
+                    intent.putExtra("position", 0); // Bắt đầu từ vị trí 0
+                    startActivity(intent); // Mở Music_Player Activity
+                } else {
+                    Toast.makeText(getActivity(), "Không thể lấy dữ liệu bài hát", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Song2>> call, Throwable t) {
+                Toast.makeText(getActivity(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 
 }
