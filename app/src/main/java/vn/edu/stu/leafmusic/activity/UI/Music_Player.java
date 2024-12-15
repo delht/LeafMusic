@@ -24,6 +24,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +32,7 @@ import java.util.Random;
 
 import vn.edu.stu.leafmusic.R;
 import vn.edu.stu.leafmusic.model.Song;
+import vn.edu.stu.leafmusic.model.Song2;
 import vn.edu.stu.leafmusic.util.RotateAnimationHelper;
 
 public class Music_Player extends AppCompatActivity {
@@ -47,7 +49,7 @@ public class Music_Player extends AppCompatActivity {
     private String songUrl;
     private boolean isShuffleOn = false;
     private boolean isRepeatOn = false;
-    private ArrayList<Song> playlist;
+    private ArrayList<Song2> playlist;
     private int currentSongIndex = 0;
     private RotateAnimationHelper rotateAnimationHelper;
     private DrawerLayout drawerLayout;
@@ -161,7 +163,7 @@ public class Music_Player extends AppCompatActivity {
 
     private void updateSongDetails() {
         if (playlist != null && currentSongIndex >= 0 && currentSongIndex < playlist.size()) {
-            Song currentSong = playlist.get(currentSongIndex);
+            Song2 currentSong = playlist.get(currentSongIndex);
 
             tvDetailSongName.setText(currentSong.getTenBaiHat());
             tvDetailArtist.setText(currentSong.getCaSi());
@@ -359,7 +361,7 @@ public class Music_Player extends AppCompatActivity {
         if (position < 0 || position >= playlist.size()) return;
 
         try {
-            Song song = playlist.get(position);
+            Song2 song = playlist.get(position);
             songUrl = song.getUrlFile();
             tvSongName.setText(song.getTenBaiHat());
             tvArtist.setText(song.getCaSi());

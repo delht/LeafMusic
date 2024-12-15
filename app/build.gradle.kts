@@ -61,5 +61,8 @@ dependencies {
     implementation ("androidx.appcompat:appcompat:1.6.1")
     implementation ("androidx.fragment:fragment:1.5.5")
 
+    implementation ("com.squareup.picasso:picasso:2.8")
+
+
 
 }
