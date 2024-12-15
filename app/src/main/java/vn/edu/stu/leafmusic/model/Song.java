@@ -151,7 +151,7 @@ public class Song implements Parcelable {
     // Thêm phương thức để chuyển đổi ngày phát hành thành chuỗi
     public String getFormattedReleaseDate() {
         if (ngayPhatHanh != null && ngayPhatHanh.length >= 3) {
-            return ngayPhatHanh[0] + "-" + ngayPhatHanh[1] + "-" + ngayPhatHanh[2]; // Định dạng: YYYY-MM-DD
+            return ngayPhatHanh[0] + "-" + ngayPhatHanh[1] + "-" + ngayPhatHanh[2]; // ��ịnh dạng: YYYY-MM-DD
         }
         return "Không có thông tin"; // Trả về thông báo nếu không có dữ liệu
     }

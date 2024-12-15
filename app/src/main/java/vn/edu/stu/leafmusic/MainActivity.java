@@ -1,8 +1,12 @@
 package vn.edu.stu.leafmusic;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -48,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SongAdapter adapter;
     private List<Song> allSongs;
+
+    private BroadcastReceiver favoriteUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Cập nhật danh sách yêu thích
+            fetchSongsFromApi(); // Hoặc gọi phương thức nào đó để cập nhật danh sách
+        }
+    };
 
     //    toolbar
     @Override
@@ -104,12 +116,20 @@ public class MainActivity extends AppCompatActivity {
 
             setupListeners();
 
+            registerReceiver(favoriteUpdateReceiver, new IntentFilter("UPDATE_FAVORITE_LIST"));
+
         } catch (Exception e) {
             Log.e("MainActivity", "Critical error in onCreate: " + e.getMessage());
             e.printStackTrace();
             Toast.makeText(this, "Lỗi khởi tạo ứng dụng: " + e.getMessage(), Toast.LENGTH_LONG).show();
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(favoriteUpdateReceiver);
     }
 
     private void setupListeners() {
@@ -125,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (id == R.id.nav_profile) {
                 startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            } else if (id == R.id.nav_favorite) {
+                startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
+
             } else if (id == R.id.nav_home) {
             } else if (id == R.id.nav_logout) {
                 showLogoutDialog();

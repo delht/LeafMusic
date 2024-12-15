@@ -324,6 +324,30 @@
                             android:textSize="16sp"
                             android:layout_marginTop="4dp"/>
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/detail_item_background"
+                        android:padding="16dp"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Khu Vực"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:alpha="0.7"/>
+
+                        <TextView
+                            android:id="@+id/tvDetailArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:layout_marginTop="4dp"/>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"

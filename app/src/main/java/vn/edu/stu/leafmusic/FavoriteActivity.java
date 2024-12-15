@@ -1,11 +1,17 @@
 package vn.edu.stu.leafmusic;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,8 +20,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import vn.edu.stu.leafmusic.adapter.FavoriteAdapter;
+import vn.edu.stu.leafmusic.database.ApiClient;
+import vn.edu.stu.leafmusic.database.ApiService;
+import vn.edu.stu.leafmusic.model.Song;
 
 public class FavoriteActivity extends AppCompatActivity {
 
@@ -24,6 +43,23 @@ public class FavoriteActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
     private EditText edtSearch;
     private Toolbar toolbar;
+    private RecyclerView recyclerViewFavorites;
+    private ArrayList<Song> favoriteSongs;
+    private FavoriteAdapter adapter;
+    private ProgressBar progressBar;
+
+    private BroadcastReceiver favoriteUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            loadFavoriteSongsFromAPI();
+        }
+    };
+
+    private FavoriteAdapter.OnSongClickListener songClickListener = new FavoriteAdapter.OnSongClickListener() {
+        @Override
+        public void onSongClick(Song song, int position) {
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -40,13 +76,24 @@ public class FavoriteActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        recyclerViewFavorites = findViewById(R.id.recyclerViewFavorites);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        edtSearch=findViewById(R.id.edtSearch);
+        edtSearch = findViewById(R.id.edtSearch);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
+        recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(this));
+        loadFavoriteSongsFromAPI();
+
+        favoriteSongs = getIntent().getParcelableArrayListExtra("favorite_songs");
+        if (favoriteSongs == null) {
+            favoriteSongs = new ArrayList<>();
+        }
+
+        adapter = new FavoriteAdapter(favoriteSongs, songClickListener);
+        recyclerViewFavorites.setAdapter(adapter);
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -55,7 +102,6 @@ public class FavoriteActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
-
         }
 
         edtSearch.setOnClickListener(view -> {
@@ -82,6 +128,67 @@ public class FavoriteActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        registerReceiver(favoriteUpdateReceiver, new IntentFilter("UPDATE_FAVORITE_LIST"));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(favoriteUpdateReceiver);
+    }
+
+    private void loadFavoriteSongsFromAPI() {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<List<Song>> call = apiService.getFavoriteSongs();
+        call.enqueue(new Callback<List<Song>>() {
+            @Override
+            public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    favoriteSongs = new ArrayList<>(response.body());
+                    adapter = new FavoriteAdapter(favoriteSongs, songClickListener);
+                    recyclerViewFavorites.setAdapter(adapter);
+                    Log.d("FavoriteActivity", "Số bài hát yêu thích: " + favoriteSongs.size());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Song>> call, Throwable t) {
+                Log.e("FavoriteActivity", "Lỗi khi gọi API: " + t.getMessage());
+                Toast.makeText(FavoriteActivity.this, "Lỗi kết nối với máy chủ", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void fetchFavoriteSongs() {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<List<Song>> call = apiService.getFavoriteSongs();
+        call.enqueue(new Callback<List<Song>>() {
+            @Override
+            public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
+                if (response.isSuccessful()) {
+                    List<Song> favoriteSongs = response.body();
+                    updateFavoriteList(favoriteSongs);
+                } else {
+                    Log.e("FavoriteActivity", "Lỗi khi lấy danh sách bài hát yêu thích: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Song>> call, Throwable t) {
+                Log.e("FavoriteActivity", "Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
+
+    private void updateFavoriteList(List<Song> favoriteSongs) {
+        if (favoriteSongs != null && !favoriteSongs.isEmpty()) {
+            FavoriteAdapter adapter = new FavoriteAdapter(favoriteSongs, songClickListener);
+            recyclerViewFavorites.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, "Không có bài hát yêu thích", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showLogoutDialog() {
@@ -101,7 +208,6 @@ public class FavoriteActivity extends AppCompatActivity {
                 .setNegativeButton("Hủy", null)
                 .show();
     }
-
 
     @Override
     public void onBackPressed() {

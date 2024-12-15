@@ -1,5 +1,6 @@
 package vn.edu.stu.leafmusic;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import vn.edu.stu.leafmusic.adapter.FavoriteAdapter;
+import vn.edu.stu.leafmusic.database.DataManager;
 import vn.edu.stu.leafmusic.model.Song;
 import vn.edu.stu.leafmusic.utils.RotateAnimationHelper;
 
@@ -44,10 +47,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private boolean isRepeatOn = false;
     private ArrayList<Song> playlist;
     private int currentSongIndex = 0;
+    private Song currentSong;
     private RotateAnimationHelper rotateAnimationHelper;
     private DrawerLayout drawerLayout;
     private TextView tvDetailSongName, tvDetailArtist, tvDetailAlbum,
-            tvDetailGenre, tvDetailReleaseDate;
+            tvDetailGenre,tvDetailArea, tvDetailReleaseDate;
+    private ArrayList<Song> favoriteSongs = new ArrayList<>();
+    private FavoriteAdapter adapter;  // Khai báo adapter
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_music_player);
 
         rotateAnimationHelper = new RotateAnimationHelper();
+
+
 
         initViews();
 
@@ -67,6 +76,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
             String imageUrl = getIntent().getStringExtra("image_url");
             playlist = getIntent().getParcelableArrayListExtra("playlist");
             currentSongIndex = getIntent().getIntExtra("position", 0);
+
+            // Khởi tạo currentSong
+            if (playlist != null && currentSongIndex >= 0 && currentSongIndex < playlist.size()) {
+                currentSong = playlist.get(currentSongIndex); // Khởi tạo currentSong
+            }
 
             // Hiển thị thông tin bài hát
             tvSongName.setText(songName);
@@ -110,6 +124,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
             @Override
             public void onDrawerStateChanged(int newState) {}
         });
+
+
     }
 
     private void initViews() {
@@ -126,6 +142,21 @@ public class MusicPlayerActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
         btnShuffle = findViewById(R.id.btnShuffle);
         btnRepeat = findViewById(R.id.btnRepeat);
+
+        btnFavorite.setOnClickListener(v -> {
+            if (currentSong != null) {
+                if (isSongFavorite(currentSong)) {
+                    removeFromFavorites(currentSong);
+                } else {
+                    addToFavorites(currentSong);
+                }
+                toggleFavoriteButton();
+                openFavoriteActivity();
+            } else {
+                Toast.makeText(this, "Không có bài hát để thêm", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void initDetailViews() {
@@ -137,6 +168,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         tvDetailArtist = findViewById(R.id.tvDetailArtist);
         tvDetailAlbum = findViewById(R.id.tvDetailAlbum);
         tvDetailGenre = findViewById(R.id.tvDetailGenre);
+        tvDetailArea = findViewById(R.id.tvDetailArea);
         tvDetailReleaseDate = findViewById(R.id.tvDetailReleaseDate);
 
         drawerLayout.setScrimColor(Color.TRANSPARENT);
@@ -160,6 +192,10 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
             tvDetailSongName.setText(currentSong.getTenBaiHat());
             tvDetailArtist.setText(currentSong.getCaSi());
+            tvDetailAlbum.setText(currentSong.getAlbum());
+            tvDetailGenre.setText(currentSong.getTheLoai());
+            tvDetailArea.setText(currentSong.getKhuVucNhac());
+            
             tvDetailReleaseDate.setText(currentSong.getFormattedReleaseDate());
         }
     }
@@ -435,4 +471,58 @@ public class MusicPlayerActivity extends AppCompatActivity {
             drawerLayout.openDrawer(GravityCompat.END);
         }
     }
+
+    private void addToFavorites(Song song) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            btnPlayPause.setImageResource(R.drawable.ic_play_circle);
+            isPlaying = false;
+        }
+
+        if (song != null) {
+            DataManager.getInstance().addFavoriteSong(song);
+            Toast.makeText(this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
+            
+            // Thông báo cho MainActivity cập nhật danh sách yêu thích
+            Intent intent = new Intent("UPDATE_FAVORITE_LIST");
+            sendBroadcast(intent);
+            
+            favoriteSongs = DataManager.getInstance().getFavoriteSongs();
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+        } else {
+            Toast.makeText(this, "Không có bài hát để thêm", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openFavoriteActivity() {
+        Intent intent = new Intent(this, FavoriteActivity.class);
+
+
+        intent.putParcelableArrayListExtra("favorite_songs", favoriteSongs);
+        startActivity(intent);
+    }
+
+    private void toggleFavoriteButton() {
+        if (isSongFavorite(currentSong)) {
+            btnFavorite.setImageResource(R.drawable.ic_favorite_filled);
+        } else {
+            btnFavorite.setImageResource(R.drawable.ic_favorite);
+        }
+    }
+
+    private boolean isSongFavorite(Song song) {
+        return DataManager.getInstance().getFavoriteSongs().contains(song);
+    }
+
+    private void removeFromFavorites(Song song) {
+        DataManager.getInstance().removeFavoriteSong(song);
+        Toast.makeText(this, "Đã xóa khỏi danh sách yêu thích", Toast.LENGTH_SHORT).show();
+        
+        // Thông báo cho MainActivity cập nhật danh sách yêu thích
+        Intent intent = new Intent("UPDATE_FAVORITE_LIST");
+        sendBroadcast(intent);
+    }
+
 }

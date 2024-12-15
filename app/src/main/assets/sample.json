@@ -1,20 +1,20 @@
-[
-    {
-        "idCaSi": 1,
-        "tenCaSi": "Ca sĩ 1",
-        "urlHinh": "https://picsum.photos/200",
-        "baiHats": [
-            {
-                "idBaiHat": 1,
-                "tenBaiHat": "Bai hat 1",
-                "caSi": "Ca sĩ 1",
-                "theLoai": "Thể loại 1",
-                "album": "Album 1",
-                "khuVucNhac": "Khu vực 1",
-                "urlHinh": "https://picsum.photos/200",
-                "urlFile": "https://samplelib.com/lib/preview/mp3/sample-15s.mp3",
-                "ngayPhatHanh": [2022, 1, 1, 7, 0]
-            }
-        ]
-    }
-]
+//[
+//    {
+//        "idCaSi": 1,
+//        "tenCaSi": "Ca sĩ 1",
+//        "urlHinh": "https://picsum.photos/200",
+//        "baiHats": [
+//            {
+//                "idBaiHat": 1,
+//                "tenBaiHat": "Bai hat 1",
+//                "caSi": "Ca sĩ 1",
+//                "theLoai": "Thể loại 1",
+//                "album": "Album 1",
+//                "khuVucNhac": "Khu vực 1",
+//                "urlHinh": "https://picsum.photos/200",
+//                "urlFile": "https://samplelib.com/lib/preview/mp3/sample-15s.mp3",
+//                "ngayPhatHanh": [2022, 1, 1, 7, 0]
+//            }
+//        ]
+//    }
+//]
