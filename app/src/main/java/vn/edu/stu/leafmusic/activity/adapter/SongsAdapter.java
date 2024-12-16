@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,7 +75,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     public static class SongViewHolder extends RecyclerView.ViewHolder {
         TextView songName;
         ImageView songImage;
-        Button moreOptionsButton;
+        ImageButton moreOptionsButton;
 
         public SongViewHolder(View itemView) {
             super(itemView);

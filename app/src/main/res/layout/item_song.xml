@@ -34,14 +34,15 @@
 <!--        android:contentDescription="More Options"-->
 <!--        />-->
 
-    <Button
+    <ImageButton
         android:id="@+id/btnBHXemThem"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:background="?android:attr/selectableItemBackground"
-        android:drawableTop="@drawable/ic_xemthem_whilte"
+        android:src="@drawable/ic_xemthem_whilte"
         android:contentDescription="More Options"
         />
+
 
 </LinearLayout>

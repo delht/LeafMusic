@@ -108,4 +108,9 @@ public interface ApiService {
     @POST("/api/dsyeuthich/addCustom/{idDs}/{idBaihat}")
     Call<Void> addSongToCustom(@Path("idDs") String idDs, @Path("idBaihat") String idBaihat);
 
+    @DELETE("/api/dsyeuthich/removeCustom/{idDs}/{idBaihat}")
+    Call<Void> remoteSongToCustom(@Path("idDs") String idDs, @Path("idBaihat") String idBaihat);
+
+
+
 }

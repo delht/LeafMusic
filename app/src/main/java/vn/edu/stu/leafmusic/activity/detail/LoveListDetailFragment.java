@@ -26,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import vn.edu.stu.leafmusic.R;
 import vn.edu.stu.leafmusic.activity.UI.Music_Player;
-import vn.edu.stu.leafmusic.activity.adapter.SongsAdapter;
+import vn.edu.stu.leafmusic.activity.adapter.SongsAdapter2;
 import vn.edu.stu.leafmusic.api.dto.ApiClient;
 import vn.edu.stu.leafmusic.api.dto.ApiService;
 import vn.edu.stu.leafmusic.model.Album;
@@ -38,9 +38,13 @@ public class LoveListDetailFragment extends Fragment {
 
     TextView nameLoveList;
     private RecyclerView recyclerViewSongs;
-    private SongsAdapter songsAdapter;
+    private SongsAdapter2 SongsAdapter2;
 
     Button btnPlayAll;
+
+
+    private String loveListIdXoa;
+    private String loveListLoaiDs;
 
 
     public static LoveListDetailFragment newInstance(String idDs, String loaiDs, String tenDs) {
@@ -67,6 +71,9 @@ public class LoveListDetailFragment extends Fragment {
             nameLoveList.setText(loveListname);
 
             String loveListId = arguments.getString("idDs");
+
+            loveListIdXoa = arguments.getString("idDs");
+            loveListLoaiDs = arguments.getString("loaiDs");
 
             if (loveListId != null) {
                 loadSongsForLoveList(loveListId);
@@ -119,14 +126,14 @@ public class LoveListDetailFragment extends Fragment {
 
 
     private void setupSongsRecyclerView(List<Song> songs) {
-        songsAdapter = new SongsAdapter(songs, new SongsAdapter.OnItemClickListener() {
+        SongsAdapter2 = new SongsAdapter2(songs, new SongsAdapter2.OnItemClickListener() {
             @Override
             public void onItemClick(int idSong) {
                 Toast.makeText(getActivity(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
             }
-        });
+        }, loveListIdXoa, loveListLoaiDs);
         recyclerViewSongs.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recyclerViewSongs.setAdapter(songsAdapter);
+        recyclerViewSongs.setAdapter(SongsAdapter2);
     }
 
 
