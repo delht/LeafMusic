@@ -38,7 +38,7 @@ public class Music_Player extends AppCompatActivity {
 
     private ImageButton btnBack, btnFavorite;
     private ImageView imgSong;
-    private TextView tvSongName, tvArtist, tvCurrentTime, tvTotalTime;
+    private TextView tvSongName, tvArtist, tvCurrentTime, tvTotalTime, tvAbum, tvTheLoai;
     private SeekBar seekBar;
     private ImageButton btnPrev, btnPlayPause, btnNext, btnShuffle, btnRepeat;
 
@@ -77,6 +77,8 @@ public class Music_Player extends AppCompatActivity {
             // Hiển thị thông tin bài hát
             tvSongName.setText(currentSong.getTenBaiHat());
             tvArtist.setText(currentSong.getCaSi());
+            tvAbum.setText(currentSong.getAlbum());
+            tvTheLoai.setText(currentSong.getTheLoai());
             Picasso.get().load(currentSong.getUrlHinh()).into(imgSong);
 
             songUrl = currentSong.getUrlFile(); // Lấy URL bài hát
@@ -146,6 +148,8 @@ public class Music_Player extends AppCompatActivity {
         tvSongName = findViewById(R.id.tvSongName);
         tvArtist = findViewById(R.id.tvArtist);
         tvCurrentTime = findViewById(R.id.tvCurrentTime);
+        tvAbum = findViewById(R.id.tvDetailAlbum);
+        tvTheLoai = findViewById(R.id.tvDetailGenre);
         tvTotalTime = findViewById(R.id.tvTotalTime);
         seekBar = findViewById(R.id.seekBar);
         btnPrev = findViewById(R.id.btnPrevious);
