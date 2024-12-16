@@ -113,13 +113,34 @@ public class SongsAdapter2 extends RecyclerView.Adapter<SongsAdapter2.SongViewHo
             public void onResponse(Call<Song2> call, Response<Song2> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Song2 song = response.body();
+
+                    Log.d("Song Details", "ID: " + song.getIdBaiHat());
+                    Log.d("Song Details", "Tên bài hát: " + song.getTenBaiHat());
+                    Log.d("Song Details", "Ca sĩ: " + song.getCaSi());
+                    Log.d("Song Details", "Thể loại: " + song.getTheLoai());
+                    Log.d("Song Details", "Album: " + song.getAlbum());
+                    Log.d("Song Details", "Khu vực nhạc: " + song.getKhuVucNhac());
+                    Log.d("Song Details", "URL hình: " + song.getUrlHinh());
+                    Log.d("Song Details", "URL file: " + song.getUrlFile());
+                    Log.d("Song Details", "Ngày phát hành: " + song.getFormattedReleaseDate());
+
                     Intent intent = new Intent(context, Music_Player.class);
                     intent.putExtra("song_name", song.getTenBaiHat());
                     intent.putExtra("artist", song.getCaSi());
                     intent.putExtra("song_url", song.getUrlFile());
                     intent.putExtra("image_url", song.getUrlHinh());
                     intent.putExtra("song_id", song.getIdBaiHat());
-                    context.startActivity(intent);
+                    intent.putExtra("album", song.getAlbum());
+                    intent.putExtra("genre", song.getTheLoai());
+                    intent.putExtra("region", song.getKhuVucNhac());
+                    intent.putExtra("release_date", song.getFormattedReleaseDate());
+
+                    ArrayList<Song2> playlist = new ArrayList<>();
+                    playlist.add(song);
+                    intent.putParcelableArrayListExtra("playlist", playlist);
+                    intent.putExtra("position", 0);
+
+                    context.startActivity(intent);  // Sử dụng context để mở Activity
                 } else {
                     Log.e("Error", "Failed to get song details");
                 }

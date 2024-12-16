@@ -9,7 +9,7 @@
         android:id="@+id/img_ds"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_lovelist_ustom"
+        android:src="@drawable/ic_lovelist_custom"
         android:scaleType="centerCrop" />
 
     <TextView

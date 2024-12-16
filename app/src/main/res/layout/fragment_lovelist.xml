@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#545454">
+    android:background="@color/Den">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLoveList"
@@ -18,5 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Thêm"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/XanhMa"
+        />
 </LinearLayout>

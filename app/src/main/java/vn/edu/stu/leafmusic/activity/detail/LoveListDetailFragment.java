@@ -138,7 +138,7 @@ public class LoveListDetailFragment extends Fragment {
             public void onItemClick(int idSong) {
                 Toast.makeText(getActivity(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
             }
-        }, loveListIdXoa, loveListLoaiDs);
+        },  loveListIdXoa, loveListLoaiDs);
         recyclerViewSongs.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerViewSongs.setAdapter(SongsAdapter2);
     }

@@ -2,6 +2,7 @@ package vn.edu.stu.leafmusic.activity.adapter;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,11 +54,12 @@ public class LoveListAdapter extends RecyclerView.Adapter<LoveListAdapter.LoveLi
 
         holder.tvName.setText(item.getTenDs());
 
-        // Highlight default list
+        // Day la cho thay icon
         if (item.isDefaultList()) {
             holder.tvName.setTextColor(context.getResources().getColor(R.color.Green4));
+            holder.imgIcon.setImageResource(R.drawable.ic_favorite_filled);
         } else {
-            holder.tvName.setTextColor(context.getResources().getColor(R.color.black));
+            holder.tvName.setTextColor(context.getResources().getColor(R.color.white));
         }
 
 
@@ -89,6 +91,8 @@ public class LoveListAdapter extends RecyclerView.Adapter<LoveListAdapter.LoveLi
 
     private void showOptionsMenu(View view, LoveLIst item) {
         PopupMenu popupMenu = new PopupMenu(context, view);
+//        PopupMenu popupMenu = new PopupMenu(context, view, Gravity.END, 0, 0); //THAY MAU MENU CON
+
         popupMenu.getMenuInflater().inflate(R.menu.menu_options, popupMenu.getMenu()); // Tạo menu tùy chọn
         popupMenu.show();
 
@@ -124,6 +128,8 @@ public class LoveListAdapter extends RecyclerView.Adapter<LoveListAdapter.LoveLi
 
         // Tạo AlertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.CustomAlertDialog); //Thay maU DIALOG
+
         builder.setTitle("Đổi tên danh sách");
         builder.setMessage("Nhập tên mới cho danh sách");
 
@@ -140,6 +146,7 @@ public class LoveListAdapter extends RecyclerView.Adapter<LoveListAdapter.LoveLi
         });
 
         builder.setNegativeButton("Hủy", (dialog, which) -> dialog.cancel());
+
 
         // Hiển thị dialog
         builder.show();

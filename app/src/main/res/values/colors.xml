@@ -15,4 +15,16 @@
     <color name="item_pressed">#E0E0E0</color>
     <color name="item_focused">#D3D3D3</color>
     <color name="item_default">#FFFFFF</color>
+
+
+
+<!--    ========================================================-->
+
+    <color name="Den">#191A19</color>
+    <color name="XanhLuc">#1E5128</color>
+    <color name="XanhMa">#4E9F3D</color>
+    <color name="XanhSua">#D8E9A8</color>
+
+
+
 </resources>

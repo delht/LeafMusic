@@ -111,6 +111,7 @@ public class Music_Player extends AppCompatActivity {
 //============================
 
         if (getIntent().hasExtra("song_url")) {
+            String songId = getIntent().getStringExtra("song_id");
             songUrl = getIntent().getStringExtra("song_url");
             String songName = getIntent().getStringExtra("song_name");
             String artist = getIntent().getStringExtra("artist");
@@ -654,6 +655,11 @@ public class Music_Player extends AppCompatActivity {
 
                         for (Song2 song : songs) {
                             int idBaiHatInt = Integer.parseInt(idBaiHat);
+
+                            Log.e("TEST", "idbh" + String.valueOf(idBaiHatInt));
+                            Log.e("TEST", "idbh" + idBaiHat);
+                            Log.e("TEST", "idbh" + String.valueOf(song.getIdBaiHat()));
+
                             if (song.getIdBaiHat() == idBaiHatInt) {
 
                                 isFavorite = true;

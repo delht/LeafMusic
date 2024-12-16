@@ -1,9 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#545454"
+    android:background="@color/Den"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    >
 
     <TextView
         android:id="@+id/name_lovelist"
@@ -11,16 +12,20 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Love List Name"
-        android:textColor="@color/white"
+        android:textColor="@color/XanhSua"
         android:textSize="10pt"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:paddingBottom="10dp"
+        />
 
     <Button
         android:id="@+id/btnPlayAll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Phát danh sách"
-        android:textSize="8pt" />
+        android:textSize="8pt"
+        android:backgroundTint="@color/XanhMa"
+        />
 
 
     <androidx.recyclerview.widget.RecyclerView
