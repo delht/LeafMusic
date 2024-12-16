@@ -94,8 +94,9 @@ public interface ApiService {
     @POST("/api/dsyeuthich/addMacDinh")
     Call<Void> addToFavorite(@Body ThemBaiHat_DsMacDinh_Request request);
 
-    @DELETE("/api/dsyeuthich/removeMacDinh")
-    Call<Void> deleteToFavorite(@Body ThemBaiHat_DsMacDinh_Request request);
+    @DELETE("/api/dsyeuthich/removeMacDinh/{idDs}/{idBaihat}")
+    Call<Void> deleteToFavorite(@Path("idDs") String idDs, @Path("idBaihat") String idBaihat);
+
 
 
 

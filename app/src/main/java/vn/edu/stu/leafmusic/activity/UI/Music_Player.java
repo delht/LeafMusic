@@ -506,12 +506,12 @@ public class Music_Player extends AppCompatActivity {
             Toast.makeText(this, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // Lấy danh sách yêu thích mặc định và thực hiện thêm hoặc xóa
         getDanhSachMacDinh(idTaiKhoan);
     }
 
-
     private void addBaiHatVaoDanhSachMacDinh(String idTaiKhoan, String idDs) {
-
         ThemBaiHat_DsMacDinh_Request request = new ThemBaiHat_DsMacDinh_Request(idDs, idBaiHat);
 
         Gson gson = new Gson();
@@ -526,7 +526,7 @@ public class Music_Player extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
-                    btnFavorite.setImageResource(R.drawable.ic_favorite_filled);
+                    btnFavorite.setImageResource(R.drawable.ic_favorite_filled);  // Cập nhật icon yêu thích
                 } else {
                     Toast.makeText(getApplicationContext(), "Lỗi khi thêm vào yêu thích", Toast.LENGTH_SHORT).show();
                 }
@@ -539,7 +539,32 @@ public class Music_Player extends AppCompatActivity {
         });
     }
 
-//=========================================================================
+    private void removeBaiHatKhoiDanhSachMacDinh(String idTaiKhoan, String idDs, String idBaiHat) {
+        // Phương thức xóa bài hát khỏi danh sách yêu thích
+
+        // Gọi API với idDs và idBaiHat
+        ApiService apiService = ApiClient.getApiService();
+        Call<Void> call = apiService.deleteToFavorite(idDs, idBaiHat);  // Truyền tham số vào URL
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Đã xóa khỏi yêu thích", Toast.LENGTH_SHORT).show();
+                    btnFavorite.setImageResource(R.drawable.ic_favorite);  // Cập nhật icon chưa yêu thích
+                } else {
+                    Toast.makeText(getApplicationContext(), "Lỗi khi xóa khỏi yêu thích", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     private void getDanhSachMacDinh(String idTaiKhoan) {
         ApiService apiService = ApiClient.getApiService();
         Call<List<LoveLIst>> call = apiService.getDefaultLoveList(idTaiKhoan);
@@ -552,7 +577,13 @@ public class Music_Player extends AppCompatActivity {
                     if (danhSachMacDinh != null && !danhSachMacDinh.isEmpty()) {
                         // Lấy id_ds của danh sách mặc định
                         String idDs = String.valueOf(danhSachMacDinh.get(0).getIdDs());
-                        addBaiHatVaoDanhSachMacDinh(idTaiKhoan, idDs);
+
+                        // Kiểm tra xem bài hát đã yêu thích chưa để thêm hay xóa
+                        if (isFavorite) {
+                            addBaiHatVaoDanhSachMacDinh(idTaiKhoan, idDs);
+                        } else {
+                            removeBaiHatKhoiDanhSachMacDinh(idTaiKhoan, idDs, idBaiHat);
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "Không tìm thấy danh sách mặc định", Toast.LENGTH_SHORT).show();
                     }
