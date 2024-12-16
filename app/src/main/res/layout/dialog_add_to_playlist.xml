@@ -35,7 +35,7 @@
 
 
             <Button
-                android:id="@+id/Hủy"
+                android:id="@+id/btnHuy"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Hủy"
@@ -43,7 +43,7 @@
                 />
 
             <Button
-                android:id="@+id/Lưu"
+                android:id="@+id/btnLuu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Lưu"

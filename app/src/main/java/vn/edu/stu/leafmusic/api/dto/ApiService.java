@@ -105,5 +105,7 @@ public interface ApiService {
 
 //    =============================================================
 
+    @POST("/api/dsyeuthich/addCustom/{idDs}/{idBaihat}")
+    Call<Void> addSongToCustom(@Path("idDs") String idDs, @Path("idBaihat") String idBaihat);
 
 }

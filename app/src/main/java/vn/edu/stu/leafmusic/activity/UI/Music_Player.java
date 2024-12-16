@@ -41,6 +41,7 @@ import vn.edu.stu.leafmusic.api.dto.request.ThemBaiHat_DsMacDinh_Request;
 import vn.edu.stu.leafmusic.model.LoveLIst;
 import vn.edu.stu.leafmusic.model.LoveList_Simple;
 import vn.edu.stu.leafmusic.model.Song2;
+import vn.edu.stu.leafmusic.util.AddToPlaylistDialog;
 import vn.edu.stu.leafmusic.util.RotateAnimationHelper;
 import vn.edu.stu.leafmusic.util.SharedPrefsHelper;
 
@@ -161,8 +162,14 @@ public class Music_Player extends AppCompatActivity {
         });
 //=============================================
 
-        btnAddToPlaylist.setOnClickListener(v -> showAddToPlaylistDialog());
+//        btnAddToPlaylist.setOnClickListener(v -> showAddToPlaylistDialog());
 
+        btnAddToPlaylist.setOnClickListener(v -> {
+            AddToPlaylistDialog.initialize(Music_Player.this);
+//            AddToPlaylistDialog.show(Music_Player.this);
+
+            AddToPlaylistDialog.show(this, idBaiHat);
+        });
 
 
 
@@ -673,55 +680,51 @@ public class Music_Player extends AppCompatActivity {
 //    =====================================================
 
 
-//    private void showAddToPlaylistActivity() {
-//        // Tạo Intent để mở AddToPlaylistActivity
-//        Intent intent = new Intent(Music_Player.this, AddToPlaylistActivity.class);
-//        startActivity(intent);  // Mở Activity
+
+
+//    private void showAddToPlaylistDialog() {
+//        // Tạo một Dialog mới và sử dụng layout của bạn
+//        Dialog dialog = new Dialog(Music_Player.this);
+//        dialog.setContentView(R.layout.dialog_add_to_playlist);
+//
+//        // Điều chỉnh kích thước của Dialog (50% chiều cao màn hình)
+//        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+//        params.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.5);  // 50% chiều cao
+//        params.width = WindowManager.LayoutParams.MATCH_PARENT;  // Chiếm chiều rộng toàn màn hình
+//        dialog.getWindow().setAttributes(params);
+//
+//        // Cài đặt hành vi khi bấm ra ngoài để tắt Dialog
+//        dialog.setCanceledOnTouchOutside(true);  // Bấm ra ngoài để đóng dialog
+//
+//        // Hiển thị dialog
+//        dialog.show();
+//
+//        // Gọi API để lấy danh sách yêu thích trong Dialog
+//        ApiService apiService = ApiClient.getApiService();
+//        apiService.getLoveListSimple("1").enqueue(new Callback<List<LoveList_Simple>>() {
+//            @Override
+//            public void onResponse(Call<List<LoveList_Simple>> call, Response<List<LoveList_Simple>> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    List<LoveList_Simple> loveList = response.body();
+//                    if (loveList.isEmpty()) {
+//                        Toast.makeText(Music_Player.this, "Danh sách yêu thích rỗng.", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        // Tạo Adapter và thiết lập cho ListView trong Dialog
+//                        ListView listView = dialog.findViewById(R.id.lvDS);
+//                        ArrayAdapter<LoveList_Simple> adapter = new ArrayAdapter<>(Music_Player.this, android.R.layout.simple_list_item_single_choice, loveList);
+//                        listView.setAdapter(adapter);
+//                    }
+//                } else {
+//                    Toast.makeText(Music_Player.this, "Không có dữ liệu.", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<LoveList_Simple>> call, Throwable t) {
+//                Toast.makeText(Music_Player.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 //    }
-
-    private void showAddToPlaylistDialog() {
-        // Tạo một Dialog mới và sử dụng layout của bạn
-        Dialog dialog = new Dialog(Music_Player.this);
-        dialog.setContentView(R.layout.dialog_add_to_playlist);
-
-        // Điều chỉnh kích thước của Dialog (50% chiều cao màn hình)
-        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-        params.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.5);  // 50% chiều cao
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;  // Chiếm chiều rộng toàn màn hình
-        dialog.getWindow().setAttributes(params);
-
-        // Cài đặt hành vi khi bấm ra ngoài để tắt Dialog
-        dialog.setCanceledOnTouchOutside(true);  // Bấm ra ngoài để đóng dialog
-
-        // Hiển thị dialog
-        dialog.show();
-
-        // Gọi API để lấy danh sách yêu thích trong Dialog
-        ApiService apiService = ApiClient.getApiService();
-        apiService.getLoveListSimple("1").enqueue(new Callback<List<LoveList_Simple>>() {
-            @Override
-            public void onResponse(Call<List<LoveList_Simple>> call, Response<List<LoveList_Simple>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<LoveList_Simple> loveList = response.body();
-                    if (loveList.isEmpty()) {
-                        Toast.makeText(Music_Player.this, "Danh sách yêu thích rỗng.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // Tạo Adapter và thiết lập cho ListView trong Dialog
-                        ListView listView = dialog.findViewById(R.id.lvDS);
-                        ArrayAdapter<LoveList_Simple> adapter = new ArrayAdapter<>(Music_Player.this, android.R.layout.simple_list_item_single_choice, loveList);
-                        listView.setAdapter(adapter);
-                    }
-                } else {
-                    Toast.makeText(Music_Player.this, "Không có dữ liệu.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<LoveList_Simple>> call, Throwable t) {
-                Toast.makeText(Music_Player.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
 
 
