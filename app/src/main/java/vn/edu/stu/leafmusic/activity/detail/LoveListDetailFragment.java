@@ -88,13 +88,20 @@ public class LoveListDetailFragment extends Fragment {
             if (getArguments() != null) {
                 String lovelistId = getArguments().getString("idDs");
                 if (lovelistId != null) {
-                    // Gọi API để lấy danh sách bài hát và gửi tới Music_Player
-                    loadSongsForLoveList2(lovelistId);
+                    // Kiểm tra trạng thái danh sách
+                    if (SongsAdapter2 != null && SongsAdapter2.getItemCount() > 0) {
+                        // Gọi API để lấy danh sách bài hát và gửi tới Music_Player
+                        loadSongsForLoveList2(lovelistId);
+                    } else {
+                        // Hiển thị thông báo nếu danh sách trống
+                        Toast.makeText(getActivity(), "Danh sách bài hát trống. Không thể phát.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(getActivity(), "Lỗi: Không có loveListId", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
 
         return rootView;

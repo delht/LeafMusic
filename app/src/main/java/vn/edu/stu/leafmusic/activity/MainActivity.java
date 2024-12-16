@@ -133,12 +133,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //xu ly khi nhan nut bach
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }else{
+        // Kiểm tra nếu fragment hiện tại không phải là HomeFragment
+        if (CurrentFragment != FRAGMENT_HOME) {
+            // Nếu không phải HomeFragment, thay thế bằng HomeFragment
+            replaceFragment(new HomeFragment());
+            CurrentFragment = FRAGMENT_HOME;
+            Log.d("Fragment", "Back to Home Fragment");
+        } else {
+            // Nếu đang ở HomeFragment, gọi phương thức mặc định
             super.onBackPressed();
         }
     }
+
 
     private void replaceFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
