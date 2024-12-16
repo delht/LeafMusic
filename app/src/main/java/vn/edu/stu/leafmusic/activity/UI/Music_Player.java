@@ -1,27 +1,25 @@
 package vn.edu.stu.leafmusic.activity.UI;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
@@ -41,13 +39,14 @@ import vn.edu.stu.leafmusic.api.dto.ApiClient;
 import vn.edu.stu.leafmusic.api.dto.ApiService;
 import vn.edu.stu.leafmusic.api.dto.request.ThemBaiHat_DsMacDinh_Request;
 import vn.edu.stu.leafmusic.model.LoveLIst;
+import vn.edu.stu.leafmusic.model.LoveList_Simple;
 import vn.edu.stu.leafmusic.model.Song2;
 import vn.edu.stu.leafmusic.util.RotateAnimationHelper;
 import vn.edu.stu.leafmusic.util.SharedPrefsHelper;
 
 public class Music_Player extends AppCompatActivity {
 
-    private ImageButton btnBack, btnFavorite;
+    private ImageButton btnBack, btnFavorite, btnAddToPlaylist;
     private ImageView imgSong;
     private TextView tvSongName, tvArtist, tvCurrentTime, tvTotalTime, tvAbum, tvTheLoai;
     private SeekBar seekBar;
@@ -110,8 +109,6 @@ public class Music_Player extends AppCompatActivity {
 
 //============================
 
-
-
         if (getIntent().hasExtra("song_url")) {
             songUrl = getIntent().getStringExtra("song_url");
             String songName = getIntent().getStringExtra("song_name");
@@ -162,6 +159,11 @@ public class Music_Player extends AppCompatActivity {
             @Override
             public void onDrawerStateChanged(int newState) {}
         });
+//=============================================
+
+        btnAddToPlaylist.setOnClickListener(v -> showAddToPlaylistDialog());
+
+
 
 
     }
@@ -169,6 +171,7 @@ public class Music_Player extends AppCompatActivity {
     private void initViews() {
         btnBack = findViewById(R.id.btnBack);
         btnFavorite = findViewById(R.id.btnFavorite);
+        btnAddToPlaylist = findViewById(R.id.btnAddToPlaylist);
         imgSong = findViewById(R.id.imgSong);
         tvSongName = findViewById(R.id.tvSongName);
         tvArtist = findViewById(R.id.tvArtist);
@@ -220,7 +223,6 @@ public class Music_Player extends AppCompatActivity {
         }
     }
 
-
     private void setupMediaPlayer() {
         ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
@@ -254,45 +256,34 @@ public class Music_Player extends AppCompatActivity {
                 // Thêm OnCompletionListener để chuyển sang bài tiếp theo khi bài hát kết thúc
                 mediaPlayer.setOnCompletionListener(mp -> {
                     if (isShuffleOn) {
-                        playNextSongRandom(); // Chế độ Shuffle: phát bài hát ngẫu nhiên
+                        playNextSongRandom();
                     } else {
-                        playNextSong(); // Chế độ bình thường: phát bài hát tiếp theo
+                        playNextSong();
                     }
                 });
 
 
                 mediaPlayer.setOnCompletionListener(mp -> {
                     if (isShuffleOn) {
-                        playNextSongRandom(); // Chế độ Shuffle: phát bài hát ngẫu nhiên
+                        playNextSongRandom();
                     } else if (isRepeatOn) {
-                        // Chế độ lặp lại một bài hát: phát lại bài hát hiện tại
                         playMusic();
                     } else {
-                        // Chế độ bình thường: phát bài hát tiếp theo
                         playNextSong();
                     }
                 });
 
                 mediaPlayer.setOnCompletionListener(mp -> {
                     if (isShuffleOn) {
-                        playNextSongRandom(); // Chế độ Shuffle: phát bài hát ngẫu nhiên
+                        playNextSongRandom();
                     } else if (isRepeatOn) {
-                        // Chế độ lặp lại một bài hát: phát lại bài hát hiện tại
                         playMusic();
                     } else {
-                        // Chế độ bình thường: phát bài hát tiếp theo
                         playNextSong();
                     }
                 });
-
-
-
 
                 mediaPlayer.prepareAsync();
-
-
-
-
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -302,9 +293,10 @@ public class Music_Player extends AppCompatActivity {
                 });
             }
         }).start();
+
+
+
     }
-
-
 
     private void setupListeners() {
         btnPlayPause.setOnClickListener(v -> {
@@ -490,7 +482,7 @@ public class Music_Player extends AppCompatActivity {
 
 
 //    =========================================================
-
+    
     private void initFavoriteButton() {
 
         btnFavorite.setOnClickListener(v -> {
@@ -567,7 +559,6 @@ public class Music_Player extends AppCompatActivity {
         });
     }
 
-
     private void getDanhSachMacDinh(String idTaiKhoan) {
         ApiService apiService = ApiClient.getApiService();
         Call<List<LoveLIst>> call = apiService.getDefaultLoveList(idTaiKhoan);
@@ -606,7 +597,7 @@ public class Music_Player extends AppCompatActivity {
 //    =======================
 
     private void checkIfSongIsFavorite() {
-        // Lấy idTaiKhoan từ SharedPrefs
+
         SharedPrefsHelper sharedPrefsHelper = new SharedPrefsHelper(getApplicationContext());
         String idTaiKhoan = sharedPrefsHelper.getUserId();
         if (idTaiKhoan == null) {
@@ -614,7 +605,7 @@ public class Music_Player extends AppCompatActivity {
             return;
         }
 
-        // Gọi API để kiểm tra bài hát đã yêu thích hay chưa
+
         ApiService apiService = ApiClient.getApiService();
         Call<List<LoveLIst>> call = apiService.getDefaultLoveList(idTaiKhoan);
 
@@ -626,7 +617,6 @@ public class Music_Player extends AppCompatActivity {
                     if (danhSachMacDinh != null && !danhSachMacDinh.isEmpty()) {
                         String idDs = String.valueOf(danhSachMacDinh.get(0).getIdDs());
 
-                        // Kiểm tra xem bài hát hiện tại có trong danh sách yêu thích không
                         checkIfSongInLoveList(idTaiKhoan, idDs);
                     } else {
                         Toast.makeText(getApplicationContext(), "Không tìm thấy danh sách mặc định", Toast.LENGTH_SHORT).show();
@@ -654,20 +644,20 @@ public class Music_Player extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     List<Song2> songs = response.body();
                     if (songs != null) {
-                        // Kiểm tra xem bài hát hiện tại có trong danh sách yêu thích không
+
                         for (Song2 song : songs) {
                             int idBaiHatInt = Integer.parseInt(idBaiHat);
                             if (song.getIdBaiHat() == idBaiHatInt) {
-                                // Nếu bài hát có trong danh sách yêu thích, cập nhật trạng thái
+
                                 isFavorite = true;
                                 btnFavorite.setImageResource(R.drawable.ic_favorite_filled);  // Cập nhật icon yêu thích
                                 return;
                             }
                         }
                     }
-                    // Nếu không có trong danh sách yêu thích, cập nhật trạng thái
+
                     isFavorite = false;
-                    btnFavorite.setImageResource(R.drawable.ic_favorite);  // Cập nhật icon chưa yêu thích
+                    btnFavorite.setImageResource(R.drawable.ic_favorite);
                 } else {
                     Toast.makeText(getApplicationContext(), "Lỗi khi kiểm tra bài hát yêu thích", Toast.LENGTH_SHORT).show();
                 }
@@ -679,6 +669,62 @@ public class Music_Player extends AppCompatActivity {
             }
         });
     }
+
+//    =====================================================
+
+
+//    private void showAddToPlaylistActivity() {
+//        // Tạo Intent để mở AddToPlaylistActivity
+//        Intent intent = new Intent(Music_Player.this, AddToPlaylistActivity.class);
+//        startActivity(intent);  // Mở Activity
+//    }
+
+    private void showAddToPlaylistDialog() {
+        // Tạo một Dialog mới và sử dụng layout của bạn
+        Dialog dialog = new Dialog(Music_Player.this);
+        dialog.setContentView(R.layout.dialog_add_to_playlist);
+
+        // Điều chỉnh kích thước của Dialog (50% chiều cao màn hình)
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.5);  // 50% chiều cao
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;  // Chiếm chiều rộng toàn màn hình
+        dialog.getWindow().setAttributes(params);
+
+        // Cài đặt hành vi khi bấm ra ngoài để tắt Dialog
+        dialog.setCanceledOnTouchOutside(true);  // Bấm ra ngoài để đóng dialog
+
+        // Hiển thị dialog
+        dialog.show();
+
+        // Gọi API để lấy danh sách yêu thích trong Dialog
+        ApiService apiService = ApiClient.getApiService();
+        apiService.getLoveListSimple("1").enqueue(new Callback<List<LoveList_Simple>>() {
+            @Override
+            public void onResponse(Call<List<LoveList_Simple>> call, Response<List<LoveList_Simple>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<LoveList_Simple> loveList = response.body();
+                    if (loveList.isEmpty()) {
+                        Toast.makeText(Music_Player.this, "Danh sách yêu thích rỗng.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Tạo Adapter và thiết lập cho ListView trong Dialog
+                        ListView listView = dialog.findViewById(R.id.lvDS);
+                        ArrayAdapter<LoveList_Simple> adapter = new ArrayAdapter<>(Music_Player.this, android.R.layout.simple_list_item_single_choice, loveList);
+                        listView.setAdapter(adapter);
+                    }
+                } else {
+                    Toast.makeText(Music_Player.this, "Không có dữ liệu.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LoveList_Simple>> call, Throwable t) {
+                Toast.makeText(Music_Player.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
 
 }
 

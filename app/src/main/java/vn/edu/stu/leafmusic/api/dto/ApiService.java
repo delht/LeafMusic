@@ -17,6 +17,7 @@ import vn.edu.stu.leafmusic.api.dto.request.ThemBaiHat_DsMacDinh_Request;
 import vn.edu.stu.leafmusic.model.Album;
 import vn.edu.stu.leafmusic.model.Artist;
 import vn.edu.stu.leafmusic.model.LoveLIst;
+import vn.edu.stu.leafmusic.model.LoveList_Simple;
 import vn.edu.stu.leafmusic.model.Song;
 import vn.edu.stu.leafmusic.model.Song2;
 
@@ -58,10 +59,14 @@ public interface ApiService {
 //    ============================================
 
     @GET("api/dsyeuthich/custom/id={id}")
-    Call<List<LoveLIst>> getLoveList(@Path("id") String id);
+    Call<List<LoveLIst>> getLoveList(@Path("id") String id); //custom
 
     @GET("api/dsyeuthich/macdinh/id={id}")
     Call<List<LoveLIst>> getDefaultLoveList(@Path("id") String id); //mac dinh
+
+
+    @GET("api/dsyeuthich/custom/id={id}")
+    Call<List<LoveList_Simple>> getLoveListSimple(@Path("id") String id); //custom simple
 
 //    ================================================
 
@@ -98,7 +103,7 @@ public interface ApiService {
     Call<Void> deleteToFavorite(@Path("idDs") String idDs, @Path("idBaihat") String idBaihat);
 
 
-
+//    =============================================================
 
 
 }
