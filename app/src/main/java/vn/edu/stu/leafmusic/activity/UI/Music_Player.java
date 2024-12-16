@@ -83,6 +83,8 @@ public class Music_Player extends AppCompatActivity {
 
         initFavoriteButton();
 
+        checkIfSongIsFavorite();
+
 //============================
 
         playlist = getIntent().getParcelableArrayListExtra("playlist");
@@ -507,7 +509,8 @@ public class Music_Player extends AppCompatActivity {
             return;
         }
 
-        // Lấy danh sách yêu thích mặc định và thực hiện thêm hoặc xóa
+
+
         getDanhSachMacDinh(idTaiKhoan);
     }
 
@@ -600,9 +603,82 @@ public class Music_Player extends AppCompatActivity {
     }
 
 
+//    =======================
 
+    private void checkIfSongIsFavorite() {
+        // Lấy idTaiKhoan từ SharedPrefs
+        SharedPrefsHelper sharedPrefsHelper = new SharedPrefsHelper(getApplicationContext());
+        String idTaiKhoan = sharedPrefsHelper.getUserId();
+        if (idTaiKhoan == null) {
+            Toast.makeText(this, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        // Gọi API để kiểm tra bài hát đã yêu thích hay chưa
+        ApiService apiService = ApiClient.getApiService();
+        Call<List<LoveLIst>> call = apiService.getDefaultLoveList(idTaiKhoan);
 
+        call.enqueue(new Callback<List<LoveLIst>>() {
+            @Override
+            public void onResponse(Call<List<LoveLIst>> call, Response<List<LoveLIst>> response) {
+                if (response.isSuccessful()) {
+                    List<LoveLIst> danhSachMacDinh = response.body();
+                    if (danhSachMacDinh != null && !danhSachMacDinh.isEmpty()) {
+                        String idDs = String.valueOf(danhSachMacDinh.get(0).getIdDs());
+
+                        // Kiểm tra xem bài hát hiện tại có trong danh sách yêu thích không
+                        checkIfSongInLoveList(idTaiKhoan, idDs);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Không tìm thấy danh sách mặc định", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Lỗi khi tải danh sách", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LoveLIst>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void checkIfSongInLoveList(String idTaiKhoan, String idDs) {
+        // Kiểm tra xem bài hát có trong danh sách yêu thích không
+        ApiService apiService = ApiClient.getApiService();
+        Call<List<Song2>> call = apiService.getSongsByLoveList3(idDs);  // Lấy bài hát trong danh sách yêu thích
+
+        call.enqueue(new Callback<List<Song2>>() {
+            @Override
+            public void onResponse(Call<List<Song2>> call, Response<List<Song2>> response) {
+                if (response.isSuccessful()) {
+                    List<Song2> songs = response.body();
+                    if (songs != null) {
+                        // Kiểm tra xem bài hát hiện tại có trong danh sách yêu thích không
+                        for (Song2 song : songs) {
+                            int idBaiHatInt = Integer.parseInt(idBaiHat);
+                            if (song.getIdBaiHat() == idBaiHatInt) {
+                                // Nếu bài hát có trong danh sách yêu thích, cập nhật trạng thái
+                                isFavorite = true;
+                                btnFavorite.setImageResource(R.drawable.ic_favorite_filled);  // Cập nhật icon yêu thích
+                                return;
+                            }
+                        }
+                    }
+                    // Nếu không có trong danh sách yêu thích, cập nhật trạng thái
+                    isFavorite = false;
+                    btnFavorite.setImageResource(R.drawable.ic_favorite);  // Cập nhật icon chưa yêu thích
+                } else {
+                    Toast.makeText(getApplicationContext(), "Lỗi khi kiểm tra bài hát yêu thích", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Song2>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }
 
