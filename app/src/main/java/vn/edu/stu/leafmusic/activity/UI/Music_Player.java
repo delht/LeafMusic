@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -24,15 +25,25 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.edu.stu.leafmusic.R;
+import vn.edu.stu.leafmusic.api.dto.ApiClient;
+import vn.edu.stu.leafmusic.api.dto.ApiService;
+import vn.edu.stu.leafmusic.api.dto.request.ThemBaiHat_DsMacDinh_Request;
+import vn.edu.stu.leafmusic.model.LoveLIst;
 import vn.edu.stu.leafmusic.model.Song2;
 import vn.edu.stu.leafmusic.util.RotateAnimationHelper;
+import vn.edu.stu.leafmusic.util.SharedPrefsHelper;
 
 public class Music_Player extends AppCompatActivity {
 
@@ -48,12 +59,16 @@ public class Music_Player extends AppCompatActivity {
     private String songUrl;
     private boolean isShuffleOn = false;
     private boolean isRepeatOn = false;
+    private boolean isFavorite = false;
     private ArrayList<Song2> playlist;
     private int currentSongIndex = 0;
     private RotateAnimationHelper rotateAnimationHelper;
     private DrawerLayout drawerLayout;
     private TextView tvDetailSongName, tvDetailArtist, tvDetailAlbum,
             tvDetailGenre, tvDetailReleaseDate;
+
+
+    String idBaiHat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +80,8 @@ public class Music_Player extends AppCompatActivity {
         initViews();
 
         btnBack.setOnClickListener(v -> finish());
+
+        initFavoriteButton();
 
 //============================
 
@@ -80,6 +97,10 @@ public class Music_Player extends AppCompatActivity {
             tvAbum.setText(currentSong.getAlbum());
             tvTheLoai.setText(currentSong.getTheLoai());
             Picasso.get().load(currentSong.getUrlHinh()).into(imgSong);
+
+
+            idBaiHat = String.valueOf(currentSong.getIdBaiHat());
+            Log.e("TEST", "id bai hat: "+currentSong.getIdBaiHat());
 
             songUrl = currentSong.getUrlFile(); // Lấy URL bài hát
             setupMediaPlayer();
@@ -139,6 +160,8 @@ public class Music_Player extends AppCompatActivity {
             @Override
             public void onDrawerStateChanged(int newState) {}
         });
+
+
     }
 
     private void initViews() {
@@ -462,6 +485,91 @@ public class Music_Player extends AppCompatActivity {
             updateSongDetails();
         }
     }
+
+
+//    =========================================================
+
+    private void initFavoriteButton() {
+
+        btnFavorite.setOnClickListener(v -> {
+            favoriteBtn();
+        });
+    }
+
+    private void favoriteBtn() {
+        isFavorite = !isFavorite;  // Đảo trạng thái yêu thích
+
+        // Lấy idTaiKhoan từ SharedPrefs
+        SharedPrefsHelper sharedPrefsHelper = new SharedPrefsHelper(getApplicationContext());
+        String idTaiKhoan = sharedPrefsHelper.getUserId();
+        if (idTaiKhoan == null) {
+            Toast.makeText(this, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        getDanhSachMacDinh(idTaiKhoan);
+    }
+
+
+    private void addBaiHatVaoDanhSachMacDinh(String idTaiKhoan, String idDs) {
+
+        ThemBaiHat_DsMacDinh_Request request = new ThemBaiHat_DsMacDinh_Request(idDs, idBaiHat);
+
+        Gson gson = new Gson();
+        String jsonRequest = gson.toJson(request);
+        Log.d("JSON Request", jsonRequest);
+
+        ApiService apiService = ApiClient.getApiService();
+        Call<Void> call = apiService.addToFavorite(request);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
+                    btnFavorite.setImageResource(R.drawable.ic_favorite_filled);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Lỗi khi thêm vào yêu thích", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+//=========================================================================
+    private void getDanhSachMacDinh(String idTaiKhoan) {
+        ApiService apiService = ApiClient.getApiService();
+        Call<List<LoveLIst>> call = apiService.getDefaultLoveList(idTaiKhoan);
+
+        call.enqueue(new Callback<List<LoveLIst>>() {
+            @Override
+            public void onResponse(Call<List<LoveLIst>> call, Response<List<LoveLIst>> response) {
+                if (response.isSuccessful()) {
+                    List<LoveLIst> danhSachMacDinh = response.body();
+                    if (danhSachMacDinh != null && !danhSachMacDinh.isEmpty()) {
+                        // Lấy id_ds của danh sách mặc định
+                        String idDs = String.valueOf(danhSachMacDinh.get(0).getIdDs());
+                        addBaiHatVaoDanhSachMacDinh(idTaiKhoan, idDs);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Không tìm thấy danh sách mặc định", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Lỗi khi tải danh sách", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LoveLIst>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Lỗi kết nối API", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
 
 
 
