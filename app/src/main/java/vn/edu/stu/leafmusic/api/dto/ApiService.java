@@ -2,6 +2,7 @@ package vn.edu.stu.leafmusic.api.dto;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -76,8 +77,9 @@ public interface ApiService {
     @PUT("api/dsyeuthich/update2/id={id}")
     Call<Void> renameLoveList(@Path("id") int id, @Body String newName);
 
-    @POST("/api/dsyeuthich/create")
+    @POST("/api/dsyeuthich/create2")
     Call<LoveLIst> createLoveList(@Body DsYeuThich_Request loveList);
+
 
 
 //    ========================================================
