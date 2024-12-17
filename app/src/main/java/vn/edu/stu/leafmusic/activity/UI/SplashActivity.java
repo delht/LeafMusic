@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import vn.edu.stu.leafmusic.R;
 import vn.edu.stu.leafmusic.activity.MainActivity;
+import vn.edu.stu.leafmusic.activity.login.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -45,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish(); // Đóng SplashActivity
             }
