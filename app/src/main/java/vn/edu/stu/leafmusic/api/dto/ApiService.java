@@ -10,6 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import vn.edu.stu.leafmusic.api.dto.reponse.LoginResponse;
 import vn.edu.stu.leafmusic.api.dto.request.DsYeuThich_Request;
 import vn.edu.stu.leafmusic.api.dto.request.LoginRequest;
@@ -113,6 +114,10 @@ public interface ApiService {
     @DELETE("/api/dsyeuthich/removeCustom/{idDs}/{idBaihat}")
     Call<Void> remoteSongToCustom(@Path("idDs") String idDs, @Path("idBaihat") String idBaihat);
 
+//    ==================================================================
+
+    @GET("/api/baihat/timkiem")
+    Call<List<Song>> searchSongs(@Query("ten") String songName);
 
 
 }

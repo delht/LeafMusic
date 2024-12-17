@@ -18,7 +18,15 @@
         android:background="@drawable/bo_tron"
         />
 
-
+    <TextView
+        android:id="@+id/ThongBao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nhập tên bài hát cần tìm"
+        android:textSize="10pt"
+        android:layout_gravity="center"
+        android:paddingTop="10pt"
+        android:textColor="@color/white"/>
 
 
     <!-- Kết quả tìm kiếm (Danh sách bài hát) -->
