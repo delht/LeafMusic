@@ -57,7 +57,9 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
         Glide.with(holder.itemView.getContext())
                 .load(song.getUrlHinh())
-                .transform(new RoundedCorners(30)) // bo góc
+                .placeholder(R.drawable.ic_launcher_background) // Hình ảnh hiển thị khi đang tải
+                .error(R.drawable.ic_launcher_foreground)           // Hình ảnh hiển thị khi tải thất bại
+                .transform(new RoundedCorners(30))       // Bo góc hình ảnh
                 .into(holder.songImage);
 
         holder.itemView.setOnClickListener(v -> {
@@ -65,6 +67,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
             getSongDetails(song.getIdBaiHat());  // Gọi phương thức mở bài hát
         });
     }
+
 
     @Override
     public int getItemCount() {
