@@ -62,6 +62,8 @@ public class SongsAdapter2 extends RecyclerView.Adapter<SongsAdapter2.SongViewHo
 
         Glide.with(holder.itemView.getContext())
                 .load(song.getUrlHinh())
+                .placeholder(R.drawable.error)
+                .error(R.drawable.error)
                 .transform(new RoundedCorners(30))
                 .into(holder.songImage);
 

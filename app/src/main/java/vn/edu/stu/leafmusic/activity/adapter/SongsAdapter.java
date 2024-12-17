@@ -57,9 +57,9 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
         Glide.with(holder.itemView.getContext())
                 .load(song.getUrlHinh())
-                .placeholder(R.drawable.ic_launcher_background) // Hình ảnh hiển thị khi đang tải
-                .error(R.drawable.ic_launcher_foreground)           // Hình ảnh hiển thị khi tải thất bại
-                .transform(new RoundedCorners(30))       // Bo góc hình ảnh
+                .placeholder(R.drawable.error)
+                .error(R.drawable.error)
+                .transform(new RoundedCorners(30))
                 .into(holder.songImage);
 
         holder.itemView.setOnClickListener(v -> {

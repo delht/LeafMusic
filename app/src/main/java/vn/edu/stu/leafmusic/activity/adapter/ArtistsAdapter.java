@@ -48,6 +48,8 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ArtistVi
         // Tải ảnh ca sĩ sử dụng Glide
         Glide.with(holder.itemView.getContext())
                 .load(artist.getUrlHinh()) // url hình ảnh
+                .placeholder(R.drawable.error) // Hình ảnh hiển thị khi đang tải
+                .error(R.drawable.error)
                 .transform(new RoundedCorners(30)) // bo góc
                 .into(holder.artistImage);
 

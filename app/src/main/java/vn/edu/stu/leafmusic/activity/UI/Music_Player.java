@@ -98,7 +98,12 @@ public class Music_Player extends AppCompatActivity {
             tvArtist.setText(currentSong.getCaSi());
             tvAbum.setText(currentSong.getAlbum());
             tvTheLoai.setText(currentSong.getTheLoai());
-            Picasso.get().load(currentSong.getUrlHinh()).into(imgSong);
+
+            Picasso.get()
+                    .load(currentSong.getUrlHinh()) // URL hình ảnh
+                    .placeholder(R.drawable.error) // Ảnh mặc định khi tải
+                    .error(R.drawable.error) // Ảnh mặc định khi có lỗi
+                    .into(imgSong);
 
 
             idBaiHat = String.valueOf(currentSong.getIdBaiHat());
@@ -123,7 +128,16 @@ public class Music_Player extends AppCompatActivity {
             tvSongName.setText(songName);
             tvArtist.setText(artist);
             if (imageUrl != null && !imageUrl.isEmpty()) {
-                Picasso.get().load(imageUrl).into(imgSong);
+                Picasso.get()
+                        .load(imageUrl) // URL của ảnh
+                        .placeholder(R.drawable.error) // Hình ảnh mặc định khi tải
+                        .error(R.drawable.error) // Hình ảnh mặc định khi có lỗi
+                        .into(imgSong);
+            } else {
+                // Nếu không có imageUrl hoặc là rỗng, dùng ảnh mặc định
+                Picasso.get()
+                        .load(R.drawable.error) // Sử dụng ảnh mặc định
+                        .into(imgSong);
             }
 
             setupMediaPlayer();
