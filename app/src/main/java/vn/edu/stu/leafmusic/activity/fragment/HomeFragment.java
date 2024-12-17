@@ -49,6 +49,15 @@ public class HomeFragment extends Fragment {
         recyclerArtists = view.findViewById(R.id.recycler_artists);
 
 
+        view.findViewById(R.id.btnLamMoi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Đã làm mới danh sách bài hát", Toast.LENGTH_SHORT).show();
+                loadSongs(); // Gọi lại hàm loadSongs để tải lại danh sách bài hát
+            }
+        });
+
+
         loadSongs();
         loadAlbums();
         loadArtists();
