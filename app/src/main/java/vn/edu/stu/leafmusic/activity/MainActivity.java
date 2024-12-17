@@ -26,6 +26,7 @@ import vn.edu.stu.leafmusic.R;
 import vn.edu.stu.leafmusic.activity.fragment.AccountFragment;
 import vn.edu.stu.leafmusic.activity.fragment.HomeFragment;
 import vn.edu.stu.leafmusic.activity.fragment.LoveListFragment;
+import vn.edu.stu.leafmusic.activity.fragment.SearchFragment;
 import vn.edu.stu.leafmusic.activity.fragment.SettingFragment;
 import vn.edu.stu.leafmusic.activity.login.LoginActivity;
 import vn.edu.stu.leafmusic.util.SharedPrefsHelper;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_SETTING = 1;
     private static final int FRAGMENT_LOVELIST = 2;
     private static final int FRAGMENT_ACCOUNT = 3;
+    private static final int FRAGMENT_TIMKIEM = 4;
 //    private static final int FRAGMENT_LOGOUT = 4;
 
     private int CurrentFragment = FRAGMENT_HOME;
@@ -94,29 +96,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if(id == R.id.nav_home){
-//            if(CurrentFragment != FRAGMENT_HOME){
-                replaceFragment(new HomeFragment());
-                CurrentFragment = FRAGMENT_HOME;
-                Log.d("Fragment", "Home Fragment Selected");
-//            }
+            replaceFragment(new HomeFragment());
+            CurrentFragment = FRAGMENT_HOME;
+            Log.d("Fragment", "Home Fragment Selected");
         } else if (id == R.id.nav_setting) {
             if(CurrentFragment != FRAGMENT_SETTING){
                 replaceFragment(new SettingFragment());
                 CurrentFragment = FRAGMENT_SETTING;
                 Log.d("Fragment", "SETTING Fragment Selected");
             }
-        }else if (id == R.id.nav_lovelist) {
-//            if(CurrentFragment != FRAGMENT_LOVELIST){
-                replaceFragment(new LoveListFragment());
-                CurrentFragment = FRAGMENT_LOVELIST;
-                Log.d("Fragment", "LOVELIST Fragment Selected");
-//            }
-        }else if (id == R.id.nav_account) {
-            if(CurrentFragment != FRAGMENT_ACCOUNT){
-                replaceFragment(new AccountFragment());
-                CurrentFragment = FRAGMENT_ACCOUNT;
-                Log.d("Fragment", "ACCOUNT Fragment Selected");
-            }
+        } else if (id == R.id.nav_lovelist) {
+            replaceFragment(new LoveListFragment());
+            CurrentFragment = FRAGMENT_LOVELIST;
+            Log.d("Fragment", "LOVELIST Fragment Selected");
+        } else if (id == R.id.nav_account) {
+            replaceFragment(new AccountFragment());
+            CurrentFragment = FRAGMENT_ACCOUNT;
+            Log.d("Fragment", "ACCOUNT Fragment Selected");
+        } else if (id == R.id.nav_TimKiem) {
+            replaceFragment(new SearchFragment());  // Chuyển tới Fragment tìm kiếm
+            CurrentFragment = FRAGMENT_TIMKIEM;
+            Log.d("Fragment", "Search Fragment Selected");
         } else if (id == R.id.nav_Logout) {
             sharedPrefsHelper.clearLoginState();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -126,9 +126,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
-
         return true;
     }
+
 
     //xu ly khi nhan nut bach
     @Override

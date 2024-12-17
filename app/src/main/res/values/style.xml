@@ -23,4 +23,16 @@
     </style>
 
 
+    <style name="CustomSearchView" parent="Widget.AppCompat.SearchView">
+        <!-- Màu chữ gợi ý -->
+        <item name="android:textColorHint">@android:color/white</item>
+        <!-- Màu chữ khi người dùng nhập -->
+        <item name="android:textColor">@android:color/white</item>
+        <!-- Icon trắng -->
+        <item name="android:iconifiedByDefault">false</item>
+    </style>
+
+
+
+
 </resources>
