@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
 
 import vn.edu.stu.leafmusic.R;
+import vn.edu.stu.leafmusic.activity.detail.LoveListDetailFragment;
 import vn.edu.stu.leafmusic.activity.fragment.AccountFragment;
 import vn.edu.stu.leafmusic.activity.fragment.HomeFragment;
 import vn.edu.stu.leafmusic.activity.fragment.LoveListFragment;
@@ -133,17 +134,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //xu ly khi nhan nut bach
     @Override
     public void onBackPressed() {
-        // Kiểm tra nếu fragment hiện tại không phải là HomeFragment
-        if (CurrentFragment != FRAGMENT_HOME) {
-            // Nếu không phải HomeFragment, thay thế bằng HomeFragment
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+
+        if (currentFragment instanceof LoveListDetailFragment) {
+            replaceFragment(new LoveListFragment());
+            CurrentFragment = FRAGMENT_LOVELIST;
+            Log.d("Fragment", "Back to LoveList Fragment");
+        } else if (CurrentFragment != FRAGMENT_HOME) {
             replaceFragment(new HomeFragment());
             CurrentFragment = FRAGMENT_HOME;
             Log.d("Fragment", "Back to Home Fragment");
         } else {
-            // Nếu đang ở HomeFragment, gọi phương thức mặc định
             super.onBackPressed();
         }
     }
+
 
 
     private void replaceFragment(Fragment fragment){

@@ -45,7 +45,7 @@ public class SearchFragment extends Fragment {
 
         ThongBao = rootView.findViewById(R.id.ThongBao);
 
-        
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         songsAdapter = new SongsAdapter(songList, this::onSongClicked);
         recyclerView.setAdapter(songsAdapter);
