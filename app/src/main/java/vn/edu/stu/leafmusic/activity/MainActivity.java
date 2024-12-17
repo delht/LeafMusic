@@ -3,8 +3,10 @@ package vn.edu.stu.leafmusic.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -136,7 +138,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
 
-        if (currentFragment instanceof LoveListDetailFragment) {
+        // Nếu đang ở trong SearchFragment, quay lại HomeFragment hoặc bất kỳ fragment nào bạn muốn
+        if (currentFragment instanceof SearchFragment) {
+            // Quay lại fragment trước đó, ví dụ HomeFragment
+            replaceFragment(new HomeFragment());
+            CurrentFragment = FRAGMENT_HOME;
+            Log.d("Fragment", "Back to Home Fragment");
+        } else if (currentFragment instanceof LoveListDetailFragment) {
             replaceFragment(new LoveListFragment());
             CurrentFragment = FRAGMENT_LOVELIST;
             Log.d("Fragment", "Back to LoveList Fragment");
@@ -145,9 +153,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             CurrentFragment = FRAGMENT_HOME;
             Log.d("Fragment", "Back to Home Fragment");
         } else {
-            super.onBackPressed();
+            super.onBackPressed();  // Tiếp tục hành động mặc định nếu không phải SearchFragment hoặc HomeFragment
         }
     }
+
 
 
 
@@ -173,6 +182,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_search) {
+            // Thực hiện hành động khi người dùng nhấn vào nút tìm kiếm
+            Log.d("Search", "Nút tìm kiếm được nhấn");
+
+            // Bạn có thể mở một SearchView hoặc thực hiện một hành động tùy chỉnh
+            // Ví dụ: Mở một fragment tìm kiếm
+            replaceFragment(new SearchFragment());
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
 
 
 }
