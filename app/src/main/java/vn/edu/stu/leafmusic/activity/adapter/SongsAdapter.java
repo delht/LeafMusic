@@ -78,17 +78,20 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     public static class SongViewHolder extends RecyclerView.ViewHolder {
         TextView songName;
         ImageView songImage;
-        ImageButton moreOptionsButton;
+//        ImageButton moreOptionsButton;
 
         public SongViewHolder(View itemView) {
             super(itemView);
             songName = itemView.findViewById(R.id.tv_song_name);
             songImage = itemView.findViewById(R.id.img_song);
-            moreOptionsButton = itemView.findViewById(R.id.btnBHXemThem);
 
-            moreOptionsButton.setOnClickListener(v -> {
-                Toast.makeText(itemView.getContext(), "Bạn vừa bấm vào nút Xem Thêm!", Toast.LENGTH_SHORT).show();
-            });
+            //cai nay de xu ly nut xem them
+
+//            moreOptionsButton = itemView.findViewById(R.id.btnBHXemThem);
+
+//            moreOptionsButton.setOnClickListener(v -> {
+//                Toast.makeText(itemView.getContext(), "Bạn vừa bấm vào nút Xem Thêm!", Toast.LENGTH_SHORT).show();
+//            });
         }
     }
 

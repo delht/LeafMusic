@@ -25,25 +25,24 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
-    <ImageView
+<!--    <ImageView-->
+<!--        android:id="@+id/btnBHXemThem"-->
+<!--        android:layout_width="24dp"-->
+<!--        android:layout_height="24dp"-->
+<!--        android:layout_gravity="center_vertical"-->
+<!--        android:src="@drawable/ic_xemthem_whilte"-->
+<!--        android:contentDescription="More Options"-->
+<!--        />-->
+
+    <ImageButton
         android:id="@+id/btnBHXemThem"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_quaphai"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_xemthem_whilte"
         android:contentDescription="More Options"
-        android:clickable="false"
-        android:focusable="false" />
-
-<!--    <ImageButton-->
-<!--        android:id="@+id/btnBHXemThem"-->
-<!--        android:layout_width="48dp"-->
-<!--        android:layout_height="48dp"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:background="?android:attr/selectableItemBackground"-->
-<!--        android:src="@drawable/ic_xemthem_whilte"-->
-<!--        android:contentDescription="More Options"-->
-<!--        />-->
+        />
 
 
 </LinearLayout>
