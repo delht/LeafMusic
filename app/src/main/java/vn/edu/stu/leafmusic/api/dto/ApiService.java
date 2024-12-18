@@ -16,6 +16,7 @@ import vn.edu.stu.leafmusic.api.dto.request.ChangePasswordRequest;
 import vn.edu.stu.leafmusic.api.dto.request.DsYeuThich_Request;
 import vn.edu.stu.leafmusic.api.dto.request.LoginRequest;
 import vn.edu.stu.leafmusic.api.dto.request.RegisterRequest;
+import vn.edu.stu.leafmusic.api.dto.request.ResetPasswordRequest;
 import vn.edu.stu.leafmusic.api.dto.request.ThemBaiHat_DsMacDinh_Request;
 import vn.edu.stu.leafmusic.model.Album;
 import vn.edu.stu.leafmusic.model.Artist;
@@ -124,5 +125,16 @@ public interface ApiService {
 
     @POST("api/taikhoan/doimatkhau")
     Call<Void> changePassword(@Body ChangePasswordRequest request);
+
+//    ==============================================
+
+    @POST("api/auth/forgot-password")
+    Call<ResponseBody> forgotPassword(@Query("email") String email);
+
+    @POST("api/auth/reset-password")
+    Call<ResponseBody> resetPassword(@Query("code") String code, @Query("newPassword") String newPassword, @Query("email") String email);
+
+
+
 
 }

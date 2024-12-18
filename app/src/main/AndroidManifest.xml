@@ -16,7 +16,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".activity.fragment.ChangePasswordActivity"
+            android:name=".activity.UI.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.UI.ChangePasswordActivity"
             android:exported="false" />
         <activity
             android:name=".activity.UI.SplashActivity"

@@ -1,7 +1,6 @@
-package vn.edu.stu.leafmusic.activity.fragment;
+package vn.edu.stu.leafmusic.activity.UI;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
