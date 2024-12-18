@@ -96,7 +96,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(int idSong) {
                 // Hiển thị thông báo về bài hát được chọn
-                Toast.makeText(getContext(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
 
                 // Gọi API để lấy chi tiết bài hát
 //                getSongDetails(idSong);

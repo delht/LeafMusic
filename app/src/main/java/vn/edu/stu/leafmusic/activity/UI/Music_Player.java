@@ -311,7 +311,7 @@ public class Music_Player extends AppCompatActivity {
                 e.printStackTrace();
                 runOnUiThread(() -> {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(Music_Player.this, "Không thể phát bài hát này", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(Music_Player.this, "Không thể phát bài hát này", Toast.LENGTH_SHORT).show();
                 });
             }
         }).start();

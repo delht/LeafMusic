@@ -151,7 +151,7 @@ public class ArtistDetailFragment extends Fragment {
         SongsAdapter adapter = new SongsAdapter(songs, new SongsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int idSong) {
-                Toast.makeText(getContext(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
 
                 // Gọi API để lấy thông tin chi tiết bài hát khi người dùng nhấn vào bài hát
 //                ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);

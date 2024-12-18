@@ -64,7 +64,7 @@ public class LoveListAdapter extends RecyclerView.Adapter<LoveListAdapter.LoveLi
 
 
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(context, "ID danh sách yêu thích: " + item.getIdDs(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "ID danh sách yêu thích: " + item.getIdDs(), Toast.LENGTH_SHORT).show();
 
 
             LoveListDetailFragment loveListAdapter = LoveListDetailFragment.newInstance(

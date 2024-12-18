@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
 
     private static final int FRAGMENT_HOME = 0;
-    private static final int FRAGMENT_SETTING = 1;
+//    private static final int FRAGMENT_SETTING = 1;
     private static final int FRAGMENT_LOVELIST = 2;
     private static final int FRAGMENT_ACCOUNT = 3;
     private static final int FRAGMENT_TIMKIEM = 4;
@@ -102,12 +102,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             replaceFragment(new HomeFragment());
             CurrentFragment = FRAGMENT_HOME;
             Log.d("Fragment", "Home Fragment Selected");
-        } else if (id == R.id.nav_setting) {
-            if(CurrentFragment != FRAGMENT_SETTING){
-                replaceFragment(new SettingFragment());
-                CurrentFragment = FRAGMENT_SETTING;
-                Log.d("Fragment", "SETTING Fragment Selected");
-            }
         } else if (id == R.id.nav_lovelist) {
             replaceFragment(new LoveListFragment());
             CurrentFragment = FRAGMENT_LOVELIST;

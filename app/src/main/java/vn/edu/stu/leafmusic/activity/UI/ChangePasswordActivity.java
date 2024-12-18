@@ -1,8 +1,11 @@
 package vn.edu.stu.leafmusic.activity.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,12 +14,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import vn.edu.stu.leafmusic.R;
+import vn.edu.stu.leafmusic.activity.login.LoginActivity;
 import vn.edu.stu.leafmusic.api.dto.ApiClient;
 import vn.edu.stu.leafmusic.api.dto.request.ChangePasswordRequest;
 import vn.edu.stu.leafmusic.util.SharedPrefsHelper;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
+    TextView tvQuenMK;
     private EditText edtCu, edtMoi, edtReMoi;
     private Button btnRegister;
     private SharedPrefsHelper sharedPrefsHelper;
@@ -31,6 +36,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         edtMoi = findViewById(R.id.edtMoi);
         edtReMoi = findViewById(R.id.edtReMoi);
         btnRegister = findViewById(R.id.btnRegister);
+        tvQuenMK = findViewById(R.id.tvQuenMK);
 
         sharedPrefsHelper = new SharedPrefsHelper(this);
 
@@ -51,6 +57,17 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 Toast.makeText(ChangePasswordActivity.this, "Mật khẩu mới không khớp", Toast.LENGTH_SHORT).show();
             }
         });
+
+        tvQuenMK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChangePasswordActivity.this, ResetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
 
 
