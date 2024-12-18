@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import vn.edu.stu.leafmusic.R;
 import vn.edu.stu.leafmusic.activity.MainActivity;
 import vn.edu.stu.leafmusic.activity.UI.Home;
+import vn.edu.stu.leafmusic.activity.UI.ResetPasswordActivity;
 import vn.edu.stu.leafmusic.api.dto.ApiService;
 import vn.edu.stu.leafmusic.api.dto.reponse.LoginResponse;
 import vn.edu.stu.leafmusic.api.dto.request.LoginRequest;
@@ -62,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     private void Events(){
         btnLogin.setOnClickListener(v -> login());
         tvForgot.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginActivity.this, ForgotPass.class);
+            Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
             startActivity(intent);
         });
 

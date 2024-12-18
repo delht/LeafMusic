@@ -34,6 +34,18 @@ public class SharedPrefsHelper {
         return sharedPreferences.getString("username", null);
     }
 
+
+
+    public String getUsernameWithoutDomain() {
+        String username = sharedPreferences.getString("username", null);
+        if (username != null && username.contains("@")) {
+            return username.substring(0, username.indexOf('@'));
+        }
+        return username; // Trả về username nếu không có dấu @
+    }
+
+
+
     //xoa data user (dang xuat)
     public void clearLoginState() {
         sharedPreferences.edit()

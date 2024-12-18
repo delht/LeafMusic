@@ -13,6 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,23 +59,23 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void AddEvents() {
         btnRegister.setOnClickListener(view ->{
-            String username=edtUser.getText().toString().trim();
-            String password=edtPass.getText().toString().trim();
-            String repass=edtRePass.getText().toString().trim();
+            String username = edtUser.getText().toString().trim();
+            String password = edtPass.getText().toString().trim();
+            String repass = edtRePass.getText().toString().trim();
 
-            if (TextUtils.isEmpty(username)){
+            if (TextUtils.isEmpty(username)) {
                 edtUser.setError("Vui lòng nhập tên đăng nhâp!");
                 edtUser.requestFocus();
                 return;
             }
 
-            if (TextUtils.isEmpty(repass)){
+            if (TextUtils.isEmpty(repass)) {
                 edtRePass.setError("Vui lòng nhập lại mật khẩu");
                 edtRePass.requestFocus();
                 return;
             }
 
-            if (TextUtils.isEmpty(password)){
+            if (TextUtils.isEmpty(password)) {
                 edtPass.setError("Vui lòng nhập mật khẩu!");
                 edtPass.requestFocus();
                 return;
@@ -105,7 +107,13 @@ public class RegisterActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(RegisterActivity.this, "Đăng ký thất bại!", Toast.LENGTH_SHORT).show();
+                        try {
+                            // Lấy thông báo lỗi từ body của response
+                            String errorMessage = response.errorBody().string();
+                            Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        } catch (IOException e) {
+                            Toast.makeText(RegisterActivity.this, "Đăng ký thất bại!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
 
@@ -116,13 +124,17 @@ public class RegisterActivity extends AppCompatActivity {
             });
         });
 
-
         btnLogin.setOnClickListener(v -> {
-            Intent intent=new Intent(RegisterActivity.this, LoginActivity.class);
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
         });
-
-
     }
+
+
+
+
+
+
+
 
 }

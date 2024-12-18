@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/XanhSua</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/CustomPositiveButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/CustomNegativeButton</item>
+    </style>
+
+    <style name="CustomPositiveButton">
+        <item name="android:textColor">@color/Green5</item>
+    </style>
+
+    <style name="CustomNegativeButton">
+        <item name="android:textColor">@color/Green1</item>
+    </style>
+
+
+    <style name="CustomPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:background">@color/grey</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+
+    <style name="CustomSearchView" parent="Widget.AppCompat.SearchView">
+        <!-- Màu chữ gợi ý -->
+        <item name="android:textColorHint">@android:color/white</item>
+        <!-- Màu chữ khi người dùng nhập -->
+        <item name="android:textColor">@android:color/white</item>
+        <!-- Icon trắng -->
+        <item name="android:iconifiedByDefault">false</item>
+    </style>
+
+
+
+
+</resources>

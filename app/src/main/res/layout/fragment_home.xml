@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="#4B4B4B">
+    android:background="@color/Den">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,16 +16,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            >
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="30dp"
-                android:text="Gợi ý hôm nay"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="30sp"
+                    android:text="Gợi ý hôm nay"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/XanhSua" />
+
+                <ImageButton
+                    android:id="@+id/btnLamMoi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_lammoi"
+                    android:background="@null"
+                    android:padding="0dp" />
+            </LinearLayout>
+
+
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_random_songs"
@@ -41,7 +61,7 @@
                 android:text="Album nổi bật"
                 android:padding="10dp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/XanhSua" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_albums"
@@ -57,7 +77,7 @@
                 android:text="Ca sĩ hàng đầu"
                 android:padding="10dp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/XanhSua" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_artists"

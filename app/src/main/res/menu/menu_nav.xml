@@ -9,13 +9,14 @@
             android:title="@string/nav_Home"
             android:icon="@drawable/ic_nav_home"
             />
-        <item
-            android:id="@+id/nav_setting"
-            android:title="@string/nav_Setting"
-            android:icon="@drawable/ic_nav_setting"
-            />
 
     </group>
+
+    <item
+        android:id="@+id/nav_TimKiem"
+        android:title="Tìm kiếm bài hát"
+        android:icon="@drawable/ic_nav_timkiem"
+        />
 
     <group android:checkableBehavior="single">
         <item

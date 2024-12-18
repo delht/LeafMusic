@@ -3,34 +3,46 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-    android:background="@drawable/item_background">
+    android:background="@drawable/item_background"
+
+    >
 
     <ImageView
-        android:id="@+id/img_ds"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_lovelist_custom"
+        android:id="@+id/img_song"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_launcher_foreground"
         android:scaleType="centerCrop" />
 
     <TextView
-        android:id="@+id/tv_ds_name"
+        android:id="@+id/tv_song_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginStart="10dp"
-        android:layout_gravity="center"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="20dp"
         android:text="Album Name"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
-    <Button
+<!--    <ImageView-->
+<!--        android:id="@+id/btnBHXemThem"-->
+<!--        android:layout_width="24dp"-->
+<!--        android:layout_height="24dp"-->
+<!--        android:layout_gravity="center_vertical"-->
+<!--        android:src="@drawable/ic_xemthem_whilte"-->
+<!--        android:contentDescription="More Options"-->
+<!--        />-->
+
+    <ImageButton
         android:id="@+id/btnBHXemThem"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:background="?android:attr/selectableItemBackground"
-        android:drawableTop="@drawable/ic_xemthem_whilte"
+        android:src="@drawable/ic_xemthem_whilte"
         android:contentDescription="More Options"
-        android:onClick="showOptionsMenu"/>
+        />
+
 
 </LinearLayout>

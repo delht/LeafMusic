@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main"
+    android:background="#C7C7C7">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Danh sách phát"
+        android:textSize="12pt"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"
+        android:paddingBottom="8dp"
+        android:textColor="@color/XanhLuc" />
+
+    <ListView
+        android:id="@+id/lvDS"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/btnLayout"
+        android:layout_below="@id/tvTitle"
+        android:layout_marginBottom="8dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/btnHuy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hủy"
+            android:textSize="8pt"
+            android:backgroundTint="@color/XanhMa" />
+
+        <Button
+            android:id="@+id/btnLuu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lưu"
+            android:textSize="8pt"
+            android:backgroundTint="@color/XanhMa" />
+    </LinearLayout>
+
+</RelativeLayout>

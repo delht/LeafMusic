@@ -1,11 +1,9 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Den"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#545454"
-    >
+    android:padding="16dp">
 
     <!-- Hình ảnh album -->
     <ImageView
@@ -19,7 +17,9 @@
         android:id="@+id/album_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Album Name"
+        android:textColor="@color/XanhSua"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -28,16 +28,32 @@
         android:id="@+id/artist_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Artist Name"
-        android:textSize="16sp" />
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Các bài hát có trong Album"
+        android:textColor="@color/XanhSua"
+        android:textSize="16sp"
+        android:paddingTop="20dp"
+        android:textStyle="bold"
+        />
 
     <!-- RecyclerView để hiển thị bài hát -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_songs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
 
+        android:textColor="@color/white" />
 
 
 </LinearLayout>

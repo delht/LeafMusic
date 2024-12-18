@@ -5,7 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.login.LoginActivity">
+    tools:context=".activity.login.LoginActivity"
+    android:background="@color/Den"
+    >
 
     <View
         android:id="@+id/viewTop"
@@ -27,11 +29,13 @@
 
         android:text="ĐĂNG KÝ"
         android:gravity="center_horizontal"
-        android:textColor="@color/Green2"
+        android:textColor="@color/XanhSua"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:textSize="30sp"
         android:textStyle="bold"
+
+
 
         app:layout_constraintHorizontal_bias="0.127"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,11 +52,16 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
 
+        android:textColor="@color/XanhSua"
+        android:textColorHint="@color/XanhSua"
+
         android:drawableStart="@drawable/ic_person"
         android:drawablePadding="16dp"
-        android:hint="Username"
-        android:inputType="textPersonName"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
         android:padding="16dp"
+
+
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -69,6 +78,9 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
+
+        android:textColor="@color/XanhSua"
+        android:textColorHint="@color/XanhSua"
 
         android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="16dp"
@@ -90,6 +102,9 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
+
+        android:textColor="@color/XanhSua"
+        android:textColorHint="@color/XanhSua"
 
         android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="16dp"

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +57,9 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
         Glide.with(holder.itemView.getContext())
                 .load(song.getUrlHinh())
-                .transform(new RoundedCorners(30)) // bo góc
+                .placeholder(R.drawable.error)
+                .error(R.drawable.error)
+                .transform(new RoundedCorners(30))
                 .into(holder.songImage);
 
         holder.itemView.setOnClickListener(v -> {
@@ -64,6 +67,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
             getSongDetails(song.getIdBaiHat());  // Gọi phương thức mở bài hát
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -74,17 +78,20 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     public static class SongViewHolder extends RecyclerView.ViewHolder {
         TextView songName;
         ImageView songImage;
-        Button moreOptionsButton;
+//        ImageButton moreOptionsButton;
 
         public SongViewHolder(View itemView) {
             super(itemView);
             songName = itemView.findViewById(R.id.tv_song_name);
             songImage = itemView.findViewById(R.id.img_song);
-            moreOptionsButton = itemView.findViewById(R.id.btnBHXemThem);
 
-            moreOptionsButton.setOnClickListener(v -> {
-                Toast.makeText(itemView.getContext(), "Bạn vừa bấm vào nút Xem Thêm!", Toast.LENGTH_SHORT).show();
-            });
+            //cai nay de xu ly nut xem them
+
+//            moreOptionsButton = itemView.findViewById(R.id.btnBHXemThem);
+
+//            moreOptionsButton.setOnClickListener(v -> {
+//                Toast.makeText(itemView.getContext(), "Bạn vừa bấm vào nút Xem Thêm!", Toast.LENGTH_SHORT).show();
+//            });
         }
     }
 

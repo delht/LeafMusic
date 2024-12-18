@@ -108,7 +108,7 @@ public class AlbumDetailFragment extends Fragment {
         songsAdapter = new SongsAdapter(songs, new SongsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int idSong) {
-                Toast.makeText(getActivity(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "Clicked song with ID: " + idSong, Toast.LENGTH_SHORT).show();
             }
         });
         recyclerViewSongs.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));

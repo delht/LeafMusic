@@ -47,6 +47,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
         // Tải ảnh album sử dụng Glide
         Glide.with(holder.itemView.getContext())
                 .load(album.getUrlHinh()) //url hinh
+                .placeholder(R.drawable.error) // Hình ảnh hiển thị khi đang tải
+                .error(R.drawable.error)
                 .transform(new RoundedCorners(30)) //bo goc
                 .into(holder.albumImage);
 
