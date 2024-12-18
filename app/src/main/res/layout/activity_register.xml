@@ -57,9 +57,11 @@
 
         android:drawableStart="@drawable/ic_person"
         android:drawablePadding="16dp"
-        android:hint="Username"
-        android:inputType="textPersonName"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
         android:padding="16dp"
+
+
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

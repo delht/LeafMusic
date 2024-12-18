@@ -21,15 +21,6 @@
         />
 
     <Button
-        android:id="@+id/btnDoiThongTin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cập nhật thông tin tài khoản"
-        android:textSize="10pt"
-        android:backgroundTint="@color/XanhLuc"
-        />
-
-    <Button
         android:id="@+id/btnDoiMatKhau"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
