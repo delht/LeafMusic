@@ -12,6 +12,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import vn.edu.stu.leafmusic.api.dto.reponse.LoginResponse;
+import vn.edu.stu.leafmusic.api.dto.request.ChangePasswordRequest;
 import vn.edu.stu.leafmusic.api.dto.request.DsYeuThich_Request;
 import vn.edu.stu.leafmusic.api.dto.request.LoginRequest;
 import vn.edu.stu.leafmusic.api.dto.request.RegisterRequest;
@@ -119,5 +120,9 @@ public interface ApiService {
     @GET("/api/baihat/timkiem")
     Call<List<Song>> searchSongs(@Query("ten") String songName);
 
+//    ===========================================================================
+
+    @POST("api/taikhoan/doimatkhau")
+    Call<Void> changePassword(@Body ChangePasswordRequest request);
 
 }

@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.fragment.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.UI.SplashActivity"
             android:exported="true">
             <intent-filter>
