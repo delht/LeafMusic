@@ -57,7 +57,7 @@ public class LoveListAdapter extends RecyclerView.Adapter<LoveListAdapter.LoveLi
         // Day la cho thay icon
         if (item.isDefaultList()) {
             holder.tvName.setTextColor(context.getResources().getColor(R.color.Green4));
-            holder.imgIcon.setImageResource(R.drawable.ic_favorite_filled);
+            holder.imgIcon.setImageResource(R.drawable.ic_dsyt_macdinh);
         } else {
             holder.tvName.setTextColor(context.getResources().getColor(R.color.white));
         }

@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView tvUsername = headerView.findViewById(R.id.tvUsername);
 
         if (sharedPrefsHelper != null) {
-            String username = sharedPrefsHelper.getUsername();
+            String username = sharedPrefsHelper.getUsernameWithoutDomain();
 
             if (username != null) {
                 tvUsername.setText(username);
