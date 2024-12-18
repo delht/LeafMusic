@@ -28,7 +28,8 @@ public class RegisterActivity extends AppCompatActivity {
     EditText edtUser, edtPass, edtRePass;
     Button btnRegister, btnLogin;
 
-    private static final String BASE_URL = "http://192.168.83.1:8080/";
+//    private static final String BASE_URL = "http://192.168.83.1:8080/";
+    private static final String BASE_URL = "http://192.168.1.11:8080/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
