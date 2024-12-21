@@ -26,8 +26,8 @@ import vn.edu.stu.leafmusic.util.SharedPrefsHelper;
 
 public class LoginActivity extends AppCompatActivity {
 
-//    private static final String BASE_URL = "http://192.168.83.1:8080/";
-    private static final String BASE_URL = "http://192.168.1.11:8080/";
+    private static final String BASE_URL = "http://192.168.83.1:8080/";
+//    private static final String BASE_URL = "http://192.168.1.11:8080/";
 
     EditText edtUser, edtPass;
     Button btnLogin, btnCreate;

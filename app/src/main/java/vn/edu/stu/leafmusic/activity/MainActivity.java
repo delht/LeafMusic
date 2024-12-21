@@ -132,9 +132,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
 
-        // Nếu đang ở trong SearchFragment, quay lại HomeFragment hoặc bất kỳ fragment nào bạn muốn
+
         if (currentFragment instanceof SearchFragment) {
-            // Quay lại fragment trước đó, ví dụ HomeFragment
+
             replaceFragment(new HomeFragment());
             CurrentFragment = FRAGMENT_HOME;
             Log.d("Fragment", "Back to Home Fragment");
@@ -181,7 +181,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_search, menu);
         return true;
     }
@@ -191,11 +190,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.action_search) {
-            // Thực hiện hành động khi người dùng nhấn vào nút tìm kiếm
             Log.d("Search", "Nút tìm kiếm được nhấn");
 
-            // Bạn có thể mở một SearchView hoặc thực hiện một hành động tùy chỉnh
-            // Ví dụ: Mở một fragment tìm kiếm
             replaceFragment(new SearchFragment());
 
             return true;
