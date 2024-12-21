@@ -90,6 +90,12 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        if (pass.length() < 8) {
+            edtPass.setError("Mật khẩu phải có ít nhất 8 ký tự!");
+            edtPass.requestFocus();
+            return;
+        }
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

@@ -82,6 +82,12 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
+            if (password.length() < 8) {
+                edtPass.setError("Mật khẩu phải có ít nhất 8 ký tự!");
+                edtPass.requestFocus();
+                return;
+            }
+
             if (!password.equals(repass)) {
                 edtRePass.setError("Mật khẩu không khớp!");
                 edtRePass.requestFocus();

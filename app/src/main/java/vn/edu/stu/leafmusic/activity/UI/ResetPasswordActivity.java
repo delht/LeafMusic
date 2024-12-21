@@ -30,17 +30,17 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        // Khởi tạo các view
+
         edtEmail = findViewById(R.id.edtEmail);
         edtCode = findViewById(R.id.edtCode);
         edtNewPass = findViewById(R.id.edtNewPass);
         btnSendCode = findViewById(R.id.btnSendCode);
         btnReset = findViewById(R.id.btnReset);
 
-        // Khởi tạo Retrofit service
+
         apiService = ApiClient.getApiService();
 
-        // Bấm nút gửi mã xác nhận
+
         btnSendCode.setOnClickListener(v -> {
             String email = edtEmail.getText().toString();
             if (email.isEmpty()) {
@@ -50,7 +50,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             sendVerificationCode(email);
         });
 
-        // Bấm nút đặt lại mật khẩu
+
         btnReset.setOnClickListener(v -> {
             String email = edtEmail.getText().toString();
             String code = edtCode.getText().toString();
@@ -60,6 +60,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 Toast.makeText(ResetPasswordActivity.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            if (newPassword.length() < 8) {
+                edtNewPass.setError("Mật khẩu phải có ít nhất 8 ký tự");
+                edtNewPass.requestFocus();
+                return;
+            }
+
             resetPassword(code, newPassword, email);
         });
     }
@@ -72,7 +79,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    // Hiển thị trường nhập mã xác nhận và mật khẩu mới
+
                     edtCode.setVisibility(View.VISIBLE);
                     edtNewPass.setVisibility(View.VISIBLE);
                     btnReset.setVisibility(View.VISIBLE);
@@ -98,7 +105,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(ResetPasswordActivity.this, "Mật khẩu đã được đổi thành công", Toast.LENGTH_SHORT).show();
-                    finish();  // Kết thúc activity và quay lại màn hình đăng nhập
+                    finish();
                 } else {
                     try {
                         String errorBody = response.errorBody().string();
