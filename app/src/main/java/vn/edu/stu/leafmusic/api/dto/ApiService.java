@@ -27,11 +27,7 @@ import vn.edu.stu.leafmusic.model.Song2;
 
 public interface ApiService {
 
-    @POST("api/taikhoan/dangnhap2")
-    Call<LoginResponse> login(@Body LoginRequest loginRequest);
 
-    @POST("api/taikhoan/tao")
-    Call<Void> register(@Body RegisterRequest request);
 
     @GET("api/album/all")
     Call<List<Album>> getAllAlbums();
@@ -122,6 +118,13 @@ public interface ApiService {
     Call<List<Song>> searchSongs(@Query("ten") String songName);
 
 //    ===========================================================================
+
+
+    @POST("api/taikhoan/dangnhap2")
+    Call<LoginResponse> login(@Body LoginRequest loginRequest);
+
+    @POST("api/taikhoan/tao")
+    Call<Void> register(@Body RegisterRequest request);
 
     @POST("api/taikhoan/doimatkhau")
     Call<Void> changePassword(@Body ChangePasswordRequest request);
