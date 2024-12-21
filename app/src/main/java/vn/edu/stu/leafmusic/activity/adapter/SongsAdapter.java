@@ -37,38 +37,58 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     private OnItemClickListener listener;
     private Context context;
 
+    //được gọi khi tạo một đối tượng songdapter mới
     public SongsAdapter(List<Song> songs, OnItemClickListener listener) {
         this.songs = songs;
         this.listener = listener;
     }
 
+    //được gọi khi tạo một đối tượng songdapter mới
     @NonNull
     @Override
+    //tạo ra một view cho mỗi item trong recycleview và tái sử dụng
     public SongViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //sử dụng layoutinflater để chuyển đổi item sang đối tượng view mà recycle có thể sử dụng
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_song, parent, false);
-        this.context = parent.getContext();  // Lưu context ở đây
+        this.context = parent.getContext();  // Lưu context
+        //trả về songviewholder để quản lý view
         return new SongViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
+        //lấy bài hát tại vị trí position hiện tại của item trong danh sách song
         Song song = songs.get(position);
-        holder.songName.setText(song.getTenBaiHat());
+        //thiết lập tên bài hát vào textview của songviewholder
+        holder.songName.setText(song.getTenBaiHat());//setText lấy dữ liệu tên bài hát từ lớp Song
 
+<<<<<<< Updated upstream
         Glide.with(holder.itemView.getContext())
                 .load(song.getUrlHinh())
                 .placeholder(R.drawable.error)
                 .error(R.drawable.error)
                 .transform(new RoundedCorners(30))
                 .into(holder.songImage);
+=======
+        //sử dụng thư viện glide tải hình ảnh từ url
+        Glide.with(holder.itemView.getContext())//glide hđ trong ngữ cảnh itemview
+                .load(song.getUrlHinh()) //lấy dữ liệu hình từ lớp song
+                .transform(new RoundedCorners(30)) // bo góc
+                .into(holder.songImage); //gắn hình đã tải vào imageview
+>>>>>>> Stashed changes
 
+        //gắn sự kiện click vào item của songviewholder
         holder.itemView.setOnClickListener(v -> {
-            listener.onItemClick(Integer.parseInt(String.valueOf(song.getIdBaiHat())));
+            listener.onItemClick(Integer.parseInt(String.valueOf(song.getIdBaiHat()))); //gửi id bài hát cho listener sau đó gọi API lấy chi tiết bài hát
             getSongDetails(song.getIdBaiHat());  // Gọi phương thức mở bài hát
         });
     }
 
+<<<<<<< Updated upstream
 
+=======
+    //trả về số lượng item trong recycleview
+>>>>>>> Stashed changes
     @Override
     public int getItemCount() {
         return songs.size();
@@ -82,6 +102,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
         public SongViewHolder(View itemView) {
             super(itemView);
+            //ánh xạ thành phần từ layout vào biến
             songName = itemView.findViewById(R.id.tv_song_name);
             songImage = itemView.findViewById(R.id.img_song);
 
@@ -96,7 +117,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int idSong);
+        void onItemClick(int idSong); // khi nhấn vào item thì id của bài hát sẽ được truyền vào
     }
 
 
@@ -106,24 +127,28 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 //    -=========================================================================
 
     private void getSongDetails(int songId) {
+        //sử dụng để gọi API và lấy chi tiết của một bài hát dựa vào id bài hát
         ApiClient.getApiService().getSongById(songId).enqueue(new Callback<Song2>() {
             @Override
+            //trả dữ liệu về qua phương thức onResponse
             public void onResponse(Call<Song2> call, Response<Song2> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Song2 song = response.body();
+                    Song2 song = response.body(); //trả về đối tượng dữ liệu bài hát
 
-                    Log.d("Song Details", "ID: " + song.getIdBaiHat());
-                    Log.d("Song Details", "Tên bài hát: " + song.getTenBaiHat());
-                    Log.d("Song Details", "Ca sĩ: " + song.getCaSi());
-                    Log.d("Song Details", "Thể loại: " + song.getTheLoai());
-                    Log.d("Song Details", "Album: " + song.getAlbum());
-                    Log.d("Song Details", "Khu vực nhạc: " + song.getKhuVucNhac());
-                    Log.d("Song Details", "URL hình: " + song.getUrlHinh());
-                    Log.d("Song Details", "URL file: " + song.getUrlFile());
-                    Log.d("Song Details", "Ngày phát hành: " + song.getFormattedReleaseDate());
+//                    Log.d("Song Details", "ID: " + song.getIdBaiHat());
+//                    Log.d("Song Details", "Tên bài hát: " + song.getTenBaiHat());
+//                    Log.d("Song Details", "Ca sĩ: " + song.getCaSi());
+//                    Log.d("Song Details", "Thể loại: " + song.getTheLoai());
+//                    Log.d("Song Details", "Album: " + song.getAlbum());
+//                    Log.d("Song Details", "Khu vực nhạc: " + song.getKhuVucNhac());
+//                    Log.d("Song Details", "URL hình: " + song.getUrlHinh());
+//                    Log.d("Song Details", "URL file: " + song.getUrlFile());
+//                    Log.d("Song Details", "Ngày phát hành: " + song.getFormattedReleaseDate());
 
+                    //context là dối tượng của fragment  hiện tại được sử dụng khởi tạo intent
                     Intent intent = new Intent(context, Music_Player.class);
-                    intent.putExtra("song_name", song.getTenBaiHat());
+                    //intent.putExtra() : lưu trữ thông tin chi tiết bài hát vào Intent
+                    intent.putExtra("song_name", song.getTenBaiHat()); //theo cặp key-value
                     intent.putExtra("artist", song.getCaSi());
                     intent.putExtra("song_url", song.getUrlFile());
                     intent.putExtra("image_url", song.getUrlHinh());
@@ -134,9 +159,9 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
                     intent.putExtra("release_date", song.getFormattedReleaseDate());
 
                     ArrayList<Song2> playlist = new ArrayList<>();
-                    playlist.add(song);
-                    intent.putParcelableArrayListExtra("playlist", playlist);
-                    intent.putExtra("position", 0);
+                    playlist.add(song); //tạo một arraylist chứa bài hát hiện tại
+                    intent.putParcelableArrayListExtra("playlist", playlist); // lưu vào intent, danh sách sẽ truyền tới musicplayer
+                    intent.putExtra("position", 0); //bài hát hiện tại là bài đầu tiên trong danh sách
 
                     context.startActivity(intent);  // Sử dụng context để mở Activity
                 } else {

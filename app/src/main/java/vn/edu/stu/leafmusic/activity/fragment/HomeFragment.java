@@ -70,19 +70,23 @@ public class HomeFragment extends Fragment {
 
 
     private void loadSongs() {
+        //khởi tạo đối tượng giao tiếp với API để lấy dữ liệu và chuyển thành object
         ApiService apiService = ApiClient.getRetrofit().create(ApiService.class);
 
-        apiService.getRandom5Songs().enqueue(new Callback<List<Song>>() {
+        //1.yêu cầu bất đồng bộ đến API để lấy dữ liệu random 5 bài hát từ server
+        apiService.getRandom5Songs().enqueue(new Callback<List<Song>>() {//callback xử lý kết quả yêu cầu API trả về hoặc lỗi xảy ra
+            //kết nối thành công kiểm tra có lấy được dữ liệu hay không
             @Override
             public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Song> songs = response.body();
-                    setupSongsRecyclerView(songs);
+                if (response.isSuccessful() && response.body() != null) { //thành công và không rỗng
+                    List<Song> songs = response.body(); //nhận dữ liệu danh sách bài hát từ body
+                    setupSongsRecyclerView(songs); //gọi để hiển thị dữ liệu trong recycleview
                 } else {
                     Toast.makeText(getContext(), "Không thể lấy dữ liệu bài hát", Toast.LENGTH_SHORT).show();
                 }
             }
 
+            //được gọi khi có lỗi trong quá trình gửi yêu cầu và nhận phản hồi từ server
             @Override
             public void onFailure(Call<List<Song>> call, Throwable t) {
                 Toast.makeText(getContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -91,7 +95,10 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    //hiển thị danh sách bài hát
     private void setupSongsRecyclerView(List<Song> songs) {
+        //hiển thị danh sách 5 bài hát
+        //onitemclick sẽ được gọi khi nhấn vào bài hát bất kì
         SongsAdapter adapter = new SongsAdapter(songs, new SongsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int idSong) {
@@ -103,7 +110,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //sắp xếp item theo chiều dọc sau đó gán adapter vào recycleview để hiển thị dữ liệu
         recyclerRandomSongs.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        //quản lý item, khi nhấn vào bài hát bất kì sẽ gọi onitemClick
         recyclerRandomSongs.setAdapter(adapter);
     }
 

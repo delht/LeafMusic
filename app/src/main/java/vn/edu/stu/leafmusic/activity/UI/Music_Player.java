@@ -75,12 +75,16 @@ public class Music_Player extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_player);
 
+        //khởi tạo hiệu ứng đĩa xoay
         rotateAnimationHelper = new RotateAnimationHelper();
 
+        //khởi tạo các view trong giao diện
         initViews();
 
+        //nút quay về
         btnBack.setOnClickListener(v -> finish());
 
+<<<<<<< Updated upstream
         initFavoriteButton();
 
         checkIfSongIsFavorite();
@@ -118,10 +122,15 @@ public class Music_Player extends AppCompatActivity {
         if (getIntent().hasExtra("song_url")) {
             String songId = getIntent().getStringExtra("song_id");
             songUrl = getIntent().getStringExtra("song_url");
+=======
+        //Lấy dữ liệu từ Intent ở SongAdapter, dữ liệu sẽ được truyền từ Active trước đó thông qua Intent
+        if (getIntent().hasExtra("song_url")) {
+            songUrl = getIntent().getStringExtra("song_url");//nhận các giá trị được truyền
+>>>>>>> Stashed changes
             String songName = getIntent().getStringExtra("song_name");
             String artist = getIntent().getStringExtra("artist");
             String imageUrl = getIntent().getStringExtra("image_url");
-            playlist = getIntent().getParcelableArrayListExtra("playlist");
+            playlist = getIntent().getParcelableArrayListExtra("playlist"); //lấy danh sách bài hát
             currentSongIndex = getIntent().getIntExtra("position", 0);
 
             // Hiển thị thông tin bài hát
@@ -143,6 +152,7 @@ public class Music_Player extends AppCompatActivity {
             setupMediaPlayer();
         }
 
+        //xử lý các nút
         setupListeners();
 
         initDetailViews();
@@ -154,16 +164,18 @@ public class Music_Player extends AppCompatActivity {
         // Cho phép vuốt từ cạnh phải
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
+        //kiểm tra android 10 (API level 29)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            drawerLayout.setSystemGestureExclusionRects(Collections.emptyList());
-        }
+            drawerLayout.setSystemGestureExclusionRects(Collections.emptyList());// tạo một danh sách trống, có nghĩa là không có vùng gesture nào bị loại trừ.
+        }//giúp vuốt cạnh màn hình mà không bị ảnh hưởng bới drawerlayout
 
+        //sự kiện vuốt
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
                 View contentView = findViewById(R.id.rootLayout);
-                float slideX = drawerView.getWidth() * slideOffset;
-                contentView.setTranslationX(-slideX);
+                float slideX = drawerView.getWidth() * slideOffset; //tính toán độ dịch chuyển thanh drawer
+                contentView.setTranslationX(-slideX); //nội dung chính bị dịch chuyển sang trái
             }
 
             @Override
@@ -190,6 +202,7 @@ public class Music_Player extends AppCompatActivity {
 
     }
 
+    //Ánh xạ các view vào biến
     private void initViews() {
         btnBack = findViewById(R.id.btnBack);
         btnFavorite = findViewById(R.id.btnFavorite);
@@ -209,7 +222,9 @@ public class Music_Player extends AppCompatActivity {
         btnRepeat = findViewById(R.id.btnRepeat);
     }
 
+    //thông tin khi vuốt phải để xem chi tiết bài hát
     private void initDetailViews() {
+        //Ánh xạ thành phần giao diện vào biến
         drawerLayout = findViewById(R.id.drawerLayout);
         NavigationView navigationView = findViewById(R.id.nav_view_detail);
         View headerView = navigationView.getHeaderView(0);
@@ -220,24 +235,30 @@ public class Music_Player extends AppCompatActivity {
         tvDetailGenre = findViewById(R.id.tvDetailGenre);
         tvDetailReleaseDate = findViewById(R.id.tvDetailReleaseDate);
 
+        //loại bỏ màu nền mặc định
         drawerLayout.setScrimColor(Color.TRANSPARENT);
+        //lắng nghe thay đổi trong trạng thái Drawlayout
         drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
+            //gọi khi Draw đang mở hoặc trượt
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 View contentView = findViewById(R.id.rootLayout);
                 float slideX = drawerView.getWidth() * slideOffset;
-                contentView.setTranslationX(-slideX);
-                contentView.setScaleX(1 - (slideOffset * 0.1f));
-                contentView.setScaleY(1 - (slideOffset * 0.1f));
+                contentView.setTranslationX(-slideX); //dịch chuyển nội dung chính về bên trái khi vuốt phải
+                contentView.setScaleX(1 - (slideOffset * 0.1f)); //thu nhỏ chiều ngang của nội dung chính tạo hiệu ứng zoom out
+                contentView.setScaleY(1 - (slideOffset * 0.1f)); //thu nhỏ chiều dọc
 
-                drawerView.setTranslationX(drawerView.getWidth() * (1 - slideOffset));
+                drawerView.setTranslationX(drawerView.getWidth() * (1 - slideOffset)); //dịch chuyển menu trượt từ phải sang trái
             }
         });
     }
 
+    //cập nhật chi tiết bài hát lên giao diện chi tiết
     private void updateSongDetails() {
+        //danh sách không null, chỉ số bài hát hiện tại không âm, nằm trong phạm vi danh sách bài hát
         if (playlist != null && currentSongIndex >= 0 && currentSongIndex < playlist.size()) {
-            Song2 currentSong = playlist.get(currentSongIndex);
+            //truy xuất bài hát tại vị trí currentsongindex từ ds bài hát
+            Song2 currentSong = playlist.get(currentSongIndex);//currentsong chứa thông tin chi tiết bài hát hiện tại
 
             tvDetailSongName.setText(currentSong.getTenBaiHat());
             tvDetailArtist.setText(currentSong.getCaSi());
@@ -245,36 +266,48 @@ public class Music_Player extends AppCompatActivity {
         }
     }
 
+    //thiết lập và chuẩn bị phát nhạc thông qua MediaPlayer
     private void setupMediaPlayer() {
         ProgressBar progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);  //hiển thị thanh tiến trình trong khi nhạc đang được tải
 
         new Thread(() -> {
             try {
                 if (mediaPlayer != null) {
                     try {
-                        if (mediaPlayer.isPlaying()) {
-                            mediaPlayer.stop();
+                        if (mediaPlayer.isPlaying()) { //nếu phát
+                            mediaPlayer.stop(); // thì dừng
                         }
-                        mediaPlayer.reset();
-                        mediaPlayer.release();
+                        mediaPlayer.reset(); //đặt lại trạng thái
+                        mediaPlayer.release();//giải phóng tài nguyên
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     mediaPlayer = null;
                 }
 
+                //khởi tạo đối tượng mới
                 mediaPlayer = new MediaPlayer();
+<<<<<<< Updated upstream
                 mediaPlayer.setDataSource(songUrl);
+=======
+
+                //gọi khi MediaPLayer chuẩn bị xong dữ liệu nhạc
+>>>>>>> Stashed changes
                 mediaPlayer.setOnPreparedListener(mp -> {
                     runOnUiThread(() -> {
+                        //Ẩn ProgressBar
                         progressBar.setVisibility(View.GONE);
+                        //Hiển thị thời gian tổng của bài hát
                         tvTotalTime.setText(formatTime(mediaPlayer.getDuration()));
+                        //thiết lập độ dài bài hát
                         seekBar.setMax(mediaPlayer.getDuration());
+                        //bắt đầu phát nhạc
                         playMusic();
                     });
                 });
 
+<<<<<<< Updated upstream
                 // Thêm OnCompletionListener để chuyển sang bài tiếp theo khi bài hát kết thúc
                 mediaPlayer.setOnCompletionListener(mp -> {
                     if (isShuffleOn) {
@@ -290,11 +323,18 @@ public class Music_Player extends AppCompatActivity {
                         playNextSongRandom();
                     } else if (isRepeatOn) {
                         playMusic();
+=======
+                //khi kết thúc
+                mediaPlayer.setOnCompletionListener(mp -> {
+                    if (isRepeatOn) { //nếu lặp lại
+                        playMusic(); //thì phát tiếp tục
+>>>>>>> Stashed changes
                     } else {
-                        playNextSong();
+                        playNextSong(); //chuyển bài
                     }
                 });
 
+<<<<<<< Updated upstream
                 mediaPlayer.setOnCompletionListener(mp -> {
                     if (isShuffleOn) {
                         playNextSongRandom();
@@ -305,6 +345,21 @@ public class Music_Player extends AppCompatActivity {
                     }
                 });
 
+=======
+                //xảy ra lỗi
+                mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                    runOnUiThread(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(Music_Player.this,
+                                "Lỗi phát nhạc: " + what, Toast.LENGTH_SHORT).show();
+                    });
+                    return true;
+                });
+
+                //cung cấp đường dẫn bài hát
+                mediaPlayer.setDataSource(songUrl);
+                //chuẩn bị dữ liệu phát nhạc
+>>>>>>> Stashed changes
                 mediaPlayer.prepareAsync();
 
             } catch (Exception e) {
@@ -321,25 +376,31 @@ public class Music_Player extends AppCompatActivity {
     }
 
     private void setupListeners() {
+        //nút dừng
         btnPlayPause.setOnClickListener(v -> {
-            if (isPlaying) {
-                pauseMusic();
+            if (isPlaying) {//nếu phát
+                pauseMusic();//thì dừng
             } else {
-                playMusic();
+                playMusic();//phát
             }
         });
 
+        // chuyển bài
         btnNext.setOnClickListener(v -> playNextSong());
+        //bài trước
         btnPrev.setOnClickListener(v -> playPreviousSong());
+        //ngẫu nhiên
         btnShuffle.setOnClickListener(v -> toggleShuffle());
+        //lặp lại
         btnRepeat.setOnClickListener(v -> toggleRepeat());
 
+        //cập nhật tiến trình phát nhạc khi kéo thanh trượt
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    mediaPlayer.seekTo(progress);
-                    tvCurrentTime.setText(formatTime(progress));
+                if (fromUser) { //nếu từ người dùng
+                    mediaPlayer.seekTo(progress); //chuyển tới tgian tương ứng
+                    tvCurrentTime.setText(formatTime(progress)); //cập nhật thời gian
                 }
             }
 
@@ -350,18 +411,21 @@ public class Music_Player extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
+        //quay lại màn hình trước
         btnBack.setOnClickListener(v -> onBackPressed());
 
     }
 
+    //Phát nhạc
     private void playMusic() {
         try {
+            //Không null và medialpayer tồn tại và bài hát ko phát
             if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-                mediaPlayer.start();
-                btnPlayPause.setImageResource(R.drawable.ic_pause);
+                mediaPlayer.start(); //gọi mediaplayer bắt đầu phát bài hát
+                btnPlayPause.setImageResource(R.drawable.ic_pause);//cập nhật nút play thành pause
                 isPlaying = true;
-                updateSeekBar();
-                // Bắt đầu animation
+                updateSeekBar(); //đồng bộ tiến trình seekbar với tgian phát nhạc
+                // Bắt đầu animation (xoay ảnh bài hát)
                 if (imgSong != null) {
                     rotateAnimationHelper.startAnimation(imgSong);
                 }
@@ -372,13 +436,15 @@ public class Music_Player extends AppCompatActivity {
         }
     }
 
+    //dừng phát
     private void pauseMusic() {
         try {
+            //ko null và đang phát
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                mediaPlayer.pause();
-                btnPlayPause.setImageResource(R.drawable.ic_play_circle);
-                isPlaying = false;
-                if (imgSong != null) {
+                mediaPlayer.pause(); //dừng
+                btnPlayPause.setImageResource(R.drawable.ic_play_circle);//cập nhật nút thành play
+                isPlaying = false; //dừng
+                if (imgSong != null) { //tạm dừng xoay hình
                     rotateAnimationHelper.pauseAnimation(imgSong);
                 }
             }
@@ -388,28 +454,31 @@ public class Music_Player extends AppCompatActivity {
         }
     }
 
+    //cập nhật trạng thái seekbar
     private void updateSeekBar() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (mediaPlayer != null) {
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                    tvCurrentTime.setText(formatTime(mediaPlayer.getCurrentPosition()));
-                    if (isPlaying) {
-                        handler.postDelayed(this, 1000);
+                    seekBar.setProgress(mediaPlayer.getCurrentPosition());//cập nhật vị trí hiện tại
+                    tvCurrentTime.setText(formatTime(mediaPlayer.getCurrentPosition()));//hiển thị tgian hiện tại
+                    if (isPlaying) {//đang phát
+                        handler.postDelayed(this, 1000); //gọi lại phương thức run sau 1 giây bằng handler.postDelayed.
                     }
                 }
             }
-        }, 1000);
+        }, 1000); //thực thi sau 1 giây từ thời điểm gọi
     }
 
-    private String formatTime(int milliseconds) {
-        int seconds = (milliseconds / 1000) % 60;
-        int minutes = (milliseconds / (1000 * 60)) % 60;
-        return String.format("%02d:%02d", minutes, seconds);
+    private String formatTime(int milliseconds) { //tgian đầu vào 1s = 1000 mili s
+        //chuyển mili sang giây
+        int seconds = (milliseconds / 1000) % 60; // % 60: Lấy phần dư khi chia cho 60, để chỉ lấy số giây còn lại (từ 0 đến 59).
+        int minutes = (milliseconds / (1000 * 60)) % 60; //chuyển từ mili s sang phút
+        return String.format("%02d:%02d", minutes, seconds); // hiển thị số nguyên và hiển thị 2 chữ số
     }
 
     private void playNextSong() {
+<<<<<<< Updated upstream
         if (playlist != null && currentSongIndex < playlist.size() - 1) {
             currentSongIndex++;
             Song2 nextSong = playlist.get(currentSongIndex);
@@ -424,6 +493,16 @@ public class Music_Player extends AppCompatActivity {
             playMusic();  // Bắt đầu phát bài hát
 
             updateSongDetails();
+=======
+        //ko null, ko rỗng
+        if (playlist != null && !playlist.isEmpty()) {
+            if (isShuffleOn) { //bật ngẫu nhiên
+                currentSongIndex = new Random().nextInt(playlist.size());//lấy ngẫu nhiên từ 0 đến kích thước danh sách
+            } else {//nếu đến cuối bài thì quay về bài đầu
+                currentSongIndex = (currentSongIndex + 1) % playlist.size(); //lấy chỉ số tiếp theo trong danh sách phát
+            }
+            playSong(currentSongIndex); //phát bài hát
+>>>>>>> Stashed changes
         }
     }
 
@@ -448,12 +527,17 @@ public class Music_Player extends AppCompatActivity {
 
 
     private void toggleShuffle() {
+<<<<<<< Updated upstream
         isShuffleOn = !isShuffleOn;
         if (isShuffleOn) {
             btnShuffle.setImageResource(R.drawable.ic_shuffle_on);  // Thay đổi hình ảnh của nút khi bật chế độ ngẫu nhiên
         } else {
             btnShuffle.setImageResource(R.drawable.ic_shuffle);  // Thay đổi hình ảnh của nút khi tắt chế độ ngẫu nhiên
         }
+=======
+        isShuffleOn = !isShuffleOn; //chuyển đổi trạng thái chế độ ngẫu nhiên
+        btnShuffle.setImageResource(isShuffleOn ? R.drawable.ic_shuffle_on : R.drawable.ic_repeat); //nếu ngẫu nhiên bật thì hiển thị ic_shuffle_on , nếu tắt hiển thị ic_shuffle
+>>>>>>> Stashed changes
     }
 
 
@@ -466,12 +550,17 @@ public class Music_Player extends AppCompatActivity {
         }
     }
 
+<<<<<<< Updated upstream
 
+=======
+    //phát bài hát tại vị trí index trong danh sách phát
+>>>>>>> Stashed changes
     private void playSong(int index) {
+        //ko null, đúng với kích thước danh sách
         if (playlist != null && index >= 0 && index < playlist.size()) {
             Song2 song = playlist.get(index);
-            songUrl = song.getUrlFile();
-            setupMediaPlayer();
+            songUrl = song.getUrlFile();//lấy url bài hát từ đối tượng song2 gán cho songurl
+            setupMediaPlayer();//gọi để chuẩn bị và bắt đầu bài hát
         }
     }
 

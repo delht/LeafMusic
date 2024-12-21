@@ -35,7 +35,6 @@ import vn.edu.stu.leafmusic.activity.login.LoginActivity;
 import vn.edu.stu.leafmusic.util.SharedPrefsHelper;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
     private DrawerLayout drawerLayout;
     Toolbar toolbar;
 
@@ -77,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout = findViewById(R.id.drawer_layout);
 
+        //hỗ trợ kết nối DrawerLayout và toolbar để hiển thị menu trên toolbar
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 MainActivity.this, drawerLayout, toolbar, R.string.nav_open, R.string.nav_close);
 
@@ -87,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        replaceFragment(new HomeFragment());
+        //phương thức thay thế hoặc thêm fragment
+        replaceFragment(new HomeFragment());//tạo một đối tượng mới để thay thế nội dung hiện tại
         navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
 
 
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if(id == R.id.nav_home){
+<<<<<<< Updated upstream
             replaceFragment(new HomeFragment());
             CurrentFragment = FRAGMENT_HOME;
             Log.d("Fragment", "Home Fragment Selected");
@@ -114,6 +116,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             replaceFragment(new SearchFragment());  // Chuyển tới Fragment tìm kiếm
             CurrentFragment = FRAGMENT_TIMKIEM;
             Log.d("Fragment", "Search Fragment Selected");
+=======
+//            if(CurrentFragment != FRAGMENT_HOME){
+                replaceFragment(new HomeFragment()); //thay thế fragment hiện tại bằng HomeFragment
+                CurrentFragment = FRAGMENT_HOME; //gán FH cho CF để đặt lại
+                Log.d("Fragment", "Home Fragment Selected");
+//            }
+        } else if (id == R.id.nav_setting) {
+            if(CurrentFragment != FRAGMENT_SETTING){
+                replaceFragment(new SettingFragment());
+                CurrentFragment = FRAGMENT_SETTING;
+                Log.d("Fragment", "SETTING Fragment Selected");
+            }
+        }else if (id == R.id.nav_lovelist) {
+//            if(CurrentFragment != FRAGMENT_LOVELIST){
+                replaceFragment(new LoveListFragment());
+                CurrentFragment = FRAGMENT_LOVELIST;
+                Log.d("Fragment", "LOVELIST Fragment Selected");
+//            }
+        }else if (id == R.id.nav_account) {
+            if(CurrentFragment != FRAGMENT_ACCOUNT){
+                replaceFragment(new AccountFragment());
+                CurrentFragment = FRAGMENT_ACCOUNT;
+                Log.d("Fragment", "ACCOUNT Fragment Selected");
+            }
+>>>>>>> Stashed changes
         } else if (id == R.id.nav_Logout) {
             sharedPrefsHelper.clearLoginState();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -122,7 +149,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             finish();
         }
 
+<<<<<<< Updated upstream
         drawerLayout.closeDrawer(GravityCompat.START);
+=======
+        drawerLayout.closeDrawer(GravityCompat.START); //đóng Nav sau khi xử lý
+
+>>>>>>> Stashed changes
         return true;
     }
 
@@ -130,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //xu ly khi nhan nut bach
     @Override
     public void onBackPressed() {
+<<<<<<< Updated upstream
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
 
         // Nếu đang ở trong SearchFragment, quay lại HomeFragment hoặc bất kỳ fragment nào bạn muốn
@@ -154,10 +187,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+=======
+        //kiểm tra nav có đang mở ko
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);//nếu mở thì đóng
+        }else{
+            super.onBackPressed();
+        }
+    }
+
+    // quản lý và thay đổi fragment
+>>>>>>> Stashed changes
     private void replaceFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, fragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.replace(R.id.content_frame, fragment); //replace dùng thay thế một fragment hiện tại bằng cái mới
+        fragmentTransaction.commit(); //kích hoạt việc được thay thế
     }
 
     //hien thi ten user

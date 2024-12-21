@@ -27,7 +27,8 @@ import vn.edu.stu.leafmusic.model.Song2;
 
 public interface ApiService {
 
-    @POST("api/taikhoan/dangnhap2")
+    //gửi dữ liệu đến API
+    @POST("api/taikhoan/dangnhap2")//đường dẫn API muốn gửi yêu cầu
     Call<LoginResponse> login(@Body LoginRequest loginRequest);
 
     @POST("api/taikhoan/tao")

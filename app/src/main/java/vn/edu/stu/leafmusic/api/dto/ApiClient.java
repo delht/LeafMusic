@@ -10,9 +10,10 @@ public class ApiClient {
 
     private static Retrofit retrofit;
 
+    //kiểm tra xem retrofit được khởi tạo hay chưa
     public static Retrofit getRetrofit() {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
+        if (retrofit == null) { //nếu chưa có
+            retrofit = new Retrofit.Builder() //tạo mới và gán cho retrofit
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create()) // GsonConverter để chuyển JSON thành object
                     .build();
