@@ -1,3 +1,4 @@
+ĐỒ ÁN
 1.	TÍNH NĂNG CHÍNH
 	-	Đăng nhập và Đăng ký:
 	-	Cá Nhân: đổi mật khẩu, quên mật khẩu (gửi OTP về email theo tài khoản)
